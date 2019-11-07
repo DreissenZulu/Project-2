@@ -90,6 +90,11 @@ async function confirmNewUserName(input) {
         return "Invalid username. Enter a user without spaces."
 };
 
+function encrypt(text) {
+    let hashed = crypto.createHash('sha256').update(text).digest('hex');
+    return hashed;
+}
+
 async function confirmDataEntered(input) {
     if (input.trim() != "") {
         return true;
@@ -124,8 +129,8 @@ function createAccount() {
             message: "Enter your last name (optional)"
         }
     ]).then(async function(response) {
-        let pwEncrypt = await db.query(`SELECT SHA2("${response.password+process.env.PW_SALT}", 128)`);
-        console.log(pwEncrypt[0].key);
+        let pwEncrypt = encrypt(response.password+process.env.PW_SALT);
+        console.log(pwEncrypt);
         await db.query("INSERT INTO userInfo (userName, password, first_name, last_name) VALUES (?)", [[response.loginID, pwEncrypt, response.firstName, response.lastName]]);
         testApp();
     })
