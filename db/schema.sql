@@ -7,7 +7,7 @@ USE socialAppDB;
 CREATE TABLE userInfo (
 	id INT auto_increment PRIMARY KEY,
     userName VARCHAR(30) NOT NULL,
-    password VARCHAR(30) NOT NULL,
+    password VARCHAR(256) NOT NULL,
     first_name varchar(30) NOT NULL,
     last_name varchar(30)
 );
