@@ -1,7 +1,57 @@
+body {
+    background-image: url(/public/assets/images/background.jpg);
+    background-size: cover;
+    font-family: 'Roboto', sans-serif;
+}
+
+nav {
+    font-family: 'Roboto', sans-serif;
+}
+
 .navbar-nav {
     flex-direction: row;
 }
 
+.navbar-brand {
+    font-size: 30px;
+}
+
 .nav-item {
     padding: 10px;
+}
+
+.container {
+    padding: 70px;
+    width: 30%;
+    background-color: rgba(51,57,64, 0.9);
+    color: white;
+    height: fit-content;
+}
+
+.container h1 {
+    padding-bottom: 30px;
+}
+
+.button {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.btn {
+    font-size: 20px;
+    padding: 12px 30px;
+}
+
+.form-group {
+    margin-bottom: 1.9em;
+}
+
+form label {
+    font-size: 18px;
+}
+
+.content {
+    display: flex;
+    height: 90vh;
+    align-items: center;
 }

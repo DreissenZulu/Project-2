@@ -1,3 +1,17 @@
+body {
+    background-image: url(/public/assets/images/background.jpg);
+    background-size: cover;
+    font-family: 'Roboto', sans-serif;
+}
+
+nav {
+    font-family: 'Roboto', sans-serif;
+}
+
+.navbar-brand {
+    font-size: 30px;
+}
+
 .navbar-nav {
     flex-direction: row;
 }
