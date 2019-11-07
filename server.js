@@ -151,8 +151,18 @@ async function loginAccount() {
             message: "Enter your password",
             validate: confirmDataEntered
         }
-    ]).then(response => {
-        let allCredentials = db.query("SELECT userName, password, first_name, last_name FROM ")
+    ]).then(async function (response) {
+        let allCredentials = await db.query("SELECT userName, password, first_name, last_name FROM userInfo");
+        let userOnServer = allCredentials.find(obj => obj.userName === response.loginID)
+        if (userOnServer != undefined) {
+            if (userOnServer.password == encrypt(response.password+process.env.PW_SALT)) {
+                console.log(`Hello there ${userOnServer.first_name}!`)
+            } else {
+                console.log(`Invalid password!!`);
+            }
+        } else {
+            console.log(`Invalid username!`);
+        }
     })
 }
 
@@ -178,6 +188,7 @@ function testApp() {
                 createAccount();
                 break;
             case "Log into account":
+                loginAccount();
                 break;
             case "Search for something":
                 break;
