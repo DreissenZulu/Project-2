@@ -1,0 +1,7 @@
+.navbar-nav {
+    flex-direction: row;
+}
+
+.nav-item {
+    padding: 10px;
+}
