@@ -1,0 +1,59 @@
+body {
+    background-image: url(/public/assets/images/background.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: 'Roboto', sans-serif;
+}
+
+.navbar-nav {
+    flex-direction: row;
+}
+
+.navbar-nav .nav-link {
+    font-size: 18px;
+}
+
+.nav-item {
+    padding: 10px;
+}
+
+.navbar-brand {
+    font-size: 30px;
+}
+
+.container {
+    padding: 70px;
+    width: 30%;
+    background-color: rgba(51,57,64, 0.9);
+    color: white;
+    height: fit-content;
+}
+
+.container h1 {
+    padding-bottom: 30px;
+}
+
+.button {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.btn {
+    font-size: 20px;
+    padding: 12px 30px;
+}
+
+.form-group {
+    margin-bottom: 2em;
+}
+
+form label {
+    font-size: 18px;
+    color: #CCCECF;
+}
+
+.content {
+    display: flex;
+    height: 90vh;
+    align-items: center;
+}

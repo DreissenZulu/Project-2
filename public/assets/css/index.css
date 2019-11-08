@@ -1,0 +1,70 @@
+body {
+    background-image: url(/public/assets/images/background.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: 'Roboto', sans-serif;
+}
+
+.navbar-brand {
+    font-size: 30px;
+}
+
+.navbar-nav .nav-link {
+    font-size: 18px;
+}
+
+.navbar-nav {
+    flex-direction: row;
+}
+
+.nav-item {
+    padding: 10px;
+}
+
+.content {
+    /* display: flex; */
+    /* height: 100vh; */
+    /* align-items: center; */
+    padding-top: 50px;
+}
+
+.container {
+    padding: 70px;
+    /* width: 30%; */
+    background-color: rgba(51,57,64, 0.9);
+    color: white;
+    /* height: fit-content; */
+}
+
+.form-control {
+    background-color: rgba(51,57,64, 0.8);
+    border-top: 0px;
+    border-right: 0px;
+    /* border-left: 0px; */
+    border-radius: 0%;
+    width: 100px;
+    -webkit-transition: width 0.6s ease-in-out;
+    transition: width 0.6s ease-in-out;
+}
+
+.form-control:focus {
+    background-color: rgba(51,57,64, 0.8);
+    color: white;
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    width: 100%;
+}
+
+::-webkit-input-placeholder {
+   font-style: italic;
+}
+:-moz-placeholder {
+   font-style: italic;  
+}
+::-moz-placeholder {
+   font-style: italic;  
+}
+:-ms-input-placeholder {  
+   font-style: italic; 
+}
