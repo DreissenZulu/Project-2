@@ -6,7 +6,7 @@ const inquirer = require('inquirer');
 const crypto = require('crypto');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
@@ -167,16 +167,19 @@ async function loginAccount() {
         let allCredentials = await db.query("SELECT id, userName, password, first_name, last_name FROM userInfo");
         let userOnServer = allCredentials.find(obj => obj.userName === response.loginID)
         if (userOnServer != undefined) {
-            if (userOnServer.password == encrypt(response.password+process.env.PW_SALT)) {
-                console.log(`Hello there ${userOnServer.first_name}!`)
-                await db.query(`UPDATE userInfo SET logged_in='yes' WHERE id=${userOnServer.id}`);
-                currUser.userName = userOnServer.userName;
-                currUser.firstName = userOnServer.first_name;
-                currUser.lastName = userOnServer.last_name;
-                testUserOptions();
-            } else {
-                console.log(`Invalid password!!`);
-            }
+            console.log(`Authenticating...`);
+            setTimeout(async function() {
+                if (userOnServer.password == encrypt(response.password+process.env.PW_SALT)) {
+                    console.log(`Hello there ${userOnServer.first_name}!`)
+                    await db.query(`UPDATE userInfo SET logged_in='yes' WHERE id=${userOnServer.id}`);
+                    currUser.userName = userOnServer.userName;
+                    currUser.firstName = userOnServer.first_name;
+                    currUser.lastName = userOnServer.last_name;
+                    testUserOptions();
+                } else {
+                    console.log(`Invalid password!!`);
+                }
+            },1500);
         } else {
             console.log(`Invalid username!`);
         }
@@ -191,11 +194,11 @@ async function clearToken() {
     currUser.firstName = "";
     currUser.lastName = "";
     testApp();
-}
+};
 
 function searchPlaylistGenre(genreName) {
 
-}
+};
 
 function testApp() {
     inquirer.prompt([
@@ -221,7 +224,7 @@ function testApp() {
                 break;
         }
     })
-}
+};
 
 function testUserOptions() {
     inquirer.prompt([
@@ -244,7 +247,7 @@ function testUserOptions() {
         }
 
     })
-}
+};
 
 app.listen(port, () => {
     console.log(`Now listening to port ${port}. Enjoy your stay!`);
