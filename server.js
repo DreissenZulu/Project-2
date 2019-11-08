@@ -14,6 +14,7 @@ app.use(express.json());
 
 // This needs to go into the frontend
 let currUser = {
+    id: "",
     userName: "",
     firstName: "",
     lastName: ""
@@ -90,6 +91,34 @@ function searchAlbum(albumName, artist) {
     })
 }
 
+function createPlaylist() {
+    if (currUser.userName == "") {
+        console.log("Please log in to create a playlist.");
+        return;
+    }
+    inquirer.prompt([
+        {
+            name: "playlistTitle",
+            type: "input",
+            message: `Enter playlist name, ${currUser.firstName}.`
+        },
+        {
+            name: "playlistGenre",
+            type: "input",
+            message: "Select the genre of the playlist"
+        }
+    ]).then(async function(response) {
+        await db.query("INSERT INTO playlist (playlist_name, playlist_genre, user_id) VALUES (?)", [[response.playlistTitle, response.playlistGenre, currUser.id]])
+        devTestAddToPlaylist();
+    })
+}
+
+
+
+async function addToPlaylist(mbid, songTitle, playlistID) {
+
+}
+
 function encrypt(text) {
     let hashed = crypto.createHash('sha256').update(text).digest('hex');
     return hashed;
@@ -104,7 +133,7 @@ async function confirmNewUserName(input) {
         }
         return "This user exists. Please enter a new username"
     }
-        return "Invalid username. Enter a user without spaces."
+    return "Invalid username. Enter a user without spaces."
 };
 
 async function confirmDataEntered(input) {
@@ -140,8 +169,8 @@ function createAccount() {
             type: "input",
             message: "Enter your last name (optional)"
         }
-    ]).then(async function(response) {
-        let pwEncrypt = encrypt(response.password+process.env.PW_SALT);
+    ]).then(async function (response) {
+        let pwEncrypt = encrypt(response.password + process.env.PW_SALT);
         console.log(pwEncrypt);
         await db.query("INSERT INTO userInfo (userName, password, first_name, last_name) VALUES (?)", [[response.loginID.toLowerCase(), pwEncrypt, response.firstName, response.lastName]]);
         testApp();
@@ -168,10 +197,11 @@ async function loginAccount() {
         let userOnServer = allCredentials.find(obj => obj.userName === response.loginID)
         if (userOnServer != undefined) {
             console.log(`Authenticating...`);
-            setTimeout(async function() {
-                if (userOnServer.password == encrypt(response.password+process.env.PW_SALT)) {
+            setTimeout(async function () {
+                if (userOnServer.password == encrypt(response.password + process.env.PW_SALT)) {
                     console.log(`Hello there ${userOnServer.first_name}!`)
                     await db.query(`UPDATE userInfo SET logged_in='yes' WHERE id=${userOnServer.id}`);
+                    currUser.id = userOnServer.id;
                     currUser.userName = userOnServer.userName;
                     currUser.firstName = userOnServer.first_name;
                     currUser.lastName = userOnServer.last_name;
@@ -179,7 +209,7 @@ async function loginAccount() {
                 } else {
                     console.log(`Invalid password!!`);
                 }
-            },1500);
+            }, 1500);
         } else {
             console.log(`Invalid username!`);
         }
@@ -190,6 +220,7 @@ async function clearToken() {
     let allCredentials = await db.query("SELECT id, userName FROM userInfo");
     let userOnServer = allCredentials.find(obj => obj.userName === currUser.userName)
     await db.query(`UPDATE userInfo SET logged_in='no' WHERE id=${userOnServer.id}`);
+    currUser.id = "";
     currUser.userName = "";
     currUser.firstName = "";
     currUser.lastName = "";
@@ -234,12 +265,20 @@ function testUserOptions() {
             message: `What would you like to do, ${currUser.firstName}?`,
             choices: [
                 "Search for something",
+                "Create playlist",
+                "Add to playlist",
                 "Log out"
             ]
         }
     ]).then(choice => {
         switch (choice.usermenu) {
             case "Search for something":
+                break;
+            case "Create playlist":
+                createPlaylist();
+                break;
+            case "Add to playlist":
+                devTestAddToPlaylist();
                 break;
             case "Log out":
                 clearToken();
