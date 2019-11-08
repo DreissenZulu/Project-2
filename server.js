@@ -109,11 +109,36 @@ function createPlaylist() {
         }
     ]).then(async function(response) {
         await db.query("INSERT INTO playlist (playlist_name, playlist_genre, user_id) VALUES (?)", [[response.playlistTitle, response.playlistGenre, currUser.id]])
-        devTestAddToPlaylist();
+        testUserOptions();
     })
 }
 
+async function devTestAddToPlaylist() {
+    let userPlaylists = await db.query(`SELECT id, playlist_name FROM playlist WHERE user_id=${currUser.id}`);
 
+    inquirer.prompt([
+        {
+            name: "playlistName",
+            type: "list",
+            messages: "Choose playlist to add song to",
+            choices: userPlaylists.map(obj => obj.playlist_name)
+        },
+        {
+            name: "mbid",
+            type: "input",
+            message: "Enter mbid of song"
+        },
+        {
+            name: "songTitle",
+            type: "input",
+            message: "Enter song title"
+        }
+    ]).then(async function(response) {
+        let playlistID = userPlaylists.find(obj => obj.playlist_name === response.playlistName).id;
+        await db.query("INSERT INTO playlistSongs (mbid, song, playlist_id) VALUES (?)", [[response.mbid, response.songTitle, playlistID]]);
+        testUserOptions();
+    })
+}
 
 async function addToPlaylist(mbid, songTitle, playlistID) {
 
@@ -227,8 +252,10 @@ async function clearToken() {
     testApp();
 };
 
-function searchPlaylistGenre(genreName) {
-
+async function searchPlaylistGenre(genreName) {
+    let playlistSearch = await db.query("SELECT playlist_name, likes, userName FROM playlist p RIGHT JOIN userInfo u ON p.user_id = u.id WHERE playlist_genre=?", genreName);
+    console.log(playlistSearch);
+    
 };
 
 function testApp() {
@@ -284,7 +311,6 @@ function testUserOptions() {
                 clearToken();
                 break;
         }
-
     })
 };
 
