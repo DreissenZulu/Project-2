@@ -24,7 +24,7 @@ body {
 .container {
     padding: 70px;
     width: 30%;
-    background-color: rgba(51,57,64, 0.9);
+    background-color: rgba(51,57,64, 0.6);
     color: white;
     height: fit-content;
 }
@@ -56,4 +56,10 @@ form label {
     display: flex;
     height: 90vh;
     align-items: center;
+}
+
+input, input:focus {
+    outline: none;
+    border: none;
+    box-shadow: none!important;
 }

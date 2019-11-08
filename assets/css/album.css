@@ -21,7 +21,7 @@ font-size: 30px;
 padding: 10px;
 }
 
-.content {
+.main-content {
     /* display: flex; */
     /* height: 100vh; */
     /* align-items: center; */
@@ -31,7 +31,22 @@ padding: 10px;
 .container {
     padding: 70px;
     /* width: 30%; */
-    background-color: rgba(51,57,64, 0.9);
+    background-color: rgba(51,57,64, 0.6);
     color: white;
     /* height: fit-content; */
+}
+
+.secondary-content {
+    /* display: flex; */
+    /* height: 100vh; */
+    /* align-items: center; */
+    padding-top: 50px;
+}
+
+textarea {
+  resize: none;
+}
+
+#post-comment {
+    float: right;
 }

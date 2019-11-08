@@ -15,7 +15,7 @@
     <header>
     
         <nav class="navbar navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="index.html">
                 <img src="assets/images/recording.png" width="50" height="50" class="d-inline-block align-top"
                     alt="">
                 Rice eaters
@@ -29,26 +29,61 @@
     
     </header>
 
-    <div class="content">
-        <div class="container">
+    <div class="main-content">
+        <div class="container rounded">
     
             <div class="row">
-                <div class="col">
+                <div class="col-4">
                     <img src="assets/images/babushka-boi.jpg" class="album-cover">
+                    <!-- <h5 class="listeners">Listeners: 67k</h5> -->
                 </div>
-                <div class="col">
-                    <h1 class="song-name">Babushka Boi</h1>
-                    <h2 class="artist-name">by<i> A$AP Rocky</i></h2>
-                    <div class="video">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/KViOTZ62zBg?controls=0" frameborder="0"
-                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-                        </iframe>
-                    </div>
+                <div class="col-8">
+                    <h1 class="song-name">Babushka Boi <div class="btn-group dropleft add-button">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Add to playlist
+                        </button>
+                        <div class="dropdown-menu">
+                            <ul>
+                                <li><button class="btn">Playlist1</button></li>
+                                <li><button class="btn">Playlist1</button></li>
+                            </ul>
+                        </div>
+                    </div></h1>
+                    <h3 class="artist-name">by<i class="artist"> A$AP Rocky</i></h3>
+                    <h4 class="genre">Hip Hop</h4>
+                    <h4 class="release-date">2018</h4>
+                    <p class="song-description"> “BABUSHKA BOI” is supposedly a track off of Flacko’s next upcoming album, which was released on 28 August, 2019. The
+                    track was first previewed during his 2019 Injured Generation tour. The song’s title refers to a babushka, which is a
+                    headscarf tied under the chin, typical of those traditionally worn by Russian old women.</p>
+                    <!-- <h5 class="playcount">Playcount: 430k</h5> -->
                 </div>
             </div>
     
         </div>
     </div>
+
+    <div class="secondary-content">
+        <div class="container rounded">
+            <div class="form-group">
+                <label for="comment">Post a comment</label>
+                <textarea class="form-control" rows="5" id="comment"></textarea>
+            </div>
+            <div class="button">
+                <button class="btn btn-dark border-secondary" id="post-comment">Post</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 
 </body>
 </html>

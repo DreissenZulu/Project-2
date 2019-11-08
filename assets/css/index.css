@@ -31,13 +31,13 @@ body {
 .container {
     padding: 70px;
     /* width: 30%; */
-    background-color: rgba(51,57,64, 0.9);
+    background-color: rgba(51,57,64, 0.6);
     color: white;
     /* height: fit-content; */
 }
 
 .form-control {
-    background-color: rgba(51,57,64, 0.8);
+    background-color: rgba(51,57,64, 0);
     border-top: 0px;
     border-right: 0px;
     /* border-left: 0px; */
@@ -48,7 +48,7 @@ body {
 }
 
 .form-control:focus {
-    background-color: rgba(51,57,64, 0.8);
+    background-color: rgba(51,57,64, 0);
     color: white;
     border-color: inherit;
     -webkit-box-shadow: none;
