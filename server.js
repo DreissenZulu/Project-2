@@ -144,6 +144,47 @@ async function addToPlaylist(mbid, songTitle, playlistID) {
 
 }
 
+// Provided an mbid, link a new comment from the frontend to it
+async function commentOnSongAlbum() {
+    inquirer.prompt([
+        {
+            name: "mbid",
+            type: "input",
+            message: "Choose song or album to add comment to",
+        },
+        {
+            name: "comment",
+            type: "input",
+            message: "Enter your comment"
+        }
+    ]).then(async function (response) {
+        await db.query("INSERT INTO otherComments (commentContent, user_id, mbid) VALUES (?)", [[response.comment, currUser.id, response.mbid]]);
+        testUserOptions();
+    })
+}
+
+// Provided a playlist id, link a new comment from the frontend to it
+async function commentOnPlaylist() {
+    let playlists = await db.query(`SELECT id, playlist_name FROM playlist`);
+    inquirer.prompt([
+        {
+            name: "playlistName",
+            type: "list",
+            messages: "Choose playlist to add song to",
+            choices: playlists.map(obj => obj.playlist_name)
+        },
+        {
+            name: "comment",
+            type: "input",
+            message: "Enter your comment"
+        }
+    ]).then(async function (response) {
+        let playlistID = playlists.find(obj => obj.playlist_name === response.playlistName).id;
+        await db.query("INSERT INTO playlistComments (commentContent, user_id, playlist_id) VALUES (?)", [[response.comment, currUser.id, playlistID]]);
+        testUserOptions();
+    })
+}
+
 function encrypt(text) {
     let hashed = crypto.createHash('sha256').update(text).digest('hex');
     return hashed;
@@ -331,11 +372,15 @@ function testUserOptions() {
                 "Search by genre",
                 "Create playlist",
                 "Add to playlist",
+                "Comment on playlist",
                 "Log out"
             ]
         }
     ]).then(choice => {
         switch (choice.usermenu) {
+            case "Search for album":
+                searchAlbum();
+                break;
             case "Search for playlist":
                 searchPlaylists();
                 break;
@@ -347,6 +392,9 @@ function testUserOptions() {
                 break;
             case "Add to playlist":
                 devTestAddToPlaylist();
+                break;
+            case "Comment on playlist":
+                commentOnPlaylist();
                 break;
             case "Log out":
                 clearToken();
