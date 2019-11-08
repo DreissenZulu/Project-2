@@ -40,7 +40,8 @@ padding: 10px;
     /* display: flex; */
     /* height: 100vh; */
     /* align-items: center; */
-    padding-top: 50px;
+    padding-top: 20px;
+    padding-bottom: 50px;
 }
 
 textarea {
@@ -49,4 +50,107 @@ textarea {
 
 #post-comment {
     float: right;
+}
+
+.album-cover {
+    width: 300px;
+}
+
+.album-name {
+    font-weight: 700;
+}
+
+.artist-name {
+    color: gray;
+}
+
+.artist {
+    color: white;
+}
+
+.release-date {
+    color: gray;
+}
+
+.genre {
+    color: gray;
+}
+
+.song-description {
+    padding-top: 20px;
+    font-style: italic;
+}
+
+.songs {
+    border-bottom: 1px solid grey;
+}
+
+.categories {
+    border-bottom: 1px solid gray;
+    color: grey;
+}
+
+span {
+    font-size: 25px;
+    color: gray;
+}
+
+.songs-list {
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.btn {
+    font-size: 15px;
+    padding: 10px 30px;
+}
+
+.details {
+    font-size: 20px;
+    color: gray;
+    border-bottom: 1px solid gray;
+    margin-bottom: 20px;
+}
+
+
+.order, .song, .song-duration {
+    border-bottom: 1px solid gray;
+}
+
+.order {
+    text-align: center;
+}
+
+.col-1 {
+    text-align: center;
+}
+
+.add-button .btn {
+    padding: 0px;
+    padding-left: 2px;
+    padding-right: 2px;
+    display: inline;
+}
+
+button:active, button:focus {
+outline: none;
+border: none;
+box-shadow: none!important;
+}
+
+ul {
+    list-style-type: none;
+    padding-inline-start: 0px;
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+ul .btn {
+    color: white;
+}
+
+.dropdown-menu {
+    background-color: #343a40;
+    border-color: #6c757d!important;
+    padding: 0;
 }
