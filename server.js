@@ -107,7 +107,7 @@ function createPlaylist() {
             type: "input",
             message: "Select the genre of the playlist"
         }
-    ]).then(async function(response) {
+    ]).then(async function (response) {
         await db.query("INSERT INTO playlist (playlist_name, playlist_genre, user_id) VALUES (?)", [[response.playlistTitle, response.playlistGenre, currUser.id]])
         testUserOptions();
     })
@@ -133,7 +133,7 @@ async function devTestAddToPlaylist() {
             type: "input",
             message: "Enter song title"
         }
-    ]).then(async function(response) {
+    ]).then(async function (response) {
         let playlistID = userPlaylists.find(obj => obj.playlist_name === response.playlistName).id;
         await db.query("INSERT INTO playlistSongs (mbid, song, playlist_id) VALUES (?)", [[response.mbid, response.songTitle, playlistID]]);
         testUserOptions();
@@ -252,11 +252,42 @@ async function clearToken() {
     testApp();
 };
 
-async function searchPlaylistGenre(genreName) {
-    let playlistSearch = await db.query("SELECT playlist_name, likes, userName FROM playlist p RIGHT JOIN userInfo u ON p.user_id = u.id WHERE playlist_genre=?", genreName);
-    console.log(playlistSearch);
-    
+function searchPlaylistGenre() {
+    inquirer.prompt([
+        {
+            name: "genreName",
+            type: "input",
+            message: "Know the genre of a playlist? Search here."
+        }
+    ]).then(async function (response) {
+        let playlistSearch = await db.query("SELECT playlist_name, likes, userName FROM playlist p RIGHT JOIN userInfo u ON p.user_id = u.id WHERE playlist_genre=?", response.genreName);
+        console.log(playlistSearch);
+        if (currUser.id != "") {
+            testUserOptions();
+        } else {
+            testApp();
+        }
+    })
 };
+
+function searchPlaylists() {
+    inquirer.prompt([
+        {
+            name: "playlistQuery",
+            type: "input",
+            message: "Know the name of a playlist? Search here."
+        }
+    ]).then(async function (response) {
+        let playlistSearch = await db.query("SELECT playlist_genre, likes, userName FROM playlist p RIGHT JOIN userInfo u ON p.user_id = u.id WHERE playlist_name=?", response.playlistQuery);
+        let playlistSongs = await db.query("SELECT song FROM playlistSongs s LEFT JOIN playlist p ON s.playlist_id = p.id WHERE p.playlist_name=?", response.playlistQuery);
+        console.log(response.playlistQuery, playlistSearch, playlistSongs);
+        if (currUser.id != "") {
+            testUserOptions();
+        } else {
+            testApp();
+        }
+    })
+}
 
 function testApp() {
     inquirer.prompt([
@@ -267,7 +298,8 @@ function testApp() {
             choices: [
                 "Create new account",
                 "Log into account",
-                "Search for something"
+                "Search for playlist",
+                "Search by genre"
             ]
         }
     ]).then(choice => {
@@ -278,7 +310,11 @@ function testApp() {
             case "Log into account":
                 loginAccount();
                 break;
-            case "Search for something":
+            case "Search for playlist":
+                searchPlaylists();
+                break;
+            case "Search by genre":
+                searchPlaylistGenre();
                 break;
         }
     })
@@ -291,7 +327,8 @@ function testUserOptions() {
             type: "list",
             message: `What would you like to do, ${currUser.firstName}?`,
             choices: [
-                "Search for something",
+                "Search for playlist",
+                "Search by genre",
                 "Create playlist",
                 "Add to playlist",
                 "Log out"
@@ -299,7 +336,11 @@ function testUserOptions() {
         }
     ]).then(choice => {
         switch (choice.usermenu) {
-            case "Search for something":
+            case "Search for playlist":
+                searchPlaylists();
+                break;
+            case "Search by genre":
+                searchPlaylistGenre();
                 break;
             case "Create playlist":
                 createPlaylist();
