@@ -12,6 +12,10 @@ nav {
     flex-direction: row;
 }
 
+.navbar-nav .nav-link {
+    font-size: 18px;
+}
+
 .navbar-brand {
     font-size: 30px;
 }
@@ -48,6 +52,7 @@ nav {
 
 form label {
     font-size: 18px;
+    color: #CCCECF;
 }
 
 .content {
