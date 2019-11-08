@@ -12,6 +12,18 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// This needs to go into the frontend
+let currUser = {
+    userName: "",
+    firstName: "",
+    lastName: ""
+};
+// if (localStorage.getItem("currentUser")) {
+//     currUser = JSON.parse(localStorage.getItem("currentUser"))
+// } else {
+//     currUser = [];
+// }
+
 const lastfm = new LastFM(process.env.API);
 
 class Database {
@@ -78,22 +90,22 @@ function searchAlbum(albumName, artist) {
     })
 }
 
+function encrypt(text) {
+    let hashed = crypto.createHash('sha256').update(text).digest('hex');
+    return hashed;
+}
+
 async function confirmNewUserName(input) {
     let regex = new RegExp(/\s/g)
     let existingUsers = await db.query("SELECT userName FROM userInfo");
     if (!regex.test(input)) {
-        if (!existingUsers.find(obj => obj.userName === input)) {
+        if (!existingUsers.find(obj => obj.userName === input.toLowerCase())) {
             return true;
         }
         return "This user exists. Please enter a new username"
     }
         return "Invalid username. Enter a user without spaces."
 };
-
-function encrypt(text) {
-    let hashed = crypto.createHash('sha256').update(text).digest('hex');
-    return hashed;
-}
 
 async function confirmDataEntered(input) {
     if (input.trim() != "") {
@@ -131,7 +143,7 @@ function createAccount() {
     ]).then(async function(response) {
         let pwEncrypt = encrypt(response.password+process.env.PW_SALT);
         console.log(pwEncrypt);
-        await db.query("INSERT INTO userInfo (userName, password, first_name, last_name) VALUES (?)", [[response.loginID, pwEncrypt, response.firstName, response.lastName]]);
+        await db.query("INSERT INTO userInfo (userName, password, first_name, last_name) VALUES (?)", [[response.loginID.toLowerCase(), pwEncrypt, response.firstName, response.lastName]]);
         testApp();
     })
 }
@@ -152,11 +164,16 @@ async function loginAccount() {
             validate: confirmDataEntered
         }
     ]).then(async function (response) {
-        let allCredentials = await db.query("SELECT userName, password, first_name, last_name FROM userInfo");
+        let allCredentials = await db.query("SELECT id, userName, password, first_name, last_name FROM userInfo");
         let userOnServer = allCredentials.find(obj => obj.userName === response.loginID)
         if (userOnServer != undefined) {
             if (userOnServer.password == encrypt(response.password+process.env.PW_SALT)) {
                 console.log(`Hello there ${userOnServer.first_name}!`)
+                await db.query(`UPDATE userInfo SET logged_in='yes' WHERE id=${userOnServer.id}`);
+                currUser.userName = userOnServer.userName;
+                currUser.firstName = userOnServer.first_name;
+                currUser.lastName = userOnServer.last_name;
+                testUserOptions();
             } else {
                 console.log(`Invalid password!!`);
             }
@@ -164,6 +181,16 @@ async function loginAccount() {
             console.log(`Invalid username!`);
         }
     })
+}
+
+async function clearToken() {
+    let allCredentials = await db.query("SELECT id, userName FROM userInfo");
+    let userOnServer = allCredentials.find(obj => obj.userName === currUser.userName)
+    await db.query(`UPDATE userInfo SET logged_in='no' WHERE id=${userOnServer.id}`);
+    currUser.userName = "";
+    currUser.firstName = "";
+    currUser.lastName = "";
+    testApp();
 }
 
 function searchPlaylistGenre(genreName) {
@@ -193,6 +220,29 @@ function testApp() {
             case "Search for something":
                 break;
         }
+    })
+}
+
+function testUserOptions() {
+    inquirer.prompt([
+        {
+            name: "usermenu",
+            type: "list",
+            message: `What would you like to do, ${currUser.firstName}?`,
+            choices: [
+                "Search for something",
+                "Log out"
+            ]
+        }
+    ]).then(choice => {
+        switch (choice.usermenu) {
+            case "Search for something":
+                break;
+            case "Log out":
+                clearToken();
+                break;
+        }
+
     })
 }
 
