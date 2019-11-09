@@ -1,7 +1,8 @@
+html::-webkit-scrollbar { width: 0 !important }
+
 body {
     background-image: url(../images/background.jpg);
     background-size: cover;
-    background-repeat: no-repeat;
     font-family: 'Roboto', sans-serif;
 }
 
@@ -153,4 +154,41 @@ ul .btn {
     background-color: #343a40;
     border-color: #6c757d!important;
     padding: 0;
+}
+
+@media only screen and (max-width: 1200px) { 
+
+.album-cover {
+    width: 250px;
+}
+
+}
+
+@media only screen and (max-width: 992px) { 
+
+.album-cover {
+    width: 180px;
+}
+
+}
+
+@media only screen and (max-width: 767px) { 
+
+.album-cover {
+    width: 180px;
+    margin: 0 auto
+}
+
+.song {
+    font-size: 15px;
+}
+
+.song-duration {
+    font-size: 15.5px;
+}
+
+.order {
+    font-size: 15.5px;
+}
+
 }

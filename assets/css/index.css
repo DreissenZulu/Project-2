@@ -1,7 +1,9 @@
+html::-webkit-scrollbar { width: 0 !important }
+
+
 body {
     background-image: url(../images/background.jpg);
     background-size: cover;
-    background-repeat: no-repeat;
     font-family: 'Roboto', sans-serif;
 }
 
@@ -23,7 +25,7 @@ body {
 
 .content {
     /* display: flex; */
-    /* height: 100vh; */
+    height: 100vh;
     /* align-items: center; */
     padding-top: 50px;
 }

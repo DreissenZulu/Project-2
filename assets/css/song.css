@@ -1,24 +1,25 @@
+html::-webkit-scrollbar { width: 0 !important }
+
 body {
     background-image: url(../images/background.jpg);
     background-size: cover;
-    background-repeat: no-repeat;
     font-family: 'Roboto', sans-serif;
 }
 
 .navbar-nav {
-flex-direction: row;
+    flex-direction: row;
 }
 
 .navbar-nav .nav-link {
-font-size: 18px;
+    font-size: 18px;
 }
 
 .navbar-brand {
-font-size: 30px;
+    font-size: 30px;
 }
 
 .nav-item {
-padding: 10px;
+    padding: 10px;
 }
 
 .main-content {
@@ -153,4 +154,29 @@ ul .btn {
 
 .hide {
     display: none;
+}
+
+@media only screen and (max-width: 1200px) { 
+
+.album-cover {
+    width: 250px;
+}
+
+}
+
+@media only screen and (max-width: 992px) { 
+
+.album-cover {
+    width: 180px;
+}
+
+}
+
+@media only screen and (max-width: 768px) { 
+
+.album-cover {
+    width: 180px;
+    margin: 0 auto
+}
+
 }
