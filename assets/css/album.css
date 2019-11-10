@@ -109,21 +109,14 @@ span {
 .details {
     font-size: 20px;
     color: gray;
-    border-bottom: 1px solid gray;
-    margin-bottom: 20px;
 }
 
-
-.order, .song, .song-duration {
-    border-bottom: 1px solid gray;
+.table {
+    color: white;
 }
 
-.order {
-    text-align: center;
-}
-
-.col-1 {
-    text-align: center;
+tbody th {
+    font-size: 20px;
 }
 
 .add-button .btn {
@@ -174,9 +167,17 @@ ul .btn {
 
 @media only screen and (max-width: 767px) { 
 
+.col-sm-12 {
+    text-align: center;
+}
+
 .album-cover {
-    width: 180px;
+    width: 230px;
     margin: 0 auto
+}
+
+.album-name {
+    margin-top: 10px;
 }
 
 .song {
