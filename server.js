@@ -1,6 +1,5 @@
 require('dotenv').config()
 const express = require('express');
-const LastFM = require('last-fm');
 const inquirer = require('inquirer');
 const crypto = require('crypto');
 const connection = require("./config/connection.js");
@@ -24,38 +23,6 @@ let currUser = {
 // } else {
 //     currUser = [];
 // }
-
-const lastfm = new LastFM(process.env.API);
-
-function searchAll(query) {
-    lastfm.search({ q: query, limit: 3 }, (err, data) => {
-        if (err) console.error(err)
-        else console.log(data)
-    })
-}
-function searchSongTitle(trackTitle) {
-    lastfm.trackSearch({ q: trackTitle }, (err, data) => {
-        if (err) console.error(err)
-        else console.log(data)
-    })
-}
-
-function searchArtist(artistName) {
-    lastfm.artistSearch({ q: artistName }, (err, data) => {
-        if (err) console.error(err)
-        else console.log(data)
-    })
-}
-
-function searchAlbum(albumName, artist) {
-    lastfm.albumInfo({ name: albumName, artistName: artist }, (err, data) => {
-        if (err) console.error(err)
-        else {
-            console.log(data)
-            // console.log(data.result[0].images)
-        }
-    })
-}
 
 function createPlaylist() {
     if (currUser.userName == "") {
