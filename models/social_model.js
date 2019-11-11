@@ -1,6 +1,12 @@
 require('dotenv').config({path: __dirname + '/.env'})
 // Import the ORM to create functions that will interact with the database.
 const orm = require("../config/orm.js");
+const crypto = require('crypto');
+
+function encrypt(text) {
+    let hashed = crypto.createHash('sha256').update(text).digest('hex');
+    return hashed;
+}
 
 const social = {
     selectFromUsers: (resolve) => {
@@ -68,8 +74,8 @@ const social = {
             resolve(res);
         });
     },
-    addNewPlaylist: (playlistTitle, playlistGenre, userID, resolve) => {
-        orm.insertData("playlist", "playlist_name, playlist_genre, user_id", `"${playlistTitle}", "${playlistGenre}", "${userID}"`, (res) => {
+    addNewPlaylist: (playlistTitle, playlistGenre, playlistDescription, userID, resolve) => {
+        orm.insertData("playlist", "playlist_name, playlist_genre, playlist_description, user_id", `"${playlistTitle}", "${playlistGenre}", "${playlistDescription}", "${userID}"`, (res) => {
             resolve(res);
         });
     },
