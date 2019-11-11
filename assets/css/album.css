@@ -176,4 +176,20 @@ ul .btn {
     font-size: 15.5px;
 }
 
+.container {
+    padding: 70px 10px;
+}
+
+.details {
+    font-size: 15px;
+}
+
+tbody {
+    font-size: 13px;
+}
+
+tbody th {
+    font-size: 15px;
+}
+
 }

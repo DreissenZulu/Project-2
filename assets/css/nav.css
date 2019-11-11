@@ -13,3 +13,7 @@
 .nav-item {
     padding: 10px;
 }
+
+nav a, nav ul {
+    margin: 0 auto
+}
