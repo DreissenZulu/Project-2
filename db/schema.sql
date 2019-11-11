@@ -12,7 +12,7 @@ CREATE TABLE userInfo (
     password VARCHAR(64) NOT NULL,
     first_name varchar(30) NOT NULL,
     last_name varchar(30),
-    logged_in varchar(10) NOT NULL default 'no'
+    logged_in BOOLEAN NOT NULL default false
 );
 
 -- mbid refers to a song or album the comment is associated with, pulled from the last fm API
