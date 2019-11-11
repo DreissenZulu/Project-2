@@ -6,22 +6,6 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-.navbar-nav {
-    flex-direction: row;
-}
-
-.navbar-nav .nav-link {
-    font-size: 18px;
-}
-
-.navbar-brand {
-    font-size: 30px;
-}
-
-.nav-item {
-    padding: 10px;
-}
-
 .container {
     padding: 70px;
     background-color: rgba(51,57,64, 0.6);

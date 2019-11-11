@@ -1,0 +1,19 @@
+.navbar-nav {
+    flex-direction: row;
+}
+
+.navbar-nav .nav-link {
+    font-size: 18px;
+}
+
+.navbar-brand {
+    font-size: 30px;
+}
+
+.nav-item {
+    padding: 10px;
+}
+
+.row {
+    padding: 0;
+}

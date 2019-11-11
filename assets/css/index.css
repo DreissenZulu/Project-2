@@ -7,22 +7,6 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-.navbar-brand {
-    font-size: 30px;
-}
-
-.navbar-nav .nav-link {
-    font-size: 18px;
-}
-
-.navbar-nav {
-    flex-direction: row;
-}
-
-.nav-item {
-    padding: 10px;
-}
-
 .content {
     /* display: flex; */
     height: 100vh;
