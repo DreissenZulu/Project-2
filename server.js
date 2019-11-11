@@ -1,9 +1,9 @@
 require('dotenv').config()
 const express = require('express');
 const LastFM = require('last-fm');
-const mysql = require('mysql');
 const inquirer = require('inquirer');
 const crypto = require('crypto');
+const connection = require("./config/connection.js");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -26,40 +26,6 @@ let currUser = {
 // }
 
 const lastfm = new LastFM(process.env.API);
-
-class Database {
-    constructor(config) {
-        this.connection = mysql.createConnection(config);
-    }
-
-    query(sql, args) {
-        return new Promise((resolve, reject) => {
-            this.connection.query(sql, args, (err, rows) => {
-                if (err)
-                    return reject(err);
-                resolve(rows);
-            });
-        });
-    }
-
-    close() {
-        return new Promise((resolve, reject) => {
-            this.connection.end(err => {
-                if (err)
-                    return reject(err);
-                resolve();
-            });
-        });
-    }
-}
-
-const db = new Database({
-    host: process.env.DB_HOST,
-    port: 3306,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: "socialAppDB"
-});
 
 function searchAll(query) {
     lastfm.search({ q: query, limit: 3 }, (err, data) => {
@@ -108,13 +74,13 @@ function createPlaylist() {
             message: "Select the genre of the playlist"
         }
     ]).then(async function (response) {
-        await db.query("INSERT INTO playlist (playlist_name, playlist_genre, user_id) VALUES (?)", [[response.playlistTitle, response.playlistGenre, currUser.id]])
+        await connection.query("INSERT INTO playlist (playlist_name, playlist_genre, user_id) VALUES (?)", [[response.playlistTitle, response.playlistGenre, currUser.id]])
         testUserOptions();
     })
 }
 
 async function devTestAddToPlaylist() {
-    let userPlaylists = await db.query(`SELECT id, playlist_name FROM playlist WHERE user_id=${currUser.id}`);
+    let userPlaylists = await connection.query(`SELECT id, playlist_name FROM playlist WHERE user_id=${currUser.id}`);
 
     inquirer.prompt([
         {
@@ -135,7 +101,7 @@ async function devTestAddToPlaylist() {
         }
     ]).then(async function (response) {
         let playlistID = userPlaylists.find(obj => obj.playlist_name === response.playlistName).id;
-        await db.query("INSERT INTO playlistSongs (mbid, song, playlist_id) VALUES (?)", [[response.mbid, response.songTitle, playlistID]]);
+        await connection.query("INSERT INTO playlistSongs (mbid, song, playlist_id) VALUES (?)", [[response.mbid, response.songTitle, playlistID]]);
         testUserOptions();
     })
 }
@@ -158,14 +124,14 @@ async function commentOnSongAlbum() {
             message: "Enter your comment"
         }
     ]).then(async function (response) {
-        await db.query("INSERT INTO otherComments (commentContent, user_id, mbid) VALUES (?)", [[response.comment, currUser.id, response.mbid]]);
+        await connection.query("INSERT INTO otherComments (commentContent, user_id, mbid) VALUES (?)", [[response.comment, currUser.id, response.mbid]]);
         testUserOptions();
     })
 }
 
 // Provided a playlist id, link a new comment from the frontend to it
 async function commentOnPlaylist() {
-    let playlists = await db.query(`SELECT id, playlist_name FROM playlist`);
+    let playlists = await connection.query(`SELECT id, playlist_name FROM playlist`);
     inquirer.prompt([
         {
             name: "playlistName",
@@ -180,7 +146,7 @@ async function commentOnPlaylist() {
         }
     ]).then(async function (response) {
         let playlistID = playlists.find(obj => obj.playlist_name === response.playlistName).id;
-        await db.query("INSERT INTO playlistComments (commentContent, user_id, playlist_id) VALUES (?)", [[response.comment, currUser.id, playlistID]]);
+        await connection.query("INSERT INTO playlistComments (commentContent, user_id, playlist_id) VALUES (?)", [[response.comment, currUser.id, playlistID]]);
         testUserOptions();
     })
 }
@@ -192,7 +158,7 @@ function encrypt(text) {
 
 async function confirmNewUserName(input) {
     let regex = new RegExp(/\s/g)
-    let existingUsers = await db.query("SELECT userName FROM userInfo");
+    let existingUsers = await connection.query("SELECT userName FROM userInfo");
     if (!regex.test(input)) {
         if (!existingUsers.find(obj => obj.userName === input.toLowerCase())) {
             return true;
@@ -238,7 +204,7 @@ function createAccount() {
     ]).then(async function (response) {
         let pwEncrypt = encrypt(response.password + process.env.PW_SALT);
         console.log(pwEncrypt);
-        await db.query("INSERT INTO userInfo (userName, password, first_name, last_name) VALUES (?)", [[response.loginID.toLowerCase(), pwEncrypt, response.firstName, response.lastName]]);
+        await connection.query("INSERT INTO userInfo (userName, password, first_name, last_name) VALUES (?)", [[response.loginID.toLowerCase(), pwEncrypt, response.firstName, response.lastName]]);
         testApp();
     })
 }
@@ -259,14 +225,14 @@ async function loginAccount() {
             validate: confirmDataEntered
         }
     ]).then(async function (response) {
-        let allCredentials = await db.query("SELECT id, userName, password, first_name, last_name FROM userInfo");
+        let allCredentials = await connection.query("SELECT id, userName, password, first_name, last_name FROM userInfo");
         let userOnServer = allCredentials.find(obj => obj.userName === response.loginID)
         if (userOnServer != undefined) {
             console.log(`Authenticating...`);
             setTimeout(async function () {
                 if (userOnServer.password == encrypt(response.password + process.env.PW_SALT)) {
                     console.log(`Hello there ${userOnServer.first_name}!`)
-                    await db.query(`UPDATE userInfo SET logged_in='yes' WHERE id=${userOnServer.id}`);
+                    await connection.query(`UPDATE userInfo SET logged_in='yes' WHERE id=${userOnServer.id}`);
                     currUser.id = userOnServer.id;
                     currUser.userName = userOnServer.userName;
                     currUser.firstName = userOnServer.first_name;
@@ -283,9 +249,9 @@ async function loginAccount() {
 }
 
 async function clearToken() {
-    let allCredentials = await db.query("SELECT id, userName FROM userInfo");
+    let allCredentials = await connection.query("SELECT id, userName FROM userInfo");
     let userOnServer = allCredentials.find(obj => obj.userName === currUser.userName)
-    await db.query(`UPDATE userInfo SET logged_in='no' WHERE id=${userOnServer.id}`);
+    await connection.query(`UPDATE userInfo SET logged_in='no' WHERE id=${userOnServer.id}`);
     currUser.id = "";
     currUser.userName = "";
     currUser.firstName = "";
@@ -301,7 +267,7 @@ function searchPlaylistGenre() {
             message: "Know the genre of a playlist? Search here."
         }
     ]).then(async function (response) {
-        let playlistSearch = await db.query("SELECT playlist_name, likes, userName FROM playlist p RIGHT JOIN userInfo u ON p.user_id = u.id WHERE playlist_genre=?", response.genreName);
+        let playlistSearch = await connection.query("SELECT playlist_name, likes, userName FROM playlist p RIGHT JOIN userInfo u ON p.user_id = u.id WHERE playlist_genre=?", response.genreName);
         console.log(playlistSearch);
         if (currUser.id != "") {
             testUserOptions();
@@ -319,8 +285,8 @@ function searchPlaylists() {
             message: "Know the name of a playlist? Search here."
         }
     ]).then(async function (response) {
-        let playlistSearch = await db.query("SELECT playlist_genre, likes, userName FROM playlist p RIGHT JOIN userInfo u ON p.user_id = u.id WHERE playlist_name=?", response.playlistQuery);
-        let playlistSongs = await db.query("SELECT song FROM playlistSongs s LEFT JOIN playlist p ON s.playlist_id = p.id WHERE p.playlist_name=?", response.playlistQuery);
+        let playlistSearch = await connection.query("SELECT playlist_genre, likes, userName FROM playlist p RIGHT JOIN userInfo u ON p.user_id = u.id WHERE playlist_name=?", response.playlistQuery);
+        let playlistSongs = await connection.query("SELECT song FROM playlistSongs s LEFT JOIN playlist p ON s.playlist_id = p.id WHERE p.playlist_name=?", response.playlistQuery);
         console.log(response.playlistQuery, playlistSearch, playlistSongs);
         if (currUser.id != "") {
             testUserOptions();
@@ -402,6 +368,11 @@ function testUserOptions() {
         }
     })
 };
+
+// Import routes and give the server access to them.
+var routes = require("./controllers/lastfm_controller.js");
+
+app.use(routes);
 
 app.listen(port, () => {
     console.log(`Now listening to port ${port}. Enjoy your stay!`);
