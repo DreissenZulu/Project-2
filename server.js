@@ -1,8 +1,7 @@
 require('dotenv').config()
 const express = require('express');
 const inquirer = require('inquirer');
-const crypto = require('crypto');
-const connection = require("./config/connection.js");
+const social = require("./models/social_model.js");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -36,19 +35,25 @@ function createPlaylist() {
             message: `Enter playlist name, ${currUser.firstName}.`
         },
         {
+            name: "playlistDescription",
+            type: "input",
+            message: `Enter playlist description.`
+        },
+        {
             name: "playlistGenre",
             type: "input",
             message: "Select the genre of the playlist"
         }
     ]).then(async function (response) {
-        await connection.query("INSERT INTO playlist (playlist_name, playlist_genre, user_id) VALUES (?)", [[response.playlistTitle, response.playlistGenre, currUser.id]])
+        social.addNewPlaylist(response.playlistTitle, response.playlistGenre, response.playlistDescription, currUser.id)
         testUserOptions();
     })
 }
 
 async function devTestAddToPlaylist() {
-    let userPlaylists = await connection.query(`SELECT id, playlist_name FROM playlist WHERE user_id=${currUser.id}`);
-
+    let userPlaylists = social.selectUserPlaylists(currUser.id, result => {
+        console.log(result);
+    });
     inquirer.prompt([
         {
             name: "playlistName",
@@ -68,7 +73,9 @@ async function devTestAddToPlaylist() {
         }
     ]).then(async function (response) {
         let playlistID = userPlaylists.find(obj => obj.playlist_name === response.playlistName).id;
-        await connection.query("INSERT INTO playlistSongs (mbid, song, playlist_id) VALUES (?)", [[response.mbid, response.songTitle, playlistID]]);
+        social.addSongToPlaylist(response.songTitle, response.mbid, playlistID, result => {
+            console.log(result);
+        });
         testUserOptions();
     })
 }
@@ -91,14 +98,18 @@ async function commentOnSongAlbum() {
             message: "Enter your comment"
         }
     ]).then(async function (response) {
-        await connection.query("INSERT INTO otherComments (commentContent, user_id, mbid) VALUES (?)", [[response.comment, currUser.id, response.mbid]]);
+        social.addOtherComment(response.comment, currUser.id, response.mbid, result => {
+            console.log(result);
+        });
         testUserOptions();
     })
 }
 
 // Provided a playlist id, link a new comment from the frontend to it
 async function commentOnPlaylist() {
-    let playlists = await connection.query(`SELECT id, playlist_name FROM playlist`);
+    let playlists = social.selectPlaylists(result => {
+        console.log(result);
+    });
     inquirer.prompt([
         {
             name: "playlistName",
@@ -113,19 +124,20 @@ async function commentOnPlaylist() {
         }
     ]).then(async function (response) {
         let playlistID = playlists.find(obj => obj.playlist_name === response.playlistName).id;
-        await connection.query("INSERT INTO playlistComments (commentContent, user_id, playlist_id) VALUES (?)", [[response.comment, currUser.id, playlistID]]);
+        social.addPlaylistComment(response.comment, currUser.id, playlistID, result => {
+            console.log(result);
+        });
         testUserOptions();
     })
 }
 
-function encrypt(text) {
-    let hashed = crypto.createHash('sha256').update(text).digest('hex');
-    return hashed;
-}
+
 
 async function confirmNewUserName(input) {
     let regex = new RegExp(/\s/g)
-    let existingUsers = await connection.query("SELECT userName FROM userInfo");
+    let existingUsers = social.selectUsersRestricted(result => {
+        console.log(result);
+    });
     if (!regex.test(input)) {
         if (!existingUsers.find(obj => obj.userName === input.toLowerCase())) {
             return true;
@@ -169,15 +181,44 @@ function createAccount() {
             message: "Enter your last name (optional)"
         }
     ]).then(async function (response) {
-        let pwEncrypt = encrypt(response.password + process.env.PW_SALT);
-        console.log(pwEncrypt);
-        await connection.query("INSERT INTO userInfo (userName, password, first_name, last_name) VALUES (?)", [[response.loginID.toLowerCase(), pwEncrypt, response.firstName, response.lastName]]);
+        social.addNewUser(response.loginID.toLowerCase(), response.password, response.firstName, response.lastName, result => {
+            console.log(result);
+        })
         testApp();
     })
 }
 
+async function checkLogin(response) {
+    let allCredentials = await social.selectFromUsers(function (result) {
+        console.log(result);
+        return result;
+    })
+    console.log(allCredentials);
+    let userOnServer = allCredentials.find(obj => obj.userName === response.loginID)
+    if (userOnServer != undefined) {
+        console.log(`Authenticating...`);
+        setTimeout(async function () {
+            if (userOnServer.password == encrypt(response.password + process.env.PW_SALT)) {
+                console.log(`Hello there ${userOnServer.first_name}!`)
+                social.userLoggedIn(userOnServer.id, result => {
+                    console.log(result);
+                });
+                currUser.id = userOnServer.id;
+                currUser.userName = userOnServer.userName;
+                currUser.firstName = userOnServer.first_name;
+                currUser.lastName = userOnServer.last_name;
+                testUserOptions();
+            } else {
+                console.log(`Invalid password!!`);
+            }
+        }, 1500);
+    } else {
+        console.log(`Invalid username!`);
+    }
+}
+
 async function loginAccount() {
-    inquirer.prompt([
+    let responses = await inquirer.prompt([
         {
             name: "loginID",
             type: "input",
@@ -191,34 +232,18 @@ async function loginAccount() {
             message: "Enter your password",
             validate: confirmDataEntered
         }
-    ]).then(async function (response) {
-        let allCredentials = await connection.query("SELECT id, userName, password, first_name, last_name FROM userInfo");
-        let userOnServer = allCredentials.find(obj => obj.userName === response.loginID)
-        if (userOnServer != undefined) {
-            console.log(`Authenticating...`);
-            setTimeout(async function () {
-                if (userOnServer.password == encrypt(response.password + process.env.PW_SALT)) {
-                    console.log(`Hello there ${userOnServer.first_name}!`)
-                    await connection.query(`UPDATE userInfo SET logged_in='yes' WHERE id=${userOnServer.id}`);
-                    currUser.id = userOnServer.id;
-                    currUser.userName = userOnServer.userName;
-                    currUser.firstName = userOnServer.first_name;
-                    currUser.lastName = userOnServer.last_name;
-                    testUserOptions();
-                } else {
-                    console.log(`Invalid password!!`);
-                }
-            }, 1500);
-        } else {
-            console.log(`Invalid username!`);
-        }
-    })
+    ])
+    checkLogin(responses);
 }
 
 async function clearToken() {
-    let allCredentials = await connection.query("SELECT id, userName FROM userInfo");
+    let allCredentials = social.selectFromUsers(result => {
+        console.log(result);
+    });
     let userOnServer = allCredentials.find(obj => obj.userName === currUser.userName)
-    await connection.query(`UPDATE userInfo SET logged_in='no' WHERE id=${userOnServer.id}`);
+    social.userLoggedOut(userOnServer.id, result => {
+        console.log(result);
+    });
     currUser.id = "";
     currUser.userName = "";
     currUser.firstName = "";
@@ -234,7 +259,9 @@ function searchPlaylistGenre() {
             message: "Know the genre of a playlist? Search here."
         }
     ]).then(async function (response) {
-        let playlistSearch = await connection.query("SELECT playlist_name, likes, userName FROM playlist p RIGHT JOIN userInfo u ON p.user_id = u.id WHERE playlist_genre=?", response.genreName);
+        let playlistSearch = social.selectPlaylistByGenre(response.genreName, result => {
+            console.log(result);
+        });
         console.log(playlistSearch);
         if (currUser.id != "") {
             testUserOptions();
@@ -252,8 +279,12 @@ function searchPlaylists() {
             message: "Know the name of a playlist? Search here."
         }
     ]).then(async function (response) {
-        let playlistSearch = await connection.query("SELECT playlist_genre, likes, userName FROM playlist p RIGHT JOIN userInfo u ON p.user_id = u.id WHERE playlist_name=?", response.playlistQuery);
-        let playlistSongs = await connection.query("SELECT song FROM playlistSongs s LEFT JOIN playlist p ON s.playlist_id = p.id WHERE p.playlist_name=?", response.playlistQuery);
+        let playlistSearch = social.selectPlaylistByName(response.playlistQuery, result => {
+            console.log(result);
+        });
+        let playlistSongs = social.selectPlaylistSongs(response.playlistQuery, result => {
+            console.log(result);
+        });
         console.log(response.playlistQuery, playlistSearch, playlistSongs);
         if (currUser.id != "") {
             testUserOptions();
