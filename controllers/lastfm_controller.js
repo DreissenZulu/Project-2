@@ -4,6 +4,7 @@ const social = require("../models/social_model.js");
 const LastFM = require('last-fm');
 
 const lastfm = new LastFM(process.env.API);
+const router = express.Router();
 
 function searchAll(query) {
     lastfm.search({ q: query, limit: 3 }, (err, data) => {
@@ -36,6 +37,6 @@ function searchAlbum(albumName, artist) {
 }
 
 // The router is like using app = express(), where the server is defined in another file
-let router = express.Router();
+
 
 module.exports = router;
