@@ -12,46 +12,36 @@
 </head>
 <body>
     
-    <header>
-
-        <nav class="navbar navbar-dark bg-dark">
-            <a class="navbar-brand" href="index.html">
-                <img src="assets/images/recording.png" width="50" height="50" class="d-inline-block align-top">
-                Rice eaters
-            </a>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="signup.html">Sign Up</a></li>
-                <li class="nav-item"><a class="nav-link" href="login.html">Log in</a></li>
-            </ul>
-        </nav>
+    <header id="nav-placeholder">
 
     </header>
 
-    <div class="content row">
-        <div class="container2 col-2">
+    <div class="content row playlists">
+        <div class="container col-lg-2">
 
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                Launch demo modal
-            </button>
+            <button class="btn btn-dark border-secondary" data-toggle="modal" data-target="#myModal">Create a playlist</button>
             
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
+            <div class="modal fade" id="myModal">
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                            <h1>Create a playlist</h1>
                         </div>
                         <div class="modal-body">
-                            ...
+                            <form>
+                                <div class="form-group">
+                                    <label for="">Name</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Description</label>
+                                    <textarea rows="5" class="form-control"></textarea>
+                                </div>
+                            </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <button class="btn btn-success">Create</button>
+                            <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -59,11 +49,11 @@
 
         </div>
 
-        <div class="container">
+        <div class="container col-lg-9">
 
             <form>
                 <div class="form-group">
-                    <input id="search-bar" placeholder="Search.." class="form-control" autocomplete="off">
+                    <input id="search-bar" placeholder="Search.." class="form-control search-input" autocomplete="off">
                 </div>
             </form>
 
@@ -71,10 +61,16 @@
 
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="/script.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+<script src="script.js"></script>
 
 </body>
 </html>
