@@ -50,21 +50,21 @@ router.put("/api/users", (req, res) => {
     social.selectFromUsers(async function (result) {
         let allCredentials = await result;
         let userOnServer = allCredentials.find(obj => obj.userName === req.body.username)
-        console.log(userOnServer);
         if (userOnServer != undefined) {
             console.log(`Authenticating...`);
             setTimeout(async function () {
-                console.log(userOnServer.password);
                 if (social.checkPass(req.body.password, userOnServer.password)) {
-                    console.log(`Hello there ${userOnServer.first_name}!`)
-                    social.userLoggedIn(userOnServer.id, result => {
-                        console.log(result);
-                        res.status(200).send();
+                    social.userLoggedIn(userOnServer.id, () => {
+                        let currUser = {
+                            id: userOnServer.id,
+                            userName: userOnServer.userName,
+                            firstName: userOnServer.first_name,
+                            lastName: userOnServer.last_name
+                        }
+                        res.status(200).send(currUser);
+                        console.log("Logged in successfully!");
                     });
-                    // currUser.id = userOnServer.id;
-                    // currUser.userName = userOnServer.userName;
-                    // currUser.firstName = userOnServer.first_name;
-                    // currUser.lastName = userOnServer.last_name;
+
                 } else {
                     console.log(`Invalid password!!`);
                 }
