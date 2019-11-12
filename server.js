@@ -136,13 +136,6 @@ async function confirmNewUserName(input) {
     });
 };
 
-async function confirmDataEntered(input) {
-    if (input.trim() != "") {
-        return true;
-    }
-    return "This field cannot be blank!";
-}
-
 async function checkLogin(response) {
     social.selectFromUsers(async function (result) {
         let allCredentials = await result;

@@ -41,9 +41,37 @@ router.get("/", function(req, res) {
 })
 
 router.post("/api/users", (req, res) => {
-    console.log(req.body);
-    social.addNewUser(req.body.email.toLowerCase(), req.body.password, req.body.firstName, req.body.lastName, () => {
-         res.sendFile("login.html");
+    social.addNewUser(req.body.username.toLowerCase(), req.body.password, req.body.firstName, req.body.lastName, () => {
+        res.status(200).send();
+    })
+})
+
+router.put("/api/users", (req, res) => {
+    social.selectFromUsers(async function (result) {
+        let allCredentials = await result;
+        let userOnServer = allCredentials.find(obj => obj.userName === req.body.username)
+        console.log(userOnServer);
+        if (userOnServer != undefined) {
+            console.log(`Authenticating...`);
+            setTimeout(async function () {
+                console.log(userOnServer.password);
+                if (social.checkPass(req.body.password, userOnServer.password)) {
+                    console.log(`Hello there ${userOnServer.first_name}!`)
+                    social.userLoggedIn(userOnServer.id, result => {
+                        console.log(result);
+                        res.status(200).send();
+                    });
+                    // currUser.id = userOnServer.id;
+                    // currUser.userName = userOnServer.userName;
+                    // currUser.firstName = userOnServer.first_name;
+                    // currUser.lastName = userOnServer.last_name;
+                } else {
+                    console.log(`Invalid password!!`);
+                }
+            }, 1500);
+        } else {
+            console.log(`Invalid username!`);
+        }
     })
 })
 

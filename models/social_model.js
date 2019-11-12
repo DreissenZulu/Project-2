@@ -63,9 +63,16 @@ const social = {
     },
     // Gets all necessary information from the user to add to the database
     addNewUser: (userName, password, firstName, lastName, resolve) => {
-        let pwEncrypt = encrypt(password + process.env.PW_SALT);
-        orm.insertData("userInfo", "userName, password, first_name, last_name", `"${userName.toLowerCase()}", "${pwEncrypt}", "${firstName}", "${lastName}"`, (res) => {
-            resolve(res);
+        orm.selectData("userInfo", "id, userName", "", (res) => {
+            if (!res.find(obj => obj.userName === userName)) {
+                let pwEncrypt = encrypt(password + process.env.PW_SALT);
+                orm.insertData("userInfo", "userName, password, first_name, last_name", `"${userName.toLowerCase()}", "${pwEncrypt}", "${firstName}", "${lastName}"`, (res) => {
+                    resolve(res);
+                });
+            } else {
+                console.log("Failed to add new user")
+                resolve(res);
+            }
         });
     },
     addPlaylistComment: (comment, userID, playlistID, resolve) => {
