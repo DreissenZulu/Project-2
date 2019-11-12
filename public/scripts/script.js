@@ -60,7 +60,10 @@ function submitLoginAttempt(data) {
     return $.ajax({
         url: "/api/users",
         data: data,
-        method: "PUT"
+        method: "PUT",
+        success: (data) => {
+            localStorage.setItem("currUser", JSON.stringify(data));
+        }
     });
 }
 
