@@ -37,23 +37,19 @@ textarea {
     float: right;
 }
 
-.album-cover {
-    width: 300px;
-}
-
-.album-name {
+.playlist-name {
     font-weight: 700;
 }
 
-.artist-name {
+.user-name {
     color: gray;
 }
 
-.artist {
+.user {
     color: white;
 }
 
-.release-date {
+.create-date {
     color: gray;
 }
 
@@ -61,7 +57,7 @@ textarea {
     color: gray;
 }
 
-.song-description {
+.playlist-description {
     padding-top: 20px;
     font-style: italic;
 }
@@ -127,7 +123,7 @@ ul .btn {
     color: white;
 }
 
-.add {
+.remove {
     width: 25px;
 }
 
@@ -161,6 +157,7 @@ ul .btn {
 .hide {
     display: none;
 }
+
 
 @media only screen and (max-width: 1200px) { 
 
