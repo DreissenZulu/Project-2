@@ -27,9 +27,12 @@
                     <h3 class="user-name">created by <i class="user">Username</i></h3>
                     <h4 class="genre">Variety</h4>
                     <h4 class="create-date">2019</h4>
-                    <p class="playlist-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-                    aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                    <p class="playlist-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                        eiusmod tempor incididunt ut labore et dolore magna
+                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                        commodo consequat. Duis
+                        aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                        pariatur.</p>
                 </div>
             </div>
 
@@ -48,55 +51,64 @@
                         <th scope="row">1</th>
                         <td>Bombtrack</td>
                         <td>Rage Against the Machine</td>
-                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
+                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img
+                                    src="assets/images/add.png" class="remove"></a></td>
                     </tr>
                     <tr>
                         <th scope="row">2</th>
                         <td>Boys Don't Cry</td>
                         <td>The Cure</td>
-                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
+                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img
+                                    src="assets/images/add.png" class="remove"></a></td>
                     </tr>
                     <tr>
                         <th scope="row">3</th>
                         <td>Smooth Operator</td>
                         <td>Sade</td>
-                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
+                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img
+                                    src="assets/images/add.png" class="remove"></a></td>
                     </tr>
                     <tr>
                         <th scope="row">4</th>
                         <td>Goldie</td>
                         <td>A$AP Rocky</td>
-                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
+                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img
+                                    src="assets/images/add.png" class="remove"></a></td>
                     </tr>
                     <tr>
                         <th scope="row">5</th>
                         <td>Africa</td>
                         <td>Toto</td>
-                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
+                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img
+                                    src="assets/images/add.png" class="remove"></a></td>
                     </tr>
                     <tr>
                         <th scope="row">6</th>
                         <td>Every Breath You Take</td>
                         <td>Police</td>
-                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
+                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img
+                                    src="assets/images/add.png" class="remove"></a></td>
                     </tr>
                     <tr>
                         <th scope="row">7</th>
                         <td>Wake Me Up When September Ends</td>
                         <td>Green Day</td>
-                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
+                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img
+                                    src="assets/images/add.png" class="remove"></a></td>
                     </tr>
                     <tr>
                         <th scope="row">8</th>
                         <td>Nights</td>
                         <td>Frank Ocean</td>
-                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
+                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img
+                                    src="assets/images/add.png" class="remove"></a></td>
                     </tr>
                     <tr>
                         <th scope="row">9</th>
                         <td>Buffalo Soldier</td>
                         <td>Bob Marley</td>
-                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
+                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img
+                                    src="assets/images/add.png" class="remove"></a></td>
                     </tr>
                 </tbody>
             </table>
@@ -106,7 +118,7 @@
                     <div class="modal-content">
 
                         <div class="modal-body">
-                            <p>Do you really want to remove <strong> "Your Song" </strong>from your playlist ?</p>
+                            <p>Do you really want to add <strong> "Your Song" </strong>to your playlist ?</p>
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-success" data-dismiss="modal" id="confirm">Confirm</button>
@@ -120,10 +132,22 @@
         </div>
     </div>
 
+    <div class="secondary-content">
+        <div class="container rounded">
+            <div class="form-group">
+                <label for="comment">Post a comment</label>
+                <textarea class="form-control" rows="5" id="comment"></textarea>
+            </div>
+            <div class="button">
+                <button class="btn btn-dark border-secondary" id="post-comment">Post</button>
+            </div>
+        </div>
+    </div>
+
 
     <div class="alert alert-dark hide" role="alert">
-        <h5>Song removed succesfully</h3>
-            <p><strong>"Your Song"</strong> has been removed from your playlist.</p>
+        <h5>Song added succesfully</h3>
+            <p><strong>"Your Song"</strong> has been add from your playlist.</p>
     </div>
 
 
