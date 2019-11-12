@@ -135,6 +135,10 @@ ul .btn {
     display: none;
 }
 
+.row {
+    margin: 0;
+}
+
 .modal-content {
     border: none;
     background: none;
