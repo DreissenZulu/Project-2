@@ -1,5 +1,13 @@
 html::-webkit-scrollbar { width: 0 !important }
 
+input,
+textarea,
+button,
+select,
+a {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
 body {
     background-image: url(../images/background.jpg);
     background-size: cover;
