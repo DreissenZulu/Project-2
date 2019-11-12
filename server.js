@@ -10,18 +10,6 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// This needs to go into the frontend
-let currUser = {
-    id: "",
-    userName: "",
-    firstName: "",
-    lastName: ""
-};
-// if (localStorage.getItem("currentUser")) {
-//     currUser = JSON.parse(localStorage.getItem("currentUser"))
-// } else {
-//     currUser = [];
-// }
 
 function createPlaylist() {
     if (currUser.userName == "") {
@@ -153,40 +141,6 @@ async function confirmDataEntered(input) {
         return true;
     }
     return "This field cannot be blank!";
-}
-
-function createAccount() {
-    inquirer.prompt([
-        {
-            name: "loginID",
-            type: "input",
-            message: "Enter your new login ID",
-            validate: confirmNewUserName
-        },
-        {
-            name: "password",
-            type: "password",
-            mask: '*',
-            message: "Enter your password",
-            validate: confirmDataEntered
-        },
-        {
-            name: "firstName",
-            type: "input",
-            message: "Enter your first name",
-            validate: confirmDataEntered
-        },
-        {
-            name: "lastName",
-            type: "input",
-            message: "Enter your last name (optional)"
-        }
-    ]).then(async function (response) {
-        social.addNewUser(response.loginID.toLowerCase(), response.password, response.firstName, response.lastName, result => {
-            console.log(result);
-        })
-        testApp();
-    })
 }
 
 async function checkLogin(response) {

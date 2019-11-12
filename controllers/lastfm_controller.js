@@ -36,6 +36,17 @@ function searchAlbum(albumName, artist) {
     })
 }
 
+router.get("/", function(req, res) {
+    res.sendFile("index.html")
+})
+
+router.post("/api/users", (req, res) => {
+    console.log(req.body);
+    social.addNewUser(req.body.email.toLowerCase(), req.body.password, req.body.firstName, req.body.lastName, () => {
+         res.sendFile("login.html");
+    })
+})
+
 // The router is like using app = express(), where the server is defined in another file
 
 
