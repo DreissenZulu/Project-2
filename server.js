@@ -45,8 +45,9 @@ function createPlaylist() {
             message: "Select the genre of the playlist"
         }
     ]).then(async function (response) {
-        social.addNewPlaylist(response.playlistTitle, response.playlistGenre, response.playlistDescription, currUser.id)
-        testUserOptions();
+        social.addNewPlaylist(response.playlistTitle, response.playlistGenre, response.playlistDescription, currUser.id, function (result) {
+            testUserOptions();
+        })
     })
 }
 
@@ -135,16 +136,16 @@ async function commentOnPlaylist() {
 
 async function confirmNewUserName(input) {
     let regex = new RegExp(/\s/g)
-    let existingUsers = social.selectUsersRestricted(result => {
-        console.log(result);
-    });
-    if (!regex.test(input)) {
-        if (!existingUsers.find(obj => obj.userName === input.toLowerCase())) {
-            return true;
+    social.selectUsersRestricted(async function (result) {
+        if (!regex.test(input)) {
+            if (!result.find(obj => obj.userName === input.toLowerCase())) {
+                console.log("Reached!")
+                return true;
+            }
+            return "This user exists. Please enter a new username"
         }
-        return "This user exists. Please enter a new username"
-    }
-    return "Invalid username. Enter a user without spaces."
+        return "Invalid username. Enter a user without spaces."
+    });
 };
 
 async function confirmDataEntered(input) {
@@ -189,33 +190,32 @@ function createAccount() {
 }
 
 async function checkLogin(response) {
-    let allCredentials; 
     social.selectFromUsers(async function (result) {
-        console.log(result);
-        allCredentials = await result;
+        let allCredentials = await result;
+        console.log(allCredentials);
+        let userOnServer = allCredentials.find(obj => obj.userName === response.loginID)
+        if (userOnServer != undefined) {
+            console.log(`Authenticating...`);
+            setTimeout(async function () {
+                console.log(userOnServer.password);
+                if (social.checkPass(response.password, userOnServer.password)) {
+                    console.log(`Hello there ${userOnServer.first_name}!`)
+                    social.userLoggedIn(userOnServer.id, result => {
+                        console.log(result);
+                    });
+                    currUser.id = userOnServer.id;
+                    currUser.userName = userOnServer.userName;
+                    currUser.firstName = userOnServer.first_name;
+                    currUser.lastName = userOnServer.last_name;
+                    testUserOptions();
+                } else {
+                    console.log(`Invalid password!!`);
+                }
+            }, 1500);
+        } else {
+            console.log(`Invalid username!`);
+        }
     })
-    console.log(allCredentials);
-    let userOnServer = allCredentials.find(obj => obj.userName === response.loginID)
-    if (userOnServer != undefined) {
-        console.log(`Authenticating...`);
-        setTimeout(async function () {
-            if (userOnServer.password == encrypt(response.password + process.env.PW_SALT)) {
-                console.log(`Hello there ${userOnServer.first_name}!`)
-                social.userLoggedIn(userOnServer.id, result => {
-                    console.log(result);
-                });
-                currUser.id = userOnServer.id;
-                currUser.userName = userOnServer.userName;
-                currUser.firstName = userOnServer.first_name;
-                currUser.lastName = userOnServer.last_name;
-                testUserOptions();
-            } else {
-                console.log(`Invalid password!!`);
-            }
-        }, 1500);
-    } else {
-        console.log(`Invalid username!`);
-    }
 }
 
 async function loginAccount() {
@@ -375,5 +375,6 @@ app.use(routes);
 
 app.listen(port, () => {
     console.log(`Now listening to port ${port}. Enjoy your stay!`);
-    testApp();
-})
+});
+
+testApp();

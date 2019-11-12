@@ -57,6 +57,11 @@ const social = {
             resolve(res);
         });
     },
+    returnEncrypt: (string) => {
+        let encrypted = encrypt(string + process.env.PW_SALT);
+        console.log(encrypted);
+        return encrypted;
+    },
     // Gets all necessary information from the user to add to the database
     addNewUser: (userName, password, firstName, lastName, resolve) => {
         let pwEncrypt = encrypt(password + process.env.PW_SALT);
@@ -83,7 +88,7 @@ const social = {
         orm.insertData("playlistSongs", "song, mbid, playlist_id", `"${songTitle}", "${mbid}", "${playlistID}"`, (res) => {
             resolve(res);
         });
-    }    
+    }
 };
 
 module.exports = social;
