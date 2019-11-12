@@ -57,10 +57,9 @@ const social = {
             resolve(res);
         });
     },
-    returnEncrypt: (string) => {
-        let encrypted = encrypt(string + process.env.PW_SALT);
-        console.log(encrypted);
-        return encrypted;
+    checkPass: (input, answer) => {
+        let encrypted = encrypt(input + process.env.PW_SALT);
+        return encrypted === answer;
     },
     // Gets all necessary information from the user to add to the database
     addNewUser: (userName, password, firstName, lastName, resolve) => {
