@@ -48,22 +48,47 @@ $(document).ready(function () {
     $("#nav-placeholder").load("nav.html");
 });
 
-function submitNewUser() {
-    let userInfo = {
-        email: $("#email").val(),
-        firstName: $("#first-name").val(),
-        lastName: $("#last-name").val(),
-        password: $("#password").val(),
-    }
+function submitNewUser(data) {
     return $.ajax({
         url: "/api/users",
-        data: userInfo,
+        data: data,
         method: "POST"
+    });
+}
+
+function submitLoginAttempt(data) {
+    return $.ajax({
+        url: "/api/users",
+        data: data,
+        method: "PUT"
     });
 }
 
 // API Calls
 $("#createNewAccount").click(() => {
     event.preventDefault();
-    submitNewUser();
+    let userInfo = {
+        username: $("#user").val().trim(),
+        firstName: $("#first-name").val().trim(),
+        lastName: $("#last-name").val().trim(),
+        password: $("#password").val().trim()
+    }
+    let userVals = Object.values(userInfo);
+
+    for(inputs of userVals) {
+        if (inputs == "") {
+            console.log("Missing information!!");
+            return;
+        }
+    }
+    submitNewUser(userInfo);
+});
+
+$("#attemptLogin").click(() => {
+    event.preventDefault();
+    let userInfo = {
+        username: $("#user").val().trim(),
+        password: $("#password").val().trim()
+    }
+    submitLoginAttempt(userInfo);
 })
