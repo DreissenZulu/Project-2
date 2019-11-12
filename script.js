@@ -1,8 +1,16 @@
 $(".added").click(function () {
+    $('#myModal').modal('hide')
     $(".alert").removeClass("hide");
     setTimeout(function () {
         $(".alert").addClass("hide");
     }, 2500);
+});
+
+
+$(document).keydown(function (e) {
+    if (e.keyCode === 27) {
+        $("#myModal").modal('hide')
+    }
 });
 
 

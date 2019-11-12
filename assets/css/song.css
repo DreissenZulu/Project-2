@@ -95,6 +95,7 @@ textarea, textarea:focus {
 
 .add-button {
     float: right;
+    border-color: #6c757d;
 }
 
 
@@ -116,12 +117,6 @@ ul .btn {
     color: white;
 }
 
-.dropdown-menu {
-    background-color: #343a40;
-    border-color: #6c757d!important;
-    padding: 0;
-}
-
 .alert {
     float: right;
     margin-right: 20px;
@@ -138,6 +133,15 @@ ul .btn {
 
 .hide {
     display: none;
+}
+
+.modal-content {
+    border: none;
+    background: none;
+}
+
+.modal-header h1 {
+    margin: 0 auto;
 }
 
 @media only screen and (max-width: 1200px) { 
