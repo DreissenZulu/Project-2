@@ -189,9 +189,10 @@ function createAccount() {
 }
 
 async function checkLogin(response) {
-    let allCredentials = await social.selectFromUsers(function (result) {
+    let allCredentials; 
+    social.selectFromUsers(async function (result) {
         console.log(result);
-        return result;
+        allCredentials = await result;
     })
     console.log(allCredentials);
     let userOnServer = allCredentials.find(obj => obj.userName === response.loginID)
