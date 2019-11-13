@@ -49,6 +49,7 @@ $(document).ready(function () {
     $("#nav-placeholder").load("nav.html");
 });
 
+// API Calls
 function suggestSearch(query, type) {
     return $.ajax({
         url: `/last-fm/search/${query}/${type}`,
@@ -79,7 +80,7 @@ function submitLoginAttempt(data) {
     });
 }
 
-// API Calls
+// Functions to API calls
 $("#createNewAccount").click(() => {
     event.preventDefault();
     let userInfo = {
@@ -99,6 +100,7 @@ $("#createNewAccount").click(() => {
     submitNewUser(userInfo);
 });
 
+// Submits user input to the server, which will attempt to find a matching account
 $("#attemptLogin").click(() => {
     event.preventDefault();
     let userInfo = {
