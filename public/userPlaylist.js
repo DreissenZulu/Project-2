@@ -5,13 +5,11 @@ function populatePlaylist(id) {
         success: (data) => {
             let listNum = 0;
             let dateCreated = data.playlist[0].createdAt.split(/[a-zA-Z]/g)[0]
-            console.log(dateCreated)
             $(".playlist-name").first().text(data.playlist[0].playlist_name);
             $(".user").first().text(data.playlist[0].userName);
             $(".genre").first().text(data.playlist[0].playlist_genre);
             $(".create-date").first().text(dateCreated);
             $(".playlist-description").first().text(data.playlist[0].playlist_description);
-            console.log(data.songs[1].song);
             for(song of data.songs) {
                 listNum++;
                 $("#songList").append(`
@@ -22,7 +20,6 @@ function populatePlaylist(id) {
                     <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
                     </tr>
                 `)
-                console.log(song);
             }
         }
     });
