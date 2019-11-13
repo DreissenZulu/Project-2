@@ -28,6 +28,17 @@ function searchSongTitle(trackTitle) {
     })
 }
 
+function getSongDetails(trackTitle, artist) {
+    return new Promise(resolve => {
+        lastfm.trackInfo({ name: trackTitle, artistName: artist, limit: 10 }, (err, data) => {
+            if (err) throw err
+            else {
+                resolve(data);
+            }
+        })
+    })
+}
+
 function searchArtist(artistName) {
     return new Promise(resolve => {
         lastfm.artistSearch({ q: artistName, limit: 10 }, (err, data) => {
@@ -39,7 +50,29 @@ function searchArtist(artistName) {
     })
 }
 
-function searchAlbum(albumName, artist) {
+function getArtistDetails(artistName) {
+    return new Promise(resolve => {
+        lastfm.artistInfo({ q: artistName }, (err, data) => {
+            if (err) throw err
+            else {
+                resolve(data);
+            }
+        })
+    })
+}
+
+function searchAlbum(albumName) {
+    return new Promise(resolve => {
+        lastfm.albumSearch({ q: albumName, limit: 10 }, (err, data) => {
+            if (err) throw err
+            else {
+                resolve(data);
+            }
+        })
+    })
+}
+
+function getAlbumDetails(albumName, artist) {
     return new Promise(resolve => {
         lastfm.albumInfo({ name: albumName, artistName: artist }, (err, data) => {
             if (err) throw err
@@ -59,6 +92,9 @@ router.get("/last-fm/search/:query/:type?", async (req, res) => {
     if (req.params.type == "artist") {
        response = await searchArtist(req.params.query);
        res.status(200).send(response.result);
+    } else if (req.params.type == "album") {
+        response = await searchAlbum(req.params.query);
+        res.status(200).send(response.result);
     } else if (req.params.type == "song") {
         response = await searchSongTitle(req.params.query);
         res.status(200).send(response.result);
