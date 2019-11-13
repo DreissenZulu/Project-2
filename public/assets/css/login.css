@@ -51,3 +51,8 @@ input, input:focus {
 .row {
     margin: 0;
 }
+
+.btn.focus, .btn:focus {
+    outline: 0;
+    box-shadow: none!important;
+}
