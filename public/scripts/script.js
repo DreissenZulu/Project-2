@@ -109,7 +109,7 @@ $("#attemptLogin").click(() => {
 $("#search-bar").keypress(() => {
     clearTimeout(userTyping);
     userTyping = setTimeout(() => {
-        let searchQuery = $("#search-bar").val().split(": ")
+        let searchQuery = $("#search-bar").val().split(/:\s?/i)
         console.log(searchQuery);
         suggestSearch(searchQuery[1], searchQuery[0]);
     }, 700);
