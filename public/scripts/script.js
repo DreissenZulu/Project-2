@@ -80,6 +80,22 @@ function submitLoginAttempt(data) {
     });
 }
 
+function createPlaylist(data) {
+    return $.ajax({
+        url: "/api/playlists",
+        data: data,
+        method: "POST"
+    })
+}
+
+function addComment(data, location, id) {
+    return $.ajax({
+        url: `/api/comments/${location}/${id}`,
+        data: data,
+        method: "POST"
+    })
+}
+
 // Functions to API calls
 $("#createNewAccount").click(() => {
     event.preventDefault();
@@ -108,6 +124,40 @@ $("#attemptLogin").click(() => {
         password: $("#password").val().trim()
     }
     submitLoginAttempt(userInfo);
+})
+
+$("#playlistCreate").click(() => {
+    if (currUser.userName == "") {
+        console.log("Please log in to create a playlist.");
+        return;
+    }
+    let playlistInfo = {
+        creatorID: currUser.id,
+        playlistName: $("#title").val().trim(),
+        playlistDesc: $("#description").val().trim(),
+        playlistGenre: $("#genre").val()
+    }
+    createPlaylist(playlistInfo);
+})
+
+$("#submitComment").click(() => {
+    if ($("#commentBody").val().trim() == "") {
+        return;
+    }
+    let commentDestination;
+    let commentPath;
+    if ($("#mbid").val() != undefined) {
+        commentDestination = $("#mbid").val();
+        commentPath = "mbid";
+    } else {
+        commentDestination = $("#playlistID").val();
+        commentPath = "playlist";
+    }
+    let commentInfo = {
+        commenterID: currUser.id,
+        comment: $("#commentBody").val().trim()
+    }
+    addComment(commentInfo, commentPath, commentDestination);
 })
 
 // Search function delays the query to last-fm for 0.7 seconds so a search for every new letter isn't launched
