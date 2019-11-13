@@ -11,33 +11,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 
-function createPlaylist() {
-    if (currUser.userName == "") {
-        console.log("Please log in to create a playlist.");
-        return;
-    }
-    inquirer.prompt([
-        {
-            name: "playlistTitle",
-            type: "input",
-            message: `Enter playlist name, ${currUser.firstName}.`
-        },
-        {
-            name: "playlistDescription",
-            type: "input",
-            message: `Enter playlist description.`
-        },
-        {
-            name: "playlistGenre",
-            type: "input",
-            message: "Select the genre of the playlist"
-        }
-    ]).then(async function (response) {
-        social.addNewPlaylist(response.playlistTitle, response.playlistGenre, response.playlistDescription, currUser.id, function (result) {
-        })
-    })
-}
-
 async function devTestAddToPlaylist() {
     let userPlaylists = social.selectUserPlaylists(currUser.id, result => {
         console.log(result);
@@ -69,51 +42,6 @@ async function devTestAddToPlaylist() {
 
 async function addToPlaylist(mbid, songTitle, playlistID) {
 
-}
-
-// Provided an mbid, link a new comment from the frontend to it
-async function commentOnSongAlbum() {
-    inquirer.prompt([
-        {
-            name: "mbid",
-            type: "input",
-            message: "Choose song or album to add comment to",
-        },
-        {
-            name: "comment",
-            type: "input",
-            message: "Enter your comment"
-        }
-    ]).then(async function (response) {
-        social.addOtherComment(response.comment, currUser.id, response.mbid, result => {
-            console.log(result);
-        });
-    })
-}
-
-// Provided a playlist id, link a new comment from the frontend to it
-async function commentOnPlaylist() {
-    let playlists = social.selectPlaylists(result => {
-        console.log(result);
-    });
-    inquirer.prompt([
-        {
-            name: "playlistName",
-            type: "list",
-            messages: "Choose playlist to add song to",
-            choices: playlists.map(obj => obj.playlist_name)
-        },
-        {
-            name: "comment",
-            type: "input",
-            message: "Enter your comment"
-        }
-    ]).then(async function (response) {
-        let playlistID = playlists.find(obj => obj.playlist_name === response.playlistName).id;
-        social.addPlaylistComment(response.comment, currUser.id, playlistID, result => {
-            console.log(result);
-        });
-    })
 }
 
 async function clearToken() {
