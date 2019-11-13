@@ -1,3 +1,4 @@
+let userTyping = 0;
 let currUser;
 if (localStorage.getItem("currentUser")) {
     currUser = JSON.parse(localStorage.getItem("currentUser"))
@@ -48,9 +49,9 @@ $(document).ready(function () {
     $("#nav-placeholder").load("nav.html");
 });
 
-function suggestSearch(query) {
+function suggestSearch(query, type) {
     return $.ajax({
-        url: `/last-fm/search/${query}`,
+        url: `/last-fm/search/${query}/${type}`,
         method: "GET"
     });
 }
@@ -104,10 +105,12 @@ $("#attemptLogin").click(() => {
     submitLoginAttempt(userInfo);
 })
 
+// Search function delays the query to last-fm for 0.7 seconds so a search for every new letter isn't launched
 $("#search-bar").keypress(() => {
-    setTimeout(() => {
-        let searchQuery = $("#search-bar").val()
+    clearTimeout(userTyping);
+    userTyping = setTimeout(() => {
+        let searchQuery = $("#search-bar").val().split(": ")
         console.log(searchQuery);
-        suggestSearch(searchQuery);
-    }, 50);
+        suggestSearch(searchQuery[1], searchQuery[0]);
+    }, 700);
 })
