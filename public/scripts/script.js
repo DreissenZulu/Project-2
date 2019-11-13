@@ -53,7 +53,7 @@ $(document).ready(function () {
             <li class="nav-item"><a class="nav-link" id="logOut" href="#">Log Out</a></li>
             `)
             $("#logOut").click(() => {
-                console.log("Clicked!")
+                event.stopPropagation();
                 if (currUser.confirmLogin) {
                     submitLogOut();
                 }
@@ -95,7 +95,10 @@ function submitNewUser(data) {
     return $.ajax({
         url: "/api/users",
         data: data,
-        method: "POST"
+        method: "POST",
+        success: () => {
+            window.location.replace("/login")
+        }
     });
 }
 
