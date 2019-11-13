@@ -55,17 +55,22 @@ router.get("/", (req, res) => {
 })
 
 router.get("/last-fm/search/:query/:type?", async (req, res) => {
-    console.log(req.params);
     let response;
     if (req.params.type == "artist") {
        response = await searchArtist(req.params.query);
-       console.log(response);
+       res.status(200).send(response.result);
     } else if (req.params.type == "song") {
         response = await searchSongTitle(req.params.query);
-        console.log(response);
+        res.status(200).send(response.result);
     } else {
         response = await searchAll(req.params.query);
-        console.log(response.result.top, response.result.artists, response.result.tracks, response.result.albums)
+        res.status(200).send(
+            {
+                topResult: response.result.top,
+                artistMatch: response.result.artists,
+                songMatch: response.result.tracks,
+                albumMatch: response.result.albums
+            })
     }
 })
 
