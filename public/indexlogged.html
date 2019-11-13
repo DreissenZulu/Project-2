@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="./assets/css/index.css">
+    <link rel="stylesheet" href="./assets/css/indexlogged.css">
     <link rel="icon" type="image/png" href="assets/images/recording.png" />
     <title>Home Page</title>
 </head>
@@ -17,15 +17,15 @@
     </header>
 
     <div class="content row playlists">
-        <div class="container col-xl-2 col-lg-2 col-md-3 col-sm-10 text-center">
+        <div class="container col-xl-2 col-lg-2 col-md-3 col-sm-12 text-center">
 
-            <button class="btn btn-dark border-secondary" data-toggle="modal" data-target="#myModal">Create a playlist</button>
+            <button class="btn btn-dark border-secondary" data-toggle="modal" data-target="#myModal"><img src="assets/images/plus.png"><span>Playlist</span></button>
             
             <div class="modal fade" id="myModal">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1>Create a playlist</h1>
+                            <h1>New playlist</h1>
                         </div>
                         <div class="modal-body">
                             <form>
@@ -36,6 +36,18 @@
                                 <div class="form-group">
                                     <label for="">Description</label>
                                     <textarea rows="5" class="form-control"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Genre</label>
+                                    <select class="form-control mdb-select md-form">
+                                        <option disabled selected>Other</option>
+                                        <option>Hip Hop</option>
+                                        <option>Rock</option>
+                                        <option>Pop</option>
+                                        <option>Electronic</option>
+                                        <option>Jazz/Blues</option>
+                                        <option>Classical</option>
+                                    </select>
                                 </div>
                             </form>
                         </div>
@@ -49,7 +61,7 @@
 
         </div>
 
-        <div class="container col-xl-8 col-lg-9 col-md-8 col-sm-10">
+        <div class="container col-xl-8 col-lg-9 col-md-8 col-sm-12">
 
             <form>
                 <div class="form-group">
