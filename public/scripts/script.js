@@ -1,10 +1,5 @@
 let userTyping = 0;
 let currUser;
-if (localStorage.getItem("currentUser")) {
-    currUser = JSON.parse(localStorage.getItem("currentUser"))
-} else {
-    currUser = {};
-}
 
 $(".added").click(function () {
     $('#myModal').modal('hide')
@@ -46,17 +41,19 @@ if (mq.matches) {
 }
 
 $(document).ready(function () {
+    if (localStorage.getItem("currUser")) {
+        currUser = JSON.parse(localStorage.getItem("currUser"))
+    } else {
+        currUser = {};
+    }
     $("#nav-placeholder").load("nav.html");
-    checkLogin();
 });
 
 // API Calls
 function checkLogin() {
-    return $.ajax({
-        url: "/",
-        data: currUser,
-        method: "GET"
-    })
+    if (currUser.confirmLogin) {
+        
+    }
 }
 
 function suggestSearch(query, type) {
