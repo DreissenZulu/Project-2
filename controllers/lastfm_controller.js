@@ -116,6 +116,25 @@ router.post("/api/users", (req, res) => {
     })
 })
 
+router.post("/api/playlists", (req, res) => {
+    social.addNewPlaylist(req.body.playlistName, req.body.playlistGenre, req.body.playlistDesc, req.body.creatorID, () => {
+        res.status(200).send();
+    })
+})
+
+// Consolidates comment posting system to one route
+router.post("/api/comments/:location/:id", (req, res) => {
+    if (req.params.location == "mbid") {
+        social.addOtherComment(req.body.comment, req.body.commenterID, req.params.id, () => {
+            res.status(200).send();
+        });
+    } else if (req.params.location == "playlist") {
+        social.addPlaylistComment(req.body.comment, req.body.commenterID, req.params.id, () => {
+            res.status(200).send();
+        });
+    }
+})
+
 router.put("/api/users", (req, res) => {
     social.selectFromUsers(async function (result) {
         let allCredentials = await result;
