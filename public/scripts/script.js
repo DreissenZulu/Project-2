@@ -66,11 +66,11 @@ $(document).ready(function () {
             `)
         }
         $("#logOut").click(() => {
-    console.log("Clicked!")
-    if (currUser.confirmLogin) {
-        submitLogOut();
-    }
-})
+            console.log("Clicked!")
+            if (currUser.confirmLogin) {
+                submitLogOut();
+            }
+        })
     });
 });
 
