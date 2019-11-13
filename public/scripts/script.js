@@ -205,6 +205,26 @@ $("#submitComment").click(() => {
     addComment(commentInfo, commentPath, commentDestination);
 })
 
+$("#allSearch").click(() => {
+    let searchQuery = $("#search-bar").val();
+    suggestSearch(searchQuery, "");
+})
+
+$("#songSearch").click(() => {
+    let searchQuery = $("#search-bar").val();
+    suggestSearch(searchQuery, "song");
+})
+
+$("#artistSearch").click(() => {
+    let searchQuery = $("#search-bar").val();
+    suggestSearch(searchQuery, "artist");
+})
+
+$("#albumSearch").click(() => {
+    let searchQuery = $("#search-bar").val();
+    suggestSearch(searchQuery, "album");
+})
+
 // Search function delays the query to last-fm for 0.7 seconds so a search for every new letter isn't launched
 $("#search-bar").keypress(() => {
     clearTimeout(userTyping);

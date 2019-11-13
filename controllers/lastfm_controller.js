@@ -1,4 +1,3 @@
-
 const express = require("express");
 const path = require("path");
 // Import the burger module to access database functions
