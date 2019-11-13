@@ -1,5 +1,13 @@
 html::-webkit-scrollbar { width: 0 !important }
 
+input,
+textarea,
+button,
+select,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
     background-image: url(../images/background.jpg);
     background-size: cover;
@@ -127,10 +135,43 @@ ul .btn {
     color: white;
 }
 
-.dropdown-menu {
-    background-color: #343a40;
-    border-color: #6c757d!important;
-    padding: 0;
+.add {
+    width: 25px;
+}
+
+.modal-content {
+    border: none;
+    background: none;
+}
+
+.modal-header h1 {
+    margin: 0 auto;
+}
+
+.modal {
+    background-color: rgba(0, 0, 0, 0.6);
+} 
+
+.alert {
+    float: right;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+.alert h5 {
+    font-weight: 700;
+}
+
+.alert p {
+    margin-bottom: 0;
+}
+
+.hide {
+    display: none;
+}
+
+.row {
+    margin: 0;
 }
 
 @media only screen and (max-width: 1200px) { 
