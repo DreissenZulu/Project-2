@@ -69,26 +69,12 @@ textarea {
 }
 
 .button {
-    /* text-align: center; */
-    /* margin: 0 auto; */
+
 }
 
 .btn {
     font-size: 16px;
-    padding: 12px 30px;
-}
-
-button:focus, button:active {
-    background-color: #23272B;
-}
-
-.btn.focus, .btn:focus {
-    outline: 0;
-    box-shadow: none!important;
-}
-
-.btn:hover {
-    background-color: none;
+    padding: 15px 50px;
 }
 
 .container, .container2 {
@@ -96,28 +82,8 @@ button:focus, button:active {
 }
 
 .row {
-    margin-top: 30px;
+    margin-top: 0;
     margin-bottom: 0;
     margin-left: 0;
     margin-right: 0;
 }
-
-/* .filter {
-    padding: 15px 20px;
-} */
-
-/* @media only screen and (max-width: 992px) { 
-
-.filter {
-    padding: 12px 40px;
-}
-
-}
-
-@media only screen and (max-width: 768px) { 
-
-.filter {
-    padding: 10px 30px;
-}
-
-} */
