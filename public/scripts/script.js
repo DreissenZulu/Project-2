@@ -46,13 +46,38 @@ $(document).ready(function () {
     } else {
         currUser = {};
     }
-    $("#nav-placeholder").load("nav.html");
+    $("#nav-placeholder").load("nav.html", () => {
+        if (currUser.confirmLogin) {
+            $("#navItems").html(`
+            <li class="nav-item"><a class="nav-link" href="/dashboard">My Page</a></li>
+            <li class="nav-item"><a class="nav-link" id="logOut" href="#">Log Out</a></li>
+            `)
+            $("#logOut").click(() => {
+                console.log("Clicked!")
+                if (currUser.confirmLogin) {
+                    submitLogOut();
+                }
+            })
+        } else {
+            $("#navItems").html(`
+            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/signup">Sign Up</a></li>
+            <li class="nav-item"><a class="nav-link" href="/login">Log in</a></li>
+            `)
+        }
+        $("#logOut").click(() => {
+    console.log("Clicked!")
+    if (currUser.confirmLogin) {
+        submitLogOut();
+    }
+})
+    });
 });
 
 // API Calls
 function checkLogin() {
     if (currUser.confirmLogin) {
-        
+
     }
 }
 
@@ -81,9 +106,20 @@ function submitLoginAttempt(data) {
         method: "PUT",
         success: (data) => {
             localStorage.setItem("currUser", JSON.stringify(data));
-            window.location.replace("indexlogged.html")
+            window.location.replace("/dashboard")
         }
     });
+}
+
+function submitLogOut() {
+    return $.ajax({
+        url: `/api/users/${currUser.id}`,
+        method: "PUT",
+        success: (data) => {
+            localStorage.setItem("currUser", JSON.stringify(data));
+            window.location.replace("/")
+        }
+    })
 }
 
 function createPlaylist(data) {
@@ -113,7 +149,7 @@ $("#createNewAccount").click(() => {
     }
     let userVals = Object.values(userInfo);
 
-    for(inputs of userVals) {
+    for (inputs of userVals) {
         if (inputs == "") {
             console.log("Missing information!!");
             return;
