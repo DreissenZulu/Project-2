@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/playlist.css">
+    <link rel="icon" type="image/png" href="assets/images/recording.png" />
+    <title>My Playlist</title>
+</head>
+
+<body>
+
+    <header id="nav-placeholder">
+
+    </header>
+
+    <div class="main-content">
+        <div class="container rounded">
+
+            <div class="">
+                <div class="text-center">
+                    <h1 class="playlist-name">My Playlist-name</h1>
+                    <h3 class="user-name">created by <i class="user">Username</i></h3>
+                    <h4 class="genre">Variety</h4>
+                    <h4 class="create-date">2019</h4>
+                    <p class="playlist-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
+                    aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                </div>
+            </div>
+
+
+            <table class="table">
+                <thead class="details">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Artist</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Bombtrack</td>
+                        <td>Rage Against the Machine</td>
+                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Boys Don't Cry</td>
+                        <td>The Cure</td>
+                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Smooth Operator</td>
+                        <td>Sade</td>
+                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">4</th>
+                        <td>Goldie</td>
+                        <td>A$AP Rocky</td>
+                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">5</th>
+                        <td>Africa</td>
+                        <td>Toto</td>
+                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">6</th>
+                        <td>Every Breath You Take</td>
+                        <td>Police</td>
+                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">7</th>
+                        <td>Wake Me Up When September Ends</td>
+                        <td>Green Day</td>
+                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">8</th>
+                        <td>Nights</td>
+                        <td>Frank Ocean</td>
+                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">9</th>
+                        <td>Buffalo Soldier</td>
+                        <td>Bob Marley</td>
+                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="modal fade" id="myModal">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+
+                        <div class="modal-body">
+                            <p>Do you really want to remove <strong> "Your Song" </strong>from your playlist ?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-success" data-dismiss="modal" id="confirm">Confirm</button>
+                            <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <div class="alert alert-dark hide" role="alert">
+        <h5>Song removed succesfully</h3>
+            <p><strong>"Your Song"</strong> has been removed from your playlist.</p>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
