@@ -53,7 +53,7 @@ $(document).ready(function () {
             <li class="nav-item"><a class="nav-link" id="logOut" href="#">Log Out</a></li>
             `)
             $("#logOut").click(() => {
-                console.log("Clicked!")
+                event.stopPropagation();
                 if (currUser.confirmLogin) {
                     submitLogOut();
                 }
@@ -95,7 +95,10 @@ function submitNewUser(data) {
     return $.ajax({
         url: "/api/users",
         data: data,
-        method: "POST"
+        method: "POST",
+        success: () => {
+            window.location.replace("/login")
+        }
     });
 }
 
@@ -200,6 +203,26 @@ $("#submitComment").click(() => {
         comment: $("#commentBody").val().trim()
     }
     addComment(commentInfo, commentPath, commentDestination);
+})
+
+$("#allSearch").click(() => {
+    let searchQuery = $("#search-bar").val();
+    suggestSearch(searchQuery, "");
+})
+
+$("#songSearch").click(() => {
+    let searchQuery = $("#search-bar").val();
+    suggestSearch(searchQuery, "song");
+})
+
+$("#artistSearch").click(() => {
+    let searchQuery = $("#search-bar").val();
+    suggestSearch(searchQuery, "artist");
+})
+
+$("#albumSearch").click(() => {
+    let searchQuery = $("#search-bar").val();
+    suggestSearch(searchQuery, "album");
 })
 
 // Search function delays the query to last-fm for 0.7 seconds so a search for every new letter isn't launched
