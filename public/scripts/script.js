@@ -48,6 +48,13 @@ $(document).ready(function () {
     $("#nav-placeholder").load("nav.html");
 });
 
+function suggestSearch(query) {
+    return $.ajax({
+        url: `/last-fm/search/${query}`,
+        method: "GET"
+    });
+}
+
 function submitNewUser(data) {
     return $.ajax({
         url: "/api/users",
@@ -95,4 +102,12 @@ $("#attemptLogin").click(() => {
         password: $("#password").val().trim()
     }
     submitLoginAttempt(userInfo);
+})
+
+$("#search-bar").keypress(() => {
+    setTimeout(() => {
+        let searchQuery = $("#search-bar").val()
+        console.log(searchQuery);
+        suggestSearch(searchQuery);
+    }, 50);
 })
