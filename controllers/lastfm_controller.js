@@ -96,16 +96,22 @@ router.get("/login", (req, res) => {
     res.sendFile(path.join(__dirname, '../public', "login.html"))
 })
 
-router.post("/home", (req, res) => {
-    console.log(req.body);
-    loggedIn = req.body.confirmLogin;
-    if (loggedIn) {
-        console.log("Path hit login")
-        res.sendFile(path.join(__dirname, '../public', "indexlogged.html"))
-    } else {
-        console.log("Path hit logout")
-        res.sendFile(path.join(__dirname, '../public', "index.html"))
-    }
+router.get("/playlist", (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', "playlist.html"));
+})
+
+router.get("/playlist/:id", (req, res) => {
+    let playlistInfo;
+    let playlistSongs;
+    social.selectPlaylistByID(req.params.id, async (result) => {
+        playlistInfo = await result;
+        social.selectPlaylistSongs(req.params.id, async (list) => {
+            playlistSongs = await list;
+            let allInfo = {playlist: playlistInfo, songs: playlistSongs};
+            res.status(200).send(allInfo);
+        })
+    })
+    
 })
 
 router.get("/last-fm/search/:query/:type?", async (req, res) => {

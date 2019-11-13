@@ -40,8 +40,8 @@ const social = {
         });
     },
     // Requires playlist_name for WHERE condition. Shows all playlists that match the given search, along with genre, likes, description, and the user who created it
-    selectPlaylistByName: (playlistName, resolve) => {
-        orm.selectData("playlist p RIGHT JOIN userInfo u ON p.user_id = u.id", "playlist_genre, playlist_description, likes, userName", `WHERE playlist_name="${playlistName}"`, (res) => {
+    selectPlaylistByID: (playlistID, resolve) => {
+        orm.selectData("playlist p RIGHT JOIN userInfo u ON p.user_id = u.id", "playlist_name, playlist_genre, playlist_description, likes, userName", `WHERE p.id=${playlistID}`, (res) => {
             resolve(res);
         });
     },
@@ -52,8 +52,8 @@ const social = {
         });
     },
     // Requires playlist_name for the WHERE condition
-    selectPlaylistSongs: (playlistName, resolve) => {
-        orm.selectData("playlistSongs s LEFT JOIN playlist p ON s.playlist_id = p.id", "song", `WHERE playlist_name="${playlistName}"`, (res) => {
+    selectPlaylistSongs: (playlistID, resolve) => {
+        orm.selectData("playlistSongs s LEFT JOIN playlist p ON s.playlist_id = p.id", "song, artist", `WHERE p.id=${playlistID}`, (res) => {
             resolve(res);
         });
     },
@@ -90,8 +90,8 @@ const social = {
             resolve(res);
         });
     },
-    addSongToPlaylist: (songTitle, mbid, playlistID, resolve) => {
-        orm.insertData("playlistSongs", "song, mbid, playlist_id", `"${songTitle}", "${mbid}", "${playlistID}"`, (res) => {
+    addSongToPlaylist: (songTitle, songArtist, mbid, playlistID, resolve) => {
+        orm.insertData("playlistSongs", "song, artist, mbid, playlist_id", `"${songTitle}", "${songArtist}", "${mbid}", "${playlistID}"`, (res) => {
             resolve(res);
         });
     }
