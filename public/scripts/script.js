@@ -63,6 +63,7 @@ function submitLoginAttempt(data) {
         method: "PUT",
         success: (data) => {
             localStorage.setItem("currUser", JSON.stringify(data));
+            window.location.replace("indexlogged.html")
         }
     });
 }

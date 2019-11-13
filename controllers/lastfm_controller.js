@@ -7,11 +7,16 @@ const lastfm = new LastFM(process.env.API);
 const router = express.Router();
 
 function searchAll(query) {
-    lastfm.search({ q: query, limit: 3 }, (err, data) => {
-        if (err) console.error(err)
-        else console.log(data)
+    return new Promise(resolve => {
+        lastfm.search({ q: query, limit: 3 }, (err, data) => {
+            if (err) throw err;
+            else {
+                resolve(data);
+            }
+        })
     })
 }
+
 function searchSongTitle(trackTitle) {
     lastfm.trackSearch({ q: trackTitle }, (err, data) => {
         if (err) console.error(err)
@@ -36,8 +41,13 @@ function searchAlbum(albumName, artist) {
     })
 }
 
-router.get("/", function(req, res) {
+router.get("/", (req, res) => {
     res.sendFile("index.html")
+})
+
+router.get("/last-fm/search/:query", async (req, res) => {
+    let response = await searchAll(req.params.query);
+    console.log(response.result.top, response.result.artists, response.result.tracks, response.result.albums)
 })
 
 router.post("/api/users", (req, res) => {
