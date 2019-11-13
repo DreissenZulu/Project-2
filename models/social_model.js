@@ -41,7 +41,7 @@ const social = {
     },
     // Requires playlist_name for WHERE condition. Shows all playlists that match the given search, along with genre, likes, description, and the user who created it
     selectPlaylistByID: (playlistID, resolve) => {
-        orm.selectData("playlist p RIGHT JOIN userInfo u ON p.user_id = u.id", "playlist_name, playlist_genre, playlist_description, likes, userName", `WHERE p.id=${playlistID}`, (res) => {
+        orm.selectData("playlist p RIGHT JOIN userInfo u ON p.user_id = u.id", "p.createdAt, playlist_name, playlist_genre, playlist_description, likes, userName", `WHERE p.id=${playlistID}`, (res) => {
             resolve(res);
         });
     },
