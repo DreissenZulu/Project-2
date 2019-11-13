@@ -18,26 +18,35 @@ function searchAll(query) {
 }
 
 function searchSongTitle(trackTitle) {
-    lastfm.trackSearch({ q: trackTitle }, (err, data) => {
-        if (err) console.error(err)
-        else console.log(data)
+    return new Promise(resolve => {
+        lastfm.trackSearch({ q: trackTitle, limit: 10 }, (err, data) => {
+            if (err) throw err
+            else {
+                resolve(data);
+            }
+        })
     })
 }
 
 function searchArtist(artistName) {
-    lastfm.artistSearch({ q: artistName }, (err, data) => {
-        if (err) console.error(err)
-        else console.log(data)
+    return new Promise(resolve => {
+        lastfm.artistSearch({ q: artistName, limit: 10 }, (err, data) => {
+            if (err) throw err
+            else {
+                resolve(data);
+            }
+        })
     })
 }
 
 function searchAlbum(albumName, artist) {
-    lastfm.albumInfo({ name: albumName, artistName: artist }, (err, data) => {
-        if (err) console.error(err)
-        else {
-            console.log(data)
-            // console.log(data.result[0].images)
-        }
+    return new Promise(resolve => {
+        lastfm.albumInfo({ name: albumName, artistName: artist }, (err, data) => {
+            if (err) throw err
+            else {
+                resolve(data);
+            }
+        })
     })
 }
 
@@ -45,9 +54,19 @@ router.get("/", (req, res) => {
     res.sendFile("index.html")
 })
 
-router.get("/last-fm/search/:query", async (req, res) => {
-    let response = await searchAll(req.params.query);
-    console.log(response.result.top, response.result.artists, response.result.tracks, response.result.albums)
+router.get("/last-fm/search/:query/:type?", async (req, res) => {
+    console.log(req.params);
+    let response;
+    if (req.params.type == "artist") {
+       response = await searchArtist(req.params.query);
+       console.log(response);
+    } else if (req.params.type == "song") {
+        response = await searchSongTitle(req.params.query);
+        console.log(response);
+    } else {
+        response = await searchAll(req.params.query);
+        console.log(response.result.top, response.result.artists, response.result.tracks, response.result.albums)
+    }
 })
 
 router.post("/api/users", (req, res) => {
