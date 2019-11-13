@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 // Import the burger module to access database functions
 const social = require("../models/social_model.js");
 const LastFM = require('last-fm');
@@ -82,6 +83,14 @@ function getAlbumDetails(albumName, artist) {
         })
     })
 }
+
+router.get("/signup", (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', "signup.html"))
+})
+
+router.get("/login", (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', "login.html"))
+})
 
 router.post("/home", (req, res) => {
     console.log(req.body);
