@@ -34,7 +34,6 @@ function createPlaylist() {
         }
     ]).then(async function (response) {
         social.addNewPlaylist(response.playlistTitle, response.playlistGenre, response.playlistDescription, currUser.id, function (result) {
-            testUserOptions();
         })
     })
 }
@@ -65,7 +64,6 @@ async function devTestAddToPlaylist() {
         social.addSongToPlaylist(response.songTitle, response.mbid, playlistID, result => {
             console.log(result);
         });
-        testUserOptions();
     })
 }
 
@@ -90,7 +88,6 @@ async function commentOnSongAlbum() {
         social.addOtherComment(response.comment, currUser.id, response.mbid, result => {
             console.log(result);
         });
-        testUserOptions();
     })
 }
 
@@ -116,7 +113,6 @@ async function commentOnPlaylist() {
         social.addPlaylistComment(response.comment, currUser.id, playlistID, result => {
             console.log(result);
         });
-        testUserOptions();
     })
 }
 
@@ -132,7 +128,6 @@ async function clearToken() {
     currUser.userName = "";
     currUser.firstName = "";
     currUser.lastName = "";
-    testApp();
 };
 
 function searchPlaylistGenre() {
@@ -147,11 +142,6 @@ function searchPlaylistGenre() {
             console.log(result);
         });
         console.log(playlistSearch);
-        if (currUser.id != "") {
-            testUserOptions();
-        } else {
-            testApp();
-        }
     })
 };
 
@@ -170,86 +160,8 @@ function searchPlaylists() {
             console.log(result);
         });
         console.log(response.playlistQuery, playlistSearch, playlistSongs);
-        if (currUser.id != "") {
-            testUserOptions();
-        } else {
-            testApp();
-        }
     })
 }
-
-function testApp() {
-    inquirer.prompt([
-        {
-            name: "mainmenu",
-            type: "list",
-            message: "Choose your action",
-            choices: [
-                "Create new account",
-                "Log into account",
-                "Search for playlist",
-                "Search by genre"
-            ]
-        }
-    ]).then(choice => {
-        switch (choice.mainmenu) {
-            case "Create new account":
-                createAccount();
-                break;
-            case "Log into account":
-                loginAccount();
-                break;
-            case "Search for playlist":
-                searchPlaylists();
-                break;
-            case "Search by genre":
-                searchPlaylistGenre();
-                break;
-        }
-    })
-};
-
-function testUserOptions() {
-    inquirer.prompt([
-        {
-            name: "usermenu",
-            type: "list",
-            message: `What would you like to do, ${currUser.firstName}?`,
-            choices: [
-                "Search for playlist",
-                "Search by genre",
-                "Create playlist",
-                "Add to playlist",
-                "Comment on playlist",
-                "Log out"
-            ]
-        }
-    ]).then(choice => {
-        switch (choice.usermenu) {
-            case "Search for album":
-                searchAlbum();
-                break;
-            case "Search for playlist":
-                searchPlaylists();
-                break;
-            case "Search by genre":
-                searchPlaylistGenre();
-                break;
-            case "Create playlist":
-                createPlaylist();
-                break;
-            case "Add to playlist":
-                devTestAddToPlaylist();
-                break;
-            case "Comment on playlist":
-                commentOnPlaylist();
-                break;
-            case "Log out":
-                clearToken();
-                break;
-        }
-    })
-};
 
 // Import routes and give the server access to them.
 var routes = require("./controllers/lastfm_controller.js");
@@ -259,5 +171,3 @@ app.use(routes);
 app.listen(port, () => {
     console.log(`Now listening to port ${port}. Enjoy your stay!`);
 });
-
-testApp();
