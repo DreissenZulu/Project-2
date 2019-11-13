@@ -84,6 +84,10 @@ function getAlbumDetails(albumName, artist) {
     })
 }
 
+router.get("/dashboard", (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', "indexlogged.html"))
+})
+
 router.get("/signup", (req, res) => {
     res.sendFile(path.join(__dirname, '../public', "signup.html"))
 })
@@ -107,8 +111,8 @@ router.post("/home", (req, res) => {
 router.get("/last-fm/search/:query/:type?", async (req, res) => {
     let response;
     if (req.params.type == "artist") {
-       response = await searchArtist(req.params.query);
-       res.status(200).send(response.result);
+        response = await searchArtist(req.params.query);
+        res.status(200).send(response.result);
     } else if (req.params.type == "album") {
         response = await searchAlbum(req.params.query);
         res.status(200).send(response.result);
@@ -158,27 +162,38 @@ router.put("/api/users", (req, res) => {
         let userOnServer = allCredentials.find(obj => obj.userName === req.body.username)
         if (userOnServer != undefined) {
             console.log(`Authenticating...`);
-            setTimeout(async function () {
-                if (social.checkPass(req.body.password, userOnServer.password)) {
-                    social.userLoggedIn(userOnServer.id, () => {
-                        let currUser = {
-                            id: userOnServer.id,
-                            userName: userOnServer.userName,
-                            firstName: userOnServer.first_name,
-                            lastName: userOnServer.last_name,
-                            confirmLogin: true
-                        }
-                        res.status(200).send(currUser);
-                        console.log("Logged in successfully!");
-                    });
+            if (social.checkPass(req.body.password, userOnServer.password)) {
+                social.userLoggedIn(userOnServer.id, () => {
+                    let currUser = {
+                        id: userOnServer.id,
+                        userName: userOnServer.userName,
+                        firstName: userOnServer.first_name,
+                        lastName: userOnServer.last_name,
+                        confirmLogin: true
+                    }
+                    res.status(200).send(currUser);
+                    console.log(`Logged in successfully!`)
+                });
 
-                } else {
-                    console.log(`Invalid password!!`);
-                }
-            }, 1500);
+            } else {
+                console.log(`Invalid password!!`);
+            }
         } else {
             console.log(`Invalid username!`);
         }
+    })
+})
+
+router.put("/api/users/:id", (req, res) => {
+    social.userLoggedOut(req.params.id, () => {
+        let currUser = {
+            id: "",
+            userName: "",
+            firstName: "",
+            lastName: "",
+            confirmLogin: false
+        }
+        res.status(200).send(currUser);
     })
 })
 
