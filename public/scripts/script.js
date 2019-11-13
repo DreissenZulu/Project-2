@@ -47,9 +47,18 @@ if (mq.matches) {
 
 $(document).ready(function () {
     $("#nav-placeholder").load("nav.html");
+    checkLogin();
 });
 
 // API Calls
+function checkLogin() {
+    return $.ajax({
+        url: "/",
+        data: currUser,
+        method: "GET"
+    })
+}
+
 function suggestSearch(query, type) {
     return $.ajax({
         url: `/last-fm/search/${query}/${type}`,

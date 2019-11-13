@@ -5,6 +5,7 @@ const LastFM = require('last-fm');
 
 const lastfm = new LastFM(process.env.API);
 const router = express.Router();
+let loggedIn = false;
 
 function searchAll(query) {
     return new Promise(resolve => {
@@ -84,7 +85,13 @@ function getAlbumDetails(albumName, artist) {
 }
 
 router.get("/", (req, res) => {
-    res.sendFile("index.html")
+    console.log(req.body.confirmLogin);
+    loggedIn = req.body.confirmLogin;
+    if (loggedIn) {
+        res.sendFile("indexlogged.html")
+    } else {
+        res.sendFile("index.html")
+    }
 })
 
 router.get("/last-fm/search/:query/:type?", async (req, res) => {
@@ -148,8 +155,10 @@ router.put("/api/users", (req, res) => {
                             id: userOnServer.id,
                             userName: userOnServer.userName,
                             firstName: userOnServer.first_name,
-                            lastName: userOnServer.last_name
+                            lastName: userOnServer.last_name,
+                            confirmLogin: true
                         }
+                        loggedIn = true;
                         res.status(200).send(currUser);
                         console.log("Logged in successfully!");
                     });
