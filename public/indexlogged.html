@@ -1,27 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="./assets/css/indexlogged.css">
     <link rel="icon" type="image/png" href="assets/images/recording.png" />
     <title>Home Page</title>
 </head>
+
 <body>
-    
+
     <header id="nav-placeholder">
 
     </header>
 
     <div class="content row playlists">
-        <div class="container col-xl-2 col-lg-2 col-md-3 col-sm-12 text-center">
+        <div class="container col-xl-2 col-lg-3 col-md-3 col-sm-12 d-flex my-little-box">
 
-            <button class="btn btn-dark border-secondary" data-toggle="modal" data-target="#myModal"><img src="assets/images/plus.png"><span>Playlist</span></button>
-            
-            <div class="modal fade" id="myModal">
+            <button class="btn btn-dark border-secondary create-playlist" data-toggle="modal" data-target="#myModal"><img
+                    src="assets/images/plus.png"><span>Playlist</span>
+            </button>
+
+            <hr>
+
+            <div class="my-playlists">
+                <h3>My playlists</h3>
+                <ul class="list-group">
+                    <li class=""><a href="#">My awesome playlist</a></li>
+                    <li class=""><a href="#">My nice playlist</a></li>
+                    <li class=""><a href="#">My wonderful playlist</a></li>
+                    <li class=""><a href="#">My amazing playlist</a></li>
+                    <li class=""><a href="#">My astonishing playlist</a></li>
+                </ul>
+            </div>
+
+            <hr>
+
+            <div class="my-playlists">
+                <h3>Saved playlists</h3>
+                <ul class="list-group">
+                    <li class=""><a href="#">Alex's playlist</a></li>
+                    <li class=""><a href="#">Daniel's playlist</a></li>
+                    <li class=""><a href="#">Dave's playlist</a></li>
+                    <li class=""><a href="#">Steven's playlist</a></li>
+                    <li class=""><a href="#">Idris's playlist</a></li>
+                </ul>
+            </div>
+
+            <!-- <div class="modal fade" id="myModal">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -57,17 +87,24 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
         </div>
 
-        <div class="container col-xl-8 col-lg-9 col-md-8 col-sm-12">
+        <div class="container col-xl-9 col-lg-8 col-md-8 col-sm-12">
 
             <form>
                 <div class="form-group">
                     <input id="search-bar" placeholder="Search.." class="form-control search-input" autocomplete="off">
                 </div>
             </form>
+            
+            <div class="row">
+                <button class="btn btn-dark rounded-0 filter col-3">All</button>
+                <button class="btn btn-dark rounded-0 filter col-3">Song</button>
+                <button class="btn btn-dark rounded-0 filter col-3">Artist</button>
+                <button class="btn btn-dark rounded-0 filter col-3">Album</button>
+            </div>
 
         </div>
 
@@ -82,7 +119,8 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
-        <script src="./scripts/script.js"></script>
+    <script src="./scripts/script.js"></script>
 
 </body>
+
 </html>
