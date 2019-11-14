@@ -146,17 +146,6 @@ function submitLogOut() {
     })
 }
 
-function createPlaylist(data) {
-    return $.ajax({
-        url: "/api/playlists",
-        data: data,
-        method: "POST",
-        success: () => {
-            location.reload();
-        }
-    })
-}
-
 function addComment(data, location, id) {
     return $.ajax({
         url: `/api/comments/${location}/${id}`,
@@ -193,20 +182,6 @@ $("#attemptLogin").click(() => {
         password: $("#password").val().trim()
     }
     submitLoginAttempt(userInfo);
-})
-
-$("#playlistCreate").click(() => {
-    if (currUser.userName == "") {
-        console.log("Please log in to create a playlist.");
-        return;
-    }
-    let playlistInfo = {
-        creatorID: currUser.id,
-        playlistName: $("#newPlaylistName").val().trim(),
-        playlistDesc: $("#newPlaylistDesc").val().trim(),
-        playlistGenre: $("#newPlaylistGenre").val()
-    }
-    createPlaylist(playlistInfo);
 })
 
 $("#submitComment").click(() => {
