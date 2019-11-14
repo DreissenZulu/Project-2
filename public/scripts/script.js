@@ -49,7 +49,7 @@ $(document).ready(function () {
     $("#nav-placeholder").load("nav.html", () => {
         if (currUser.confirmLogin) {
             $("#navItems").html(`
-            <li class="nav-item"><a class="nav-link" href="/dashboard">My Page</a></li>
+            <li class="nav-item"><a class="nav-link" href="/dashboard">${currUser.firstName}'s Page</a></li>
             <li class="nav-item"><a class="nav-link" id="logOut" href="#">Log Out</a></li>
             `)
             $("#logOut").click(() => {
@@ -79,7 +79,7 @@ function populateSearchResults(lastFMResponse) {
         $("#searchResults").append(`
         <div>
             <img src="${item.images[1]}" alt="">
-            <h3>${item.name}</h3>
+            <h4>${item.name}</h4>
             <p>${item.artistName}</p>
         </div>
         `)
@@ -88,7 +88,7 @@ function populateSearchResults(lastFMResponse) {
 
 async function populateArtistResults(lastFMResponse) {
     for (item of lastFMResponse) {
-        let currArtist = item.name;
+        let currArtist = encodeURIComponent(item.name);
         let imgHTML;
         let queryURL = `https://rest.bandsintown.com/artists/${currArtist}?app_id=codingbootcamp`;
         // the callback response is technically a promise returned. Put an await before the call to use this properly
@@ -97,7 +97,7 @@ async function populateArtistResults(lastFMResponse) {
             $("#searchResults").append(`
             <div>
                 ${imgHTML}
-                <h3>${currArtist}</h3>
+                <h4>${item.name}</h4>
             </div>
             `);
         });
@@ -150,7 +150,10 @@ function createPlaylist(data) {
     return $.ajax({
         url: "/api/playlists",
         data: data,
-        method: "POST"
+        method: "POST",
+        success: () => {
+            location.reload();
+        }
     })
 }
 
@@ -199,9 +202,9 @@ $("#playlistCreate").click(() => {
     }
     let playlistInfo = {
         creatorID: currUser.id,
-        playlistName: $("#title").val().trim(),
-        playlistDesc: $("#description").val().trim(),
-        playlistGenre: $("#genre").val()
+        playlistName: $("#newPlaylistName").val().trim(),
+        playlistDesc: $("#newPlaylistDesc").val().trim(),
+        playlistGenre: $("#newPlaylistGenre").val()
     }
     createPlaylist(playlistInfo);
 })
@@ -240,16 +243,16 @@ $("#allSearch").click(async () => {
     if (results.topResult.type == "track") {
         topHTML = `
         <img src="${results.topResult.images[1]}" alt="">
-        <h3>${results.topResult.name}</h3>
+        <h4>${results.topResult.name}</h4>
         <p>${results.topResult.artistName}</p>`
     } else if (results.topResult.type == "artist") {
         topHTML = `
         <img src="${results.topResult.images[1]}" alt="">
-        <h3>${results.topResult.name}</h3>`
+        <h4>${results.topResult.name}</h4>`
     } else if (results.topResult.type == "album") {
         topHTML = `
         <img src="${item.images[1]}" alt="">
-        <h3>${item.name}</h3>
+        <h4>${item.name}</h4>
         <p>${item.artistName}</p>`
     }
 
@@ -258,6 +261,7 @@ $("#allSearch").click(async () => {
             ${topHTML}
         </div>
     `)
+    
     populateSearchResults(results.songMatch)
     populateArtistResults(results.artistMatch)
     populateSearchResults(results.albumMatch)
