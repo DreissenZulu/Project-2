@@ -23,6 +23,13 @@ const orm = {
             if (err) throw err;
             resolve(res);
         });
+    },
+    removeData: async (table, condition, resolve) => {
+        let queryString = `DELETE FROM ${table} ${condition};`;
+        await connection.query(queryString, function (err, res) {
+            if (err) throw err;
+            resolve(res);
+        });
     }
 };
 

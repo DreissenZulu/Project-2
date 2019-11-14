@@ -49,7 +49,7 @@ $(document).ready(function () {
     $("#nav-placeholder").load("nav.html", () => {
         if (currUser.confirmLogin) {
             $("#navItems").html(`
-            <li class="nav-item"><a class="nav-link" href="/dashboard">My Page</a></li>
+            <li class="nav-item"><a class="nav-link" href="/dashboard">${currUser.firstName}'s Page</a></li>
             <li class="nav-item"><a class="nav-link" id="logOut" href="#">Log Out</a></li>
             `)
             $("#logOut").click(() => {
@@ -66,28 +66,49 @@ $(document).ready(function () {
             `)
         }
         $("#logOut").click(() => {
-    console.log("Clicked!")
-    if (currUser.confirmLogin) {
-        submitLogOut();
-    }
-})
+            console.log("Clicked!")
+            if (currUser.confirmLogin) {
+                submitLogOut();
+            }
+        })
     });
 });
 
-// API Calls
-function checkLogin() {
-    if (currUser.confirmLogin) {
-
+function populateSearchResults(lastFMResponse) {
+    for (item of lastFMResponse) {
+        $("#searchResults").append(`
+        <div>
+            <img src="${item.images[1]}" alt="">
+            <h4>${item.name}</h4>
+            <p>${item.artistName}</p>
+        </div>
+        `)
     }
 }
 
-function suggestSearch(query, type) {
+async function populateArtistResults(lastFMResponse) {
+    for (item of lastFMResponse) {
+        let currArtist = encodeURIComponent(item.name);
+        let imgHTML;
+        let queryURL = `https://rest.bandsintown.com/artists/${currArtist}?app_id=codingbootcamp`;
+        // the callback response is technically a promise returned. Put an await before the call to use this properly
+        await $.get(queryURL, (response) => {
+            imgHTML = `<img src="${response.thumb_url}" style="padding-right: 20px; height: 64px;"/>`
+            $("#searchResults").append(`
+            <div>
+                ${imgHTML}
+                <h4>${item.name}</h4>
+            </div>
+            `);
+        });
+    }
+}
+
+// API Calls
+async function suggestSearch(query, type) {
     return $.ajax({
         url: `/last-fm/search/${query}/${type}`,
-        method: "GET",
-        success: (data) => {
-            console.log(data)
-        }
+        method: "GET"
     });
 }
 
@@ -129,7 +150,10 @@ function createPlaylist(data) {
     return $.ajax({
         url: "/api/playlists",
         data: data,
-        method: "POST"
+        method: "POST",
+        success: () => {
+            location.reload();
+        }
     })
 }
 
@@ -178,9 +202,9 @@ $("#playlistCreate").click(() => {
     }
     let playlistInfo = {
         creatorID: currUser.id,
-        playlistName: $("#title").val().trim(),
-        playlistDesc: $("#description").val().trim(),
-        playlistGenre: $("#genre").val()
+        playlistName: $("#newPlaylistName").val().trim(),
+        playlistDesc: $("#newPlaylistDesc").val().trim(),
+        playlistGenre: $("#newPlaylistGenre").val()
     }
     createPlaylist(playlistInfo);
 })
@@ -205,35 +229,68 @@ $("#submitComment").click(() => {
     addComment(commentInfo, commentPath, commentDestination);
 })
 
-$("#allSearch").click(() => {
+$("#allSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
-    suggestSearch(searchQuery, "");
+    let results = await suggestSearch(searchQuery, "");
+    let topHTML;
+    $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
+    if (results.topResult == null) {
+        $("#searchResults").append(`
+        <p>Nothing Found :c<p>
+    `)
+        return;
+    }
+    if (results.topResult.type == "track") {
+        topHTML = `
+        <img src="${results.topResult.images[1]}" alt="">
+        <h4>${results.topResult.name}</h4>
+        <p>${results.topResult.artistName}</p>`
+    } else if (results.topResult.type == "artist") {
+        topHTML = `
+        <img src="${results.topResult.images[1]}" alt="">
+        <h4>${results.topResult.name}</h4>`
+    } else if (results.topResult.type == "album") {
+        topHTML = `
+        <img src="${item.images[1]}" alt="">
+        <h4>${item.name}</h4>
+        <p>${item.artistName}</p>`
+    }
+
+    $("#searchResults").append(`
+        <div>
+            ${topHTML}
+        </div>
+    `)
+    
+    populateSearchResults(results.songMatch)
+    populateArtistResults(results.artistMatch)
+    populateSearchResults(results.albumMatch)
 })
 
-$("#songSearch").click(() => {
+$("#songSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
-    suggestSearch(searchQuery, "song");
+    let results = await suggestSearch(searchQuery, "song");
+    $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
+    populateSearchResults(results)
 })
 
-$("#artistSearch").click(() => {
+$("#artistSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
-    suggestSearch(searchQuery, "artist");
+    let results = await suggestSearch(searchQuery, "artist");
+    $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
+    populateArtistResults(results)
 })
 
-$("#albumSearch").click(() => {
+$("#albumSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
-    suggestSearch(searchQuery, "album");
+    let results = await suggestSearch(searchQuery, "album");
+    $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
+    populateSearchResults(results)
 })
 
 // Search function delays the query to last-fm for 0.7 seconds so a search for every new letter isn't launched
 $("#search-bar").keypress(() => {
-    clearTimeout(userTyping);
-    userTyping = setTimeout(() => {
-        let searchQuery = $("#search-bar").val().split(/:\s?/i)
-        if (searchQuery.length == 1) {
-            suggestSearch(searchQuery[0], "");
-        } else {
-            suggestSearch(searchQuery[1], searchQuery[0]);
-        }
-    }, 700);
+    if (event.which == '13') {
+        event.preventDefault();
+    }
 })

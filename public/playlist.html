@@ -43,61 +43,9 @@
                         <th scope="col"></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Bombtrack</td>
-                        <td>Rage Against the Machine</td>
-                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Boys Don't Cry</td>
-                        <td>The Cure</td>
-                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Smooth Operator</td>
-                        <td>Sade</td>
-                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">4</th>
-                        <td>Goldie</td>
-                        <td>A$AP Rocky</td>
-                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">5</th>
-                        <td>Africa</td>
-                        <td>Toto</td>
-                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">6</th>
-                        <td>Every Breath You Take</td>
-                        <td>Police</td>
-                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">7</th>
-                        <td>Wake Me Up When September Ends</td>
-                        <td>Green Day</td>
-                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">8</th>
-                        <td>Nights</td>
-                        <td>Frank Ocean</td>
-                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">9</th>
-                        <td>Buffalo Soldier</td>
-                        <td>Bob Marley</td>
-                        <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
-                    </tr>
+                <tbody id="songList">
+
+
                 </tbody>
             </table>
 
@@ -106,7 +54,7 @@
                     <div class="modal-content">
 
                         <div class="modal-body">
-                            <p>Do you really want to remove <strong> "Your Song" </strong>from your playlist ?</p>
+                            <p id="modal-playlist">Do you really want to remove <strong> "Your Song" </strong>from your playlist ?</p>
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-success rounded-0" data-dismiss="modal" id="confirm">Confirm</button>
@@ -136,7 +84,8 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
-    <script src="script.js"></script>
+    <script src="./scripts/script.js"></script>
+    <script src="./scripts/userPlaylist.js"></script>
 
 </body>
 
