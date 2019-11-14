@@ -205,13 +205,35 @@ $("#submitComment").click(() => {
 $("#allSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
     let results = await suggestSearch(searchQuery, "");
+    let topHTML;
     console.log(results)
+    $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
+    if (results.topResult.type == "track") {
+        topHTML = `
+        <img src="${results.topResult.images[1]}" alt="">
+        <h3>${results.topResult.name}</h3>
+        <p>${results.topResult.artistName}</p>`
+    } else if (results.topResult.type == "artist") {
+        topHTML = `
+        <img src="${results.topResult.images[1]}" alt="">
+        <h3>${results.topResult.name}</h3>`
+    } else if (results.topResult.type == "album") {
+        topHTML = `
+        <img src="${item.images[1]}" alt="">
+        <h3>${item.name}</h3>
+        <p>${item.artistName}</p>`
+    }
+    
+    $("#searchResults").append(`
+        <div>
+            ${topResult}
+        </div>
+    `)
 })
 
 $("#songSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
     let results = await suggestSearch(searchQuery, "song");
-    console.log(results)
     $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
     for (item of results) {
         $("#searchResults").append(`
@@ -227,7 +249,6 @@ $("#songSearch").click(async () => {
 $("#artistSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
     let results = await suggestSearch(searchQuery, "artist");
-    console.log(results)
     $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
     for (item of results) {
         $("#searchResults").append(`
@@ -242,7 +263,6 @@ $("#artistSearch").click(async () => {
 $("#albumSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
     let results = await suggestSearch(searchQuery, "album");
-    console.log(results)
     $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
     for (item of results) {
         $("#searchResults").append(`
@@ -257,6 +277,9 @@ $("#albumSearch").click(async () => {
 
 // Search function delays the query to last-fm for 0.7 seconds so a search for every new letter isn't launched
 $("#search-bar").keypress(() => {
+    if (event.which == '13') {
+        event.preventDefault();
+    }
     clearTimeout(userTyping);
     userTyping = setTimeout(() => {
         let searchQuery = $("#search-bar").val().split(/:\s?/i)
