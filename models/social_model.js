@@ -41,7 +41,7 @@ const social = {
     },
     // Requires playlist_name for WHERE condition. Shows all playlists that match the given search, along with genre, likes, description, and the user who created it
     selectPlaylistByID: (playlistID, resolve) => {
-        orm.selectData("playlist p RIGHT JOIN userInfo u ON p.user_id = u.id", "p.createdAt, playlist_name, playlist_genre, playlist_description, likes, userName", `WHERE p.id=${playlistID}`, (res) => {
+        orm.selectData("playlist p RIGHT JOIN userInfo u ON p.user_id = u.id", "p.createdAt, playlist_name, playlist_genre, playlist_description, likes, userName, p.user_id", `WHERE p.id=${playlistID}`, (res) => {
             resolve(res);
         });
     },
@@ -53,7 +53,7 @@ const social = {
     },
     // Requires playlist_name for the WHERE condition
     selectPlaylistSongs: (playlistID, resolve) => {
-        orm.selectData("playlistSongs s LEFT JOIN playlist p ON s.playlist_id = p.id", "song, artist", `WHERE p.id=${playlistID}`, (res) => {
+        orm.selectData("playlistSongs s LEFT JOIN playlist p ON s.playlist_id = p.id", "s.id, song, artist", `WHERE p.id=${playlistID}`, (res) => {
             resolve(res);
         });
     },
@@ -94,6 +94,11 @@ const social = {
         orm.insertData("playlistSongs", "song, artist, mbid, playlist_id", `"${songTitle}", "${songArtist}", "${mbid}", "${playlistID}"`, (res) => {
             resolve(res);
         });
+    },
+    removeSongInPlaylist: (songID, resolve) => {
+        orm.removeData("playlistSongs", `WHERE id=${songID}`, (res) => {
+            resolve(res);
+        })
     }
 };
 

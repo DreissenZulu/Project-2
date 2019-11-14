@@ -111,7 +111,6 @@ router.get("/playlist/:id", (req, res) => {
             res.status(200).send(allInfo);
         })
     })
-    
 })
 
 router.get("/last-fm/search/:query/:type?", async (req, res) => {
@@ -200,6 +199,12 @@ router.put("/api/users/:id", (req, res) => {
             confirmLogin: false
         }
         res.status(200).send(currUser);
+    })
+})
+
+router.delete("/api/playlists/:pID/:sID", (req, res) => {
+    social.removeSongInPlaylist(req.params.sID, () => {
+        res.status(200).send();
     })
 })
 
