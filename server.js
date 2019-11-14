@@ -10,35 +10,6 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-async function devTestAddToPlaylist() {
-    let userPlaylists = social.selectUserPlaylists(currUser.id, result => {
-        console.log(result);
-    });
-    inquirer.prompt([
-        {
-            name: "playlistName",
-            type: "list",
-            messages: "Choose playlist to add song to",
-            choices: userPlaylists.map(obj => obj.playlist_name)
-        },
-        {
-            name: "mbid",
-            type: "input",
-            message: "Enter mbid of song"
-        },
-        {
-            name: "songTitle",
-            type: "input",
-            message: "Enter song title"
-        }
-    ]).then(async function (response) {
-        let playlistID = userPlaylists.find(obj => obj.playlist_name === response.playlistName).id;
-        social.addSongToPlaylist(response.songTitle, response.mbid, playlistID, result => {
-            console.log(result);
-        });
-    })
-}
-
 function searchPlaylistGenre() {
     inquirer.prompt([
         {
