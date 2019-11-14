@@ -10,20 +10,63 @@ function populatePlaylist(id) {
             $(".genre").first().text(data.playlist[0].playlist_genre);
             $(".create-date").first().text(dateCreated);
             $(".playlist-description").first().text(data.playlist[0].playlist_description);
-            for(song of data.songs) {
-                listNum++;
-                $("#songList").append(`
-                    <tr>
-                    <th scope="row">${listNum}</th>
-                    <td>${song.song}</td>
-                    <td>${song.artist}</td>
-                    <td align="center"><a href="#" data-toggle="modal" data-target="#myModal"><img src="assets/images/clear.png" class="remove"></a></td>
-                    </tr>
-                `)
+            if (currUser.id == data.playlist[0].user_id) {
+                for (song of data.songs) {
+                    listNum++;
+                    $("#songList").append(`
+                        <tr>
+                        <th scope="row">${listNum}</th>
+                        <td>${song.song}</td>
+                        <td>${song.artist}</td>
+                        <td align="center"><a href="#" id="${song.id}" class="song-remove"><img src="assets/images/clear.png" class="remove"></a></td>
+                        </tr>
+                    `)
+                }
+                // Removal function is only available to the user if they're logged in AND the playlist belongs to them
+                $(".song-remove").click((event) => {
+                    event.stopPropagation();
+                    let songText = $(event.currentTarget).parent().siblings()[1].innerText;
+                    let songID = $(event.currentTarget).attr('id');
+                    stageSong(songID, songText);
+                    $("#myModal").modal()
+                })
+            } else {
+                for (song of data.songs) {
+                    listNum++;
+                    $("#songList").append(`
+                        <tr>
+                        <th scope="row">${listNum}</th>
+                        <td>${song.song}</td>
+                        <td>${song.artist}</td>
+                        <td></td>
+                        </tr>
+                    `)
+                }
             }
         }
     });
 }
+
+function stageSong(id, title) {
+    $("#modal-playlist").html(`Do you really want to remove <strong> ${title} </strong>from your playlist ?`)
+    $("#confirm").attr('value', id);
+}
+
+function removeSong(playlistID, songID) {
+    return $.ajax({
+        url: `/api/playlists/${playlistID}/${songID}`,
+        method: "DELETE",
+        success: () => {
+            location.reload();
+        }
+    });
+}
+
+$("#confirm").click((event) => {
+    let songID = $(event.currentTarget).attr('value');
+    let playlistID = self.location.search.split(/={1}/g)[1]
+    removeSong(playlistID, songID);
+})
 
 $(document).ready(function () {
     let playlistQuery = self.location.search.split(/={1}/g)
@@ -33,30 +76,4 @@ $(document).ready(function () {
     } else {
         currUser = {};
     }
-    $("#nav-placeholder").load("nav.html", () => {
-        if (currUser.confirmLogin) {
-            $("#navItems").html(`
-            <li class="nav-item"><a class="nav-link" href="/dashboard">My Page</a></li>
-            <li class="nav-item"><a class="nav-link" id="logOut" href="#">Log Out</a></li>
-            `)
-            $("#logOut").click(() => {
-                event.stopPropagation();
-                if (currUser.confirmLogin) {
-                    submitLogOut();
-                }
-            })
-        } else {
-            $("#navItems").html(`
-            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="/signup">Sign Up</a></li>
-            <li class="nav-item"><a class="nav-link" href="/login">Log in</a></li>
-            `)
-        }
-        $("#logOut").click(() => {
-            console.log("Clicked!")
-            if (currUser.confirmLogin) {
-                submitLogOut();
-            }
-        })
-    });
 })
