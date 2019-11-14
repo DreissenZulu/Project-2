@@ -44,20 +44,6 @@ async function addToPlaylist(mbid, songTitle, playlistID) {
 
 }
 
-async function clearToken() {
-    let allCredentials = social.selectFromUsers(result => {
-        console.log(result);
-    });
-    let userOnServer = allCredentials.find(obj => obj.userName === currUser.userName)
-    social.userLoggedOut(userOnServer.id, result => {
-        console.log(result);
-    });
-    currUser.id = "";
-    currUser.userName = "";
-    currUser.firstName = "";
-    currUser.lastName = "";
-};
-
 function searchPlaylistGenre() {
     inquirer.prompt([
         {
