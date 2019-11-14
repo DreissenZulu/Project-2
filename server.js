@@ -10,7 +10,6 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
 async function devTestAddToPlaylist() {
     let userPlaylists = social.selectUserPlaylists(currUser.id, result => {
         console.log(result);
@@ -38,10 +37,6 @@ async function devTestAddToPlaylist() {
             console.log(result);
         });
     })
-}
-
-async function addToPlaylist(mbid, songTitle, playlistID) {
-
 }
 
 function searchPlaylistGenre() {
