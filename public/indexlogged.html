@@ -17,10 +17,12 @@
     </header>
 
     <div class="content row playlists">
-        <div class="container col-xl-2 col-lg-2 col-md-3 col-sm-12 text-center">
+        <div class="container col-xl-2 col-lg-2 col-md-3 col-sm-12 text-center" style="padding: 20px;">
 
             <button class="btn btn-dark border-secondary" data-toggle="modal" data-target="#myModal"><img src="assets/images/plus.png"><span>Playlist</span></button>
             
+            <div id="myPlaylists"></div>
+
             <div class="modal fade" id="myModal">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -83,6 +85,7 @@
         crossorigin="anonymous"></script>
 
         <script src="./scripts/script.js"></script>
+        <script src="./scripts/dashboard.js"></script>
 
 </body>
 </html>
