@@ -71,9 +71,4 @@ $("#confirm").click((event) => {
 $(document).ready(function () {
     let playlistQuery = self.location.search.split(/={1}/g)
     populatePlaylist(playlistQuery[1]);
-    if (localStorage.getItem("currUser")) {
-        currUser = JSON.parse(localStorage.getItem("currUser"))
-    } else {
-        currUser = {};
-    }
 })
