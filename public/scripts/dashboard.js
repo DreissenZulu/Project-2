@@ -5,7 +5,7 @@ function getMyPlaylists(id) {
         success: (playlists) => {
             for (list of playlists) {
                 $("#myPlaylists").append(`
-                    <li><a class="nav-link" href="/playlist?=${list.id}">${list.playlist_name}</a></li>
+                    <li class=""><a href="/playlist?=${list.id}">${list.playlist_name}</a></li>
                 `)
             }
         }
