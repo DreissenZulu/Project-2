@@ -74,13 +74,37 @@ $(document).ready(function () {
     });
 });
 
-// API Calls
-function checkLogin() {
-    if (currUser.confirmLogin) {
-
+function populateSearchResults(lastFMResponse) {
+    for (item of lastFMResponse) {
+        $("#searchResults").append(`
+        <div>
+            <img src="${item.images[1]}" alt="">
+            <h3>${item.name}</h3>
+            <p>${item.artistName}</p>
+        </div>
+        `)
     }
 }
 
+async function populateArtistResults(lastFMResponse) {
+    for (item of lastFMResponse) {
+        let currArtist = item.name;
+        let imgHTML;
+        let queryURL = `https://rest.bandsintown.com/artists/${currArtist}?app_id=codingbootcamp`;
+        // the callback response is technically a promise returned. Put an await before the call to use this properly
+        await $.get(queryURL, (response) => {
+            imgHTML = `<img src="${response.thumb_url}" style="padding-right: 20px; height: 64px;"/>`
+            $("#searchResults").append(`
+            <div>
+                ${imgHTML}
+                <h3>${currArtist}</h3>
+            </div>
+            `);
+        });
+    }
+}
+
+// API Calls
 async function suggestSearch(query, type) {
     return $.ajax({
         url: `/last-fm/search/${query}/${type}`,
@@ -206,8 +230,13 @@ $("#allSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
     let results = await suggestSearch(searchQuery, "");
     let topHTML;
-    console.log(results)
     $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
+    if (results.topResult == null) {
+        $("#searchResults").append(`
+        <p>Nothing Found :c<p>
+    `)
+        return;
+    }
     if (results.topResult.type == "track") {
         topHTML = `
         <img src="${results.topResult.images[1]}" alt="">
@@ -223,56 +252,36 @@ $("#allSearch").click(async () => {
         <h3>${item.name}</h3>
         <p>${item.artistName}</p>`
     }
-    
+
     $("#searchResults").append(`
         <div>
-            ${topResult}
+            ${topHTML}
         </div>
     `)
+    populateSearchResults(results.songMatch)
+    populateArtistResults(results.artistMatch)
+    populateSearchResults(results.albumMatch)
 })
 
 $("#songSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
     let results = await suggestSearch(searchQuery, "song");
     $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
-    for (item of results) {
-        $("#searchResults").append(`
-        <div>
-            <img src="${item.images[1]}" alt="">
-            <h3>${item.name}</h3>
-            <p>${item.artistName}</p>
-        </div>
-        `)
-    }
+    populateSearchResults(results)
 })
 
 $("#artistSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
     let results = await suggestSearch(searchQuery, "artist");
     $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
-    for (item of results) {
-        $("#searchResults").append(`
-        <div>
-            <img src="${item.images[1]}" alt="">
-            <h3>${item.name}</h3>
-        </div>
-        `)
-    }
+    populateArtistResults(results)
 })
 
 $("#albumSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
     let results = await suggestSearch(searchQuery, "album");
     $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
-    for (item of results) {
-        $("#searchResults").append(`
-        <div>
-            <img src="${item.images[1]}" alt="">
-            <h3>${item.name}</h3>
-            <p>${item.artistName}</p>
-        </div>
-        `)
-    }
+    populateSearchResults(results)
 })
 
 // Search function delays the query to last-fm for 0.7 seconds so a search for every new letter isn't launched
@@ -280,13 +289,4 @@ $("#search-bar").keypress(() => {
     if (event.which == '13') {
         event.preventDefault();
     }
-    clearTimeout(userTyping);
-    userTyping = setTimeout(() => {
-        let searchQuery = $("#search-bar").val().split(/:\s?/i)
-        if (searchQuery.length == 1) {
-            suggestSearch(searchQuery[0], "");
-        } else {
-            suggestSearch(searchQuery[1], searchQuery[0]);
-        }
-    }, 700);
 })
