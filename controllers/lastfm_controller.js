@@ -73,17 +73,6 @@ function searchAlbum(albumName) {
     })
 }
 
-function getAlbumDetails(albumName, artist) {
-    return new Promise(resolve => {
-        lastfm.albumInfo({ name: albumName, artistName: artist }, (err, data) => {
-            if (err) throw err
-            else {
-                resolve(data);
-            }
-        })
-    })
-}
-
 router.get("/dashboard", (req, res) => {
     res.sendFile(path.join(__dirname, '../public', "indexlogged.html"))
 })
@@ -147,7 +136,7 @@ router.get("/last-fm/search/:query/:type?", async (req, res) => {
 })
 
 router.get("/lastfm/:artist/:album", async (req, res) => {
-    response = await getAlbumDetails(req.params.album, req.params.artist)
+    response = await social.getAlbumInfo(req.params.artist, req.params.album)
     res.status(200).send(response)
 })
 
@@ -159,6 +148,12 @@ router.post("/api/users", (req, res) => {
 
 router.post("/api/playlists", (req, res) => {
     social.addNewPlaylist(req.body.playlistName, req.body.playlistGenre, req.body.playlistDesc, req.body.creatorID, () => {
+        res.status(200).send();
+    })
+})
+
+router.post("/api/playlists/:pID", (req, res) => {
+    social.addSongToPlaylist(req.body.songTitle, req.body.mbid, req.params.pID, () => {
         res.status(200).send();
     })
 })
