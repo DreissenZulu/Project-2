@@ -81,13 +81,10 @@ function checkLogin() {
     }
 }
 
-function suggestSearch(query, type) {
+async function suggestSearch(query, type) {
     return $.ajax({
         url: `/last-fm/search/${query}/${type}`,
-        method: "GET",
-        success: (data) => {
-            console.log(data)
-        }
+        method: "GET"
     });
 }
 
@@ -205,24 +202,57 @@ $("#submitComment").click(() => {
     addComment(commentInfo, commentPath, commentDestination);
 })
 
-$("#allSearch").click(() => {
+$("#allSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
-    suggestSearch(searchQuery, "");
+    let results = await suggestSearch(searchQuery, "");
+    console.log(results)
 })
 
-$("#songSearch").click(() => {
+$("#songSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
-    suggestSearch(searchQuery, "song");
+    let results = await suggestSearch(searchQuery, "song");
+    console.log(results)
+    $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
+    for (item of results) {
+        $("#searchResults").append(`
+        <div>
+            <img src="${item.images[1]}" alt="">
+            <h3>${item.name}</h3>
+            <p>${item.artistName}</p>
+        </div>
+        `)
+    }
 })
 
-$("#artistSearch").click(() => {
+$("#artistSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
-    suggestSearch(searchQuery, "artist");
+    let results = await suggestSearch(searchQuery, "artist");
+    console.log(results)
+    $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
+    for (item of results) {
+        $("#searchResults").append(`
+        <div>
+            <img src="${item.images[1]}" alt="">
+            <h3>${item.name}</h3>
+        </div>
+        `)
+    }
 })
 
-$("#albumSearch").click(() => {
+$("#albumSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
-    suggestSearch(searchQuery, "album");
+    let results = await suggestSearch(searchQuery, "album");
+    console.log(results)
+    $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
+    for (item of results) {
+        $("#searchResults").append(`
+        <div>
+            <img src="${item.images[1]}" alt="">
+            <h3>${item.name}</h3>
+            <p>${item.artistName}</p>
+        </div>
+        `)
+    }
 })
 
 // Search function delays the query to last-fm for 0.7 seconds so a search for every new letter isn't launched
