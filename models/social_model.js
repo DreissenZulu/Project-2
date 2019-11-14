@@ -1,6 +1,7 @@
 require('dotenv').config({path: __dirname + '/.env'})
 // Import the ORM to create functions that will interact with the database.
 const orm = require("../config/orm.js");
+const axios = require("axios");
 const crypto = require('crypto');
 
 function encrypt(text) {
@@ -99,6 +100,13 @@ const social = {
         orm.removeData("playlistSongs", `WHERE id=${songID}`, (res) => {
             resolve(res);
         })
+    },
+    getAlbumInfo: async (artist, album) => {
+        let response = await axios({
+            url: `http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=${process.env.API}&artist=${artist}&album=${album}&format=json`,
+            method: 'get'
+        })
+        return response.data;
     }
 };
 
