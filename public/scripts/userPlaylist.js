@@ -63,7 +63,6 @@ function userLoggedPage(songInfo) {
     })
 }
 
-
 function visitorPage(songInfo) {
     let listNum = 0;
     for (song of songInfo) {
@@ -136,8 +135,9 @@ function checkIfFav(id) {
             let playlistCheck = playlists.find(obj => obj.id == playlistQuery[1])
             if (playlistCheck != undefined && playlistCheck.fav_status) {
                 $(".playlist-name").first().prepend(`<input type="checkbox" id="favourite-toggle" checked></input>`)
-            } else if (playlistCheck != undefined) {
-                addNewFavourite(playlistQuery[1], currUser.id)
+            } else if (playlistCheck == undefined) {
+                addNewFavourite(playlistQuery[1], currUser.id);
+                $(".playlist-name").first().prepend(`<input type="checkbox" id="favourite-toggle"></input>`)
             } else {    
                 $(".playlist-name").first().prepend(`<input type="checkbox" id="favourite-toggle"></input>`)
             }
@@ -167,7 +167,7 @@ function addNewFavourite(playlistID, userID) {
 
 function addToFavourites(playlistID, userID) {
     return $.ajax({
-        url: `/api/playlists/true`,
+        url: `/api/playlists/1`,
         method: "PUT",
         data: {
             user: userID,
@@ -178,7 +178,7 @@ function addToFavourites(playlistID, userID) {
 
 function removeFromFavourites(playlistID, userID) {
     return $.ajax({
-        url: `/api/playlists/false`,
+        url: `/api/playlists/0`,
         method: "PUT",
         data: {
             user: userID,
