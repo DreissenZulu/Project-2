@@ -87,6 +87,18 @@ function populateSearchResults(lastFMResponse) {
     }
 }
 
+function populateAlbumResults(lastFMResponse) {
+    for (item of lastFMResponse) {
+        $("#searchResults").append(`
+        <div>
+            <img src="${item.images[1]}" alt="">
+            <a href="/album?=${item.artistName}?=${item.name}"><h4>${item.name}</h4></a>
+            <p>${item.artistName}</p>
+        </div>
+        `)
+    }
+}
+
 async function populateArtistResults(lastFMResponse) {
     for (item of lastFMResponse) {
         let currArtist = encodeURIComponent(item.name);
@@ -240,7 +252,7 @@ $("#allSearch").click(async () => {
     
     populateSearchResults(results.songMatch)
     populateArtistResults(results.artistMatch)
-    populateSearchResults(results.albumMatch)
+    populateAlbumResults(results.albumMatch)
 })
 
 $("#songSearch").click(async () => {
@@ -261,7 +273,7 @@ $("#albumSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
     let results = await suggestSearch(searchQuery, "album");
     $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
-    populateSearchResults(results)
+    populateAlbumResults(results)
 })
 
 // Search function delays the query to last-fm for 0.7 seconds so a search for every new letter isn't launched
