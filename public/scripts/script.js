@@ -294,3 +294,19 @@ $("#search-bar").keypress(() => {
         event.preventDefault();
     }
 })
+
+$(".show").click(function () {
+    if ($("#show-content").hasClass("hide")) {
+        $("#show-content").slideToggle(500);
+        $("#show-content").removeClass('hide');
+        $("#show-content").addClass('show');
+        $(".arrow").attr('src', './assets/images/up-arrow.png');
+    } else {
+        $("#show-content").slideToggle(500, function() {
+            $("#show-content").removeClass('show');
+            $("#show-content").addClass('hide');
+            $(".arrow").attr('src', './assets/images/down-arrow.png');
+        });
+    }
+});
+

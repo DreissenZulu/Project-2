@@ -18,9 +18,10 @@
 
     </header>
 
-    <div class="content row playlists">
-        <div class="container col-xl-2 col-lg-3 col-md-3 col-sm-12 d-flex my-little-box">
+    <button class="btn show hidden">YOUR LIBRARY<img src="./assets/images/down-arrow.png" class="arrow"></button>
 
+    <div class="content row playlists">
+        <div id="show-content" class="container hide col-xl-2 col-lg-3 col-md-3 col-sm-11 a-flex my-little-box">
             <button class="btn btn-dark border-secondary create-playlist" data-toggle="modal" data-target="#myModal"><img
                     src="assets/images/plus.png"><span>Playlist</span>
             </button>
@@ -43,6 +44,7 @@
             <div class="my-playlists">
                 <h3>Saved playlists</h3>
                 <ul class="list-group">
+                    <li class=""><a href="#">Sarah's playlist</a></li>
                     <li class=""><a href="#">Alex's playlist</a></li>
                     <li class=""><a href="#">Daniel's playlist</a></li>
                     <li class=""><a href="#">Dave's playlist</a></li>
@@ -51,7 +53,7 @@
                 </ul>
             </div>
 
-            <!-- <div class="modal fade" id="myModal">
+            <div class="modal fade" id="myModal">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -82,16 +84,15 @@
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-success" id="playlistCreate">Create</button>
-                            <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-success rounded-0" id="playlistCreate">Create</button>
+                            <button class="btn btn-danger rounded-0" data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
                 </div>
-            </div> -->
-
+            </div>
         </div>
 
-        <div class="container col-xl-9 col-lg-8 col-md-8 col-sm-12">
+        <div class="container col-xl-9 col-lg-8 col-md-8 col-sm-11 search">
 
             <form>
                 <div class="form-group">

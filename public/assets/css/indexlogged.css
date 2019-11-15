@@ -2,8 +2,7 @@ html::-webkit-scrollbar { width: 0 !important }
 
 
 body {
-    background-image: url(../images/background.jpg);
-    background-size: auto;
+    background-color: rgb(35, 35, 35);
     font-family: 'Roboto', sans-serif;
 }
 
@@ -26,12 +25,13 @@ body {
     text-align: center;
     background-color: rgba(51,57,64, 0);
     border-top: 0px;
+    border-bottom: 2px white solid;
     border-right: 0px;
     border-left: 0px;
     border-radius: 0%;
     width: 100px;
-    -webkit-transition: width 0.6s ease-in-out;
-    transition: width 0.6s ease-in-out;
+    -webkit-transition: width 0.9s ease-in-out;
+    transition: width 0.9s ease-in-out;
 }
 
 #search-bar {
@@ -73,13 +73,16 @@ textarea {
     margin: 0 auto;
 }
 
+
+
 button img {
-    width: 30px;
+    width: 25px;
     float: left;
-    margin-right: 5px;
+    margin-right: 10px;
 }
 
 button span {
+    letter-spacing: 2px;
     font-size: 22px;
 }
 
@@ -87,6 +90,7 @@ button span {
 .filter {
     font-size: 16px;
     padding: 12px 0px;
+    font-weight: 700;
 }
 
 button:focus, button:active {
@@ -118,20 +122,24 @@ input, input:focus, textarea, textarea:focus, select, select:focus {
     box-shadow: none!important;
 }
 
-.create-playlist {
+.create-playlist, .create-playlist:hover, .create-playlist:focus {
     border: none;
     background: none;
     display: flex;
     align-items: center;
-    padding-bottom: 20px;
+    background-color: transparent;
+
 }
 
 .my-playlists h3{
-    font-size: 1.5rem;
+    letter-spacing: 2px;
+    font-size: 1.2rem;
     text-align: center;
+    font-weight: 700;
 }
 
 ul li {
+    font-size: 1rem;
     list-style-type: none;
     padding: 5px 0px;
 }
@@ -149,7 +157,7 @@ ul li a:hover {
 .my-little-box {
     flex-direction: column;
     align-items: center;
-    padding: 50px 20px;
+    padding: 20px 20px;
 }
 
 hr {
@@ -157,10 +165,77 @@ hr {
     width: 80%;
 }
 
+.a-flex {
+    display: flex;
+}
+
+.hidden {
+    display: none;
+}
+
+@media only screen and (max-width: 769px) { 
+    
+.hide {
+    display: none;
+}
+
+hr {
+    width: 50%;
+}
+
+.hidden, .hidden:active, .hidden:focus, .hidden:hover {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0 auto;
+    color: white;
+    box-shadow: none;
+    background-color: transparent;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+.arrow {
+    width: 20px;
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.row {
+    margin: 0;
+}
+
+.show {
+    display: flex !important;
+    align-items: center;
+}
+
+.playlists {
+    height: 0;
+    padding-bottom: 0;
+}
+
+.search {
+    padding-top: 12px;
+}
+
+.my-little-box {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.content {
+    padding-top: 0px;
+}
+
+}
+
 @media only screen and (max-width: 480px) { 
 
 .filter {
     font-size: 13px;
 }
+
 
 }
