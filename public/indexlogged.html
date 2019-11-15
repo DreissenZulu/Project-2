@@ -21,8 +21,8 @@
     <div class="content row playlists">
         <div class="container col-xl-2 col-lg-3 col-md-3 col-sm-12 d-flex my-little-box">
 
-            <button class="btn btn-dark border-secondary create-playlist" data-toggle="modal" data-target="#myModal"><img
-                    src="assets/images/plus.png"><span>Playlist</span>
+            <button class="btn btn-dark border-secondary create-playlist" data-toggle="modal"
+                data-target="#myModal"><img src="assets/images/plus.png"><span>Playlist</span>
             </button>
 
             <hr>
@@ -30,7 +30,7 @@
             <div class="my-playlists">
                 <h3>My playlists</h3>
                 <ul class="list-group" id="myPlaylists">
-                    
+
                 </ul>
             </div>
 
@@ -94,14 +94,16 @@
                     <input id="search-bar" placeholder="Search.." class="form-control search-input" autocomplete="off">
                 </div>
             </form>
-            
-            <div class="row">
-                <button class="btn btn-dark rounded-0 filter col-3">All</button>
-                <button class="btn btn-dark rounded-0 filter col-3">Song</button>
-                <button class="btn btn-dark rounded-0 filter col-3">Artist</button>
-                <button class="btn btn-dark rounded-0 filter col-3">Album</button>
-            </div>
 
+            <div class="row">
+                <button class="btn btn-dark rounded-0 filter col-3" id="allSearch">All</button>
+                <button class="btn btn-dark rounded-0 filter col-3" id="songSearch">Song</button>
+                <button class="btn btn-dark rounded-0 filter col-3" id="artistSearch">Artist</button>
+                <button class="btn btn-dark rounded-0 filter col-3" id="albumSearch">Album</button>
+            </div>
+            <div id="searchResults">
+
+            </div>
         </div>
 
     </div>
