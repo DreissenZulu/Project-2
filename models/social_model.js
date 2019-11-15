@@ -42,9 +42,14 @@ const social = {
     },
     // Gets the playlists the user likes
     selectFavouritePlaylists: (userID, resolve) => {
-        orm.selectData("playlist p RIGHT JOIN favPlaylists f ON p.id = f.playlist_id", "p.id, playlist_name", `WHERE user_id=${userID}`, (res) => {
+        orm.selectData("playlist p RIGHT JOIN favPlaylists f ON p.id = f.playlist_id", "p.id, playlist_name, fav_status", `WHERE likedByID=${userID}`, (res) => {
             resolve(res);
         });
+    },
+    updateFavStatus: (userID, playlistID, updateVal, resolve) => {
+        orm.updateData("favPlaylists", `fav_status=${updateVal}`, `likedByID=${userID} AND playlist_id=${playlistID}`, (res) => {
+            resolve(res);
+        })
     },
     // Requires playlist_name for WHERE condition. Shows all playlists that match the given search, along with genre, likes, description, and the user who created it
     selectPlaylistByID: (playlistID, resolve) => {
@@ -97,7 +102,7 @@ const social = {
             resolve(res);
         });
     },
-    addFavouritePlaylist: (playlistID, userID, resolve) => {
+    addFavouritePlaylist: (userID, playlistID, resolve) => {
         orm.insertData("favPlaylists", "likedByID, playlist_id", `"${userID}", "${playlistID}"`, (res) => {
             resolve(res);
         })
