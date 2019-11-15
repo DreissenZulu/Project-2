@@ -145,6 +145,31 @@ ul .btn {
 
 .modal-header h1 {
     margin: 0 auto;
+    color: white;
+}
+
+.modal-backdrop.show {
+    opacity: 0.9;
+}
+
+.modal .list-group-item {
+    letter-spacing: 1px;
+}
+
+.modal .list-group-item:hover, .modal .list-group-item:focus  {
+    background-color: rgba(51,57,64, 0.6);
+    color: white;
+    letter-spacing: 1px;
+}
+
+p a {
+    color: grey;
+    font-weight: 700;
+}
+
+p a:hover {
+    text-decoration: underline;
+    color: grey;
 }
 
 @media only screen and (max-width: 1200px) { 
