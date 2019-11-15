@@ -40,6 +40,12 @@ const social = {
             resolve(res);
         });
     },
+    // Gets the playlists the user likes
+    selectFavouritePlaylists: (userID, resolve) => {
+        orm.selectData("playlist p RIGHT JOIN favPlaylists f ON p.id = f.playlist_id", "p.id, playlist_name", `WHERE user_id=${userID}`, (res) => {
+            resolve(res);
+        });
+    },
     // Requires playlist_name for WHERE condition. Shows all playlists that match the given search, along with genre, likes, description, and the user who created it
     selectPlaylistByID: (playlistID, resolve) => {
         orm.selectData("playlist p RIGHT JOIN userInfo u ON p.user_id = u.id", "p.createdAt, playlist_name, playlist_genre, playlist_description, likes, userName, p.user_id", `WHERE p.id=${playlistID}`, (res) => {
@@ -91,6 +97,11 @@ const social = {
             resolve(res);
         });
     },
+    addFavouritePlaylist: (playlistID, userID, resolve) => {
+        orm.insertData("favPlaylists", "likedByID, playlist_id", `"${userID}", "${playlistID}"`, (res) => {
+            resolve(res);
+        })
+    },
     addSongToPlaylist: (songTitle, songArtist, playlistID, resolve) => {
         orm.insertData("playlistSongs", "song, artist, playlist_id", `"${songTitle}", "${songArtist}", "${playlistID}"`, (res) => {
             resolve(res);
@@ -98,6 +109,11 @@ const social = {
     },
     removeSongInPlaylist: (songID, resolve) => {
         orm.removeData("playlistSongs", `WHERE id=${songID}`, (res) => {
+            resolve(res);
+        })
+    },
+    removeFavouritePlaylist: (playlistID, userID, resolve) => {
+        orm.removeData("favPlaylists", `WHERE likedByID=${userID} AND playlist_id${playlistID}`, (res) => {
             resolve(res);
         })
     },
