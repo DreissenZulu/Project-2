@@ -56,8 +56,11 @@ function removeSong(playlistID, songID) {
     return $.ajax({
         url: `/api/playlists/${playlistID}/${songID}`,
         method: "DELETE",
+        data: currUser,
         success: () => {
-            location.reload();
+            $("#songList").html("");
+            let playlistQuery = self.location.search.split(/={1}/g)
+            populatePlaylist(playlistQuery[1]);
         }
     });
 }

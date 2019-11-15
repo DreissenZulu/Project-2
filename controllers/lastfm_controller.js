@@ -100,7 +100,7 @@ router.get("/playlist/:id", (req, res) => {
         playlistInfo = await result;
         social.selectPlaylistSongs(req.params.id, async (list) => {
             playlistSongs = await list;
-            let allInfo = {playlist: playlistInfo, songs: playlistSongs};
+            let allInfo = { playlist: playlistInfo, songs: playlistSongs };
             res.status(200).send(allInfo);
         })
     })
@@ -212,9 +212,13 @@ router.put("/api/users/:id", (req, res) => {
     })
 })
 
-router.delete("/api/playlists/:pID/:sID", (req, res) => {
-    social.removeSongInPlaylist(req.params.sID, () => {
-        res.status(200).send();
+router.delete("/api/playlists/:pID/:sID", async (req, res) => {
+    social.selectPlaylistByID(req.params.pID, async (result) => {
+        if (result[0].user_id == req.body.id) {
+            social.removeSongInPlaylist(req.params.sID, () => {
+                res.status(200).send();
+            })
+        }
     })
 })
 
