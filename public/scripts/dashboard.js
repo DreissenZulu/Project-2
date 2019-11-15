@@ -12,6 +12,21 @@ function getMyPlaylists(id) {
     })
 }
 
+function getFavPlaylists(id) {
+    return $.ajax({
+        url: `/playlists/fav/${id}`,
+        method: "GET",
+        success: (playlists) => {
+            $("#favPlaylists").html("");
+            for (list of playlists) {
+                $("#favPlaylists").append(`
+                    <li class=""><a href="/playlist?=${list.id}">${list.playlist_name}</a></li>
+                `)
+            }
+        }
+    })
+}
+
 function createPlaylist(data) {
     return $.ajax({
         url: "/api/playlists",
@@ -39,4 +54,5 @@ $("#playlistCreate").click(() => {
 
 $(document).ready(function () {
     getMyPlaylists(currUser.id);
+    getFavPlaylists(currUser.id);
 })
