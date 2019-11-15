@@ -4,18 +4,16 @@ CREATE DATABASE socialAppDB;
 
 USE socialAppDB;
 
--- 64 character password to accomodate password encryption
 CREATE TABLE userInfo (
 	id INT auto_increment PRIMARY KEY,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     userName VARCHAR(30) NOT NULL,
-    password VARCHAR(64) NOT NULL,
+    password VARCHAR(200) NOT NULL,
     first_name varchar(30) NOT NULL,
     last_name varchar(30),
-    logged_in BOOLEAN NOT NULL default false
+    logged_in varchar(10) NOT NULL default false
 );
 
--- mbid refers to a song or album the comment is associated with, pulled from the last fm API
 create table otherComments (
 	id int auto_increment primary key,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -39,6 +37,7 @@ create table playlist (
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     playlist_name varchar(30) not null,
     playlist_genre varchar(30) not null,
+    playlist_description varchar(300) default 'No description',
     likes int default 0 not null,
     user_id int not null
 );
@@ -48,5 +47,6 @@ create table playlistSongs (
     id int auto_increment primary key,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     song varchar(30) not null,
+    artist varchar(30) not null,
     playlist_id int not null
 );
