@@ -26,11 +26,10 @@ async function getAlbumInfo(artist, album) {
             let trackMinutes = Math.floor(track.duration / 60);
             let trackSeconds = String(track.duration % 60).padStart(2, '0');
             currTrack++;
-
             $("#albumSongs").append(`
                 <tr>
                 <th scope="row">${currTrack}</th>
-                <td>${track.name}</td>
+                <td><a href="/track?=${albumInfo.artist}?=${track.name}">${track.name}</a></td>
                 <td>${trackMinutes}:${trackSeconds}</td>
                 <td align="center"><a href="#" class="add-song"><img src="assets/images/add.png" class="add"></a></td>
                 </tr>
@@ -79,6 +78,6 @@ function addSong(playlistID, songInfo) {
 
 $(document).ready(() => {
     let albumQuery = self.location.search.split(/\?=/g)
-    getAlbumInfo(albumQuery[1], albumQuery[2]);
+    getAlbumInfo(decodeURIComponent(albumQuery[1]), decodeURIComponent(albumQuery[2]));
     getMyPlaylists(currUser.id);
 })
