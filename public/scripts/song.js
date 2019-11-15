@@ -6,7 +6,7 @@ async function getSongInfo(artist, track) {
         method: "GET"
     }).then((response) => {
         let trackInfo = response.track;
-        let trackImage = trackInfo.album.image[3];
+        let trackImage = trackInfo.album ? trackInfo.album.image[3] : "No Image";
         let trackGenre = trackInfo.toptags.tag[0].name == 'albums I own' ? trackInfo.toptags.tag[1].name : trackInfo.toptags.tag[0].name;
         let trackPublished = trackInfo.wiki ? trackInfo.wiki.published.split(",")[0] : "Unknown";
         let trackSummary = trackInfo.wiki ? trackInfo.wiki.summary : "No summary available.";
