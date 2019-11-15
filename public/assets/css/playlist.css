@@ -161,6 +161,10 @@ ul .btn {
     margin: 0;
 }
 
+.add {
+    width: 25px;
+}
+
 td a {
     color: white;
     font-size: 18px;
