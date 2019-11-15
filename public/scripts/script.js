@@ -75,12 +75,12 @@ $(document).ready(function () {
     });
 });
 
-function populateSearchResults(lastFMResponse) {
+function populateSongResults(lastFMResponse) {
     for (item of lastFMResponse) {
         $("#searchResults").append(`
         <div>
             <img src="${item.images[1]}" alt="">
-            <h4>${item.name}</h4>
+            <a href="/track?=${item.artistName}?=${item.name}"><h4${item.name}</h4></a>
             <p>${item.artistName}</p>
         </div>
         `)
@@ -250,7 +250,7 @@ $("#allSearch").click(async () => {
         </div>
     `)
     
-    populateSearchResults(results.songMatch)
+    populateSongResults(results.songMatch)
     populateArtistResults(results.artistMatch)
     populateAlbumResults(results.albumMatch)
 })
@@ -259,7 +259,7 @@ $("#songSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
     let results = await suggestSearch(searchQuery, "song");
     $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
-    populateSearchResults(results)
+    populateSongResults(results)
 })
 
 $("#artistSearch").click(async () => {
