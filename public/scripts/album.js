@@ -2,7 +2,7 @@ let selectSong;
 
 async function getAlbumInfo(artist, album) {
     await $.ajax({
-        url: `/lastfm/${artist}/${album}`,
+        url: `/lastfm/album/${artist}/${album}`,
         method: "GET"
     }).then((response) => {
         let albumInfo = response.album;
