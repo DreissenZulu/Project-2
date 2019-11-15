@@ -173,6 +173,12 @@ router.post("/api/playlists/:pID", (req, res) => {
     })
 })
 
+router.post("/api/playlists/fav", (req, res) => {
+    social.addFavouritePlaylist(req.body.user, req.body.playlist, () => {
+        res.status(200).send();
+    })
+})
+
 // Consolidates comment posting system to one route
 router.post("/api/comments/:location/:id", (req, res) => {
     if (req.params.location == "mbid") {
@@ -224,6 +230,12 @@ router.put("/api/users/:id", (req, res) => {
             confirmLogin: false
         }
         res.status(200).send(currUser);
+    })
+})
+
+router.put("/api/playlists/:status", (req, res) => {
+    social.updateFavStatus(req.body.user, req.body.playlist, req.params.status, () => {
+        res.status(200).send();
     })
 })
 

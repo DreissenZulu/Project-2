@@ -94,6 +94,9 @@ function visitorPage(songInfo) {
             <button class="btn btn-danger rounded-0" data-dismiss="modal">Cancel</button>
         </div>
     `)
+    if (currUser.id != "") {
+        checkIfFav(currUser.id);
+    }
     $(".add-song").click((event) => {
         event.stopPropagation();
         selectSong = {
@@ -120,6 +123,66 @@ function getMyPlaylists(id) {
                 let playlistID = $(event.currentTarget).attr('id');
                 addSong(playlistID, selectSong)
             })
+        }
+    })
+}
+
+function checkIfFav(id) {
+    return $.ajax({
+        url: `/playlists/fav/${id}`,
+        method: "GET",
+        success: (playlists) => {
+            let playlistQuery = self.location.search.split(/={1}/g)
+            let playlistCheck = playlists.find(obj => obj.id == playlistQuery[1])
+            if (playlistCheck != undefined && playlistCheck.fav_status) {
+                $(".playlist-name").first().prepend(`<input type="checkbox" id="favourite-toggle" checked></input>`)
+            } else if (playlistCheck != undefined) {
+                addNewFavourite(playlistQuery[1], currUser.id)
+            } else {    
+                $(".playlist-name").first().prepend(`<input type="checkbox" id="favourite-toggle"></input>`)
+            }
+            $("#favourite-toggle").click((event) => {
+                if (event.currentTarget.checked) {
+                    console.log("I've been enabled");
+                    addToFavourites(playlistQuery[1], currUser.id);
+                } else {
+                    console.log("I've been disabled");
+                    removeFromFavourites(playlistQuery[1], currUser.id);
+                }
+            })
+        }
+    })
+}
+
+function addNewFavourite(playlistID, userID) {
+    return $.ajax({
+        url: `/api/playlists/fav`,
+        method: "POST",
+        data: {
+            user: userID,
+            playlist: playlistID
+        }
+    })
+}
+
+function addToFavourites(playlistID, userID) {
+    return $.ajax({
+        url: `/api/playlists/true`,
+        method: "PUT",
+        data: {
+            user: userID,
+            playlist: playlistID
+        }
+    })
+}
+
+function removeFromFavourites(playlistID, userID) {
+    return $.ajax({
+        url: `/api/playlists/false`,
+        method: "PUT",
+        data: {
+            user: userID,
+            playlist: playlistID
         }
     })
 }

@@ -31,7 +31,7 @@ async function getAlbumInfo(artist, album) {
                 <th scope="row">${currTrack}</th>
                 <td class="title"><a href="/track?=${albumInfo.artist}?=${track.name}">${track.name}</a></td>
                 <td>${trackMinutes}:${trackSeconds}</td>
-                <td align="center"><a href="#"  "class="add-song"><img src="assets/images/add.png" class="add"></a></td>
+                <td align="center"><a href="#" "class="add-song"><img src="assets/images/add.png" class="add"></a></td>
                 </tr>
             `)
         }
@@ -41,6 +41,7 @@ async function getAlbumInfo(artist, album) {
                 songTitle: $(event.currentTarget).parent().parent().siblings('.title').text(),
                 artistName: $(".artist").first().text()
             }
+            console.log(selectSong)
             $("#myModal").modal()
         })
         $(".add").hover(function (event) {
