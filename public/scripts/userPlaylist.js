@@ -18,7 +18,7 @@ function populatePlaylist(id) {
                         <th scope="row">${listNum}</th>
                         <td><a href="/track?=${song.artist}?=${song.song}">${song.song}</a></td>
                         <td>${song.artist}</td>
-                        <td align="center"><a href="#" id="${song.id}" class="song-remove"><img src="assets/images/clear.png" class="remove"></a></td>
+                        <td align="center"><a href="#" id="${song.id}" class="song-remove"><img class="remove" src="assets/images/clear.png" class="remove"></a></td>
                         </tr>
                     `)
                 }
@@ -30,16 +30,21 @@ function populatePlaylist(id) {
                     stageSong(songID, songText);
                     $("#myModal").modal()
                 })
+                $(".remove").hover(function (event) {
+                    $(event.currentTarget).attr('src', 'assets/images/clear-full.png');
+                }, function () {
+                    ($(event.currentTarget).attr('src', 'assets/images/clear.png'))
+                });
             } else {
                 for (song of data.songs) {
                     listNum++;
                     $("#songList").append(`
-                        <tr>
-                        <th scope="row">${listNum}</th>
-                        <td><a href="/track?=${song.artist}?=${song.song}">${song.song}</a></td>
-                        <td>${song.artist}</td>
-                        <td></td>
-                        </tr>
+                    <tr>
+                    <th scope="row">${listNum}</th>
+                    <td><a href="/track?=${song.artist}?=${song.song}">${song.song}</a></td>
+                    <td>${song.artist}</td>
+                    <td></td>
+                    </tr>
                     `)
                 }
             }
