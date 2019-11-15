@@ -107,6 +107,13 @@ const social = {
             method: 'get'
         })
         return response.data;
+    },
+    getTrackInfo: async (artist, song) => {
+        let response = await axios({
+            url: `http://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${process.env.API}&artist=${artist}&track=${song}&format=json`,
+            method: 'get'
+        })
+        return response.data;
     }
 };
 

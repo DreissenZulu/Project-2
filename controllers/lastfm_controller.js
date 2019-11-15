@@ -89,6 +89,10 @@ router.get("/album", (req, res) => {
     res.sendFile(path.join(__dirname, '../public', "album.html"))
 })
 
+router.get("/track", (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', "song.html"))
+})
+
 router.get("/playlist", (req, res) => {
     res.sendFile(path.join(__dirname, '../public', "playlist.html"));
 })
@@ -135,8 +139,13 @@ router.get("/last-fm/search/:query/:type?", async (req, res) => {
     }
 })
 
-router.get("/lastfm/:artist/:album", async (req, res) => {
+router.get("/lastfm/album/:artist/:album", async (req, res) => {
     response = await social.getAlbumInfo(req.params.artist, req.params.album)
+    res.status(200).send(response)
+})
+
+router.get("/lastfm/song/:artist/:track", async (req, res) => {
+    response = await social.getTrackInfo(req.params.artist, req.params.track)
     res.status(200).send(response)
 })
 
