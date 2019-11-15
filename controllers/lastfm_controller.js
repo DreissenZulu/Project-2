@@ -153,7 +153,7 @@ router.post("/api/playlists", (req, res) => {
 })
 
 router.post("/api/playlists/:pID", (req, res) => {
-    social.addSongToPlaylist(req.body.songTitle, req.body.mbid, req.params.pID, () => {
+    social.addSongToPlaylist(req.body.songTitle, req.body.artistName, req.params.pID, () => {
         res.status(200).send();
     })
 })

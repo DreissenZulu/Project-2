@@ -91,8 +91,8 @@ const social = {
             resolve(res);
         });
     },
-    addSongToPlaylist: (songTitle, songArtist, mbid, playlistID, resolve) => {
-        orm.insertData("playlistSongs", "song, artist, mbid, playlist_id", `"${songTitle}", "${songArtist}", "${mbid}", "${playlistID}"`, (res) => {
+    addSongToPlaylist: (songTitle, songArtist, playlistID, resolve) => {
+        orm.insertData("playlistSongs", "song, artist, playlist_id", `"${songTitle}", "${songArtist}", "${playlistID}"`, (res) => {
             resolve(res);
         });
     },
