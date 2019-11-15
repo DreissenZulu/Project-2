@@ -16,7 +16,7 @@ function populatePlaylist(id) {
                     $("#songList").append(`
                         <tr>
                         <th scope="row">${listNum}</th>
-                        <td>${song.song}</td>
+                        <td><a href="/track?=${song.artist}?=${song.song}">${song.song}</a></td>
                         <td>${song.artist}</td>
                         <td align="center"><a href="#" id="${song.id}" class="song-remove"><img src="assets/images/clear.png" class="remove"></a></td>
                         </tr>
@@ -36,7 +36,7 @@ function populatePlaylist(id) {
                     $("#songList").append(`
                         <tr>
                         <th scope="row">${listNum}</th>
-                        <td>${song.song}</td>
+                        <td><a href="/track?=${song.artist}?=${song.song}">${song.song}</a></td>
                         <td>${song.artist}</td>
                         <td></td>
                         </tr>
