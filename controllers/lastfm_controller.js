@@ -167,14 +167,14 @@ router.post("/api/playlists", (req, res) => {
     })
 })
 
-router.post("/api/playlists/:pID", (req, res) => {
-    social.addSongToPlaylist(req.body.songTitle, req.body.artistName, req.params.pID, () => {
+router.post("/api/playlists/fav", (req, res) => {
+    social.addFavouritePlaylist(req.body.user, req.body.playlist, () => {
         res.status(200).send();
     })
 })
 
-router.post("/api/playlists/fav", (req, res) => {
-    social.addFavouritePlaylist(req.body.user, req.body.playlist, () => {
+router.post("/api/playlists/:pID", (req, res) => {
+    social.addSongToPlaylist(req.body.songTitle, req.body.artistName, req.params.pID, () => {
         res.status(200).send();
     })
 })
