@@ -31,23 +31,29 @@ textarea {
 }
 
 .playlist-name {
-    font-weight: 700;
+    letter-spacing: 2px;
+    font-weight: bolder;
 }
 
 .user-name {
     color: gray;
+    font-size: 20px;
 }
 
 .user {
     color: white;
+    font-size: 25px;
 }
 
 .create-date {
     color: gray;
+    font-size: 20px;
 }
 
 .genre {
     color: gray;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
 }
 
 .playlist-description {
@@ -129,9 +135,9 @@ ul .btn {
     margin: 0 auto;
 }
 
-.modal {
-    background-color: rgba(0, 0, 0, 0.6);
-} 
+.modal-backdrop.show {
+    opacity: 0.9;
+}
 
 .alert {
     float: right;
@@ -153,6 +159,16 @@ ul .btn {
 
 .row {
     margin: 0;
+}
+
+td a {
+    color: white;
+    font-size: 18px;
+}
+
+td a:hover {
+    color: grey;
+    text-decoration: none;
 }
 
 @media only screen and (max-width: 1200px) { 
