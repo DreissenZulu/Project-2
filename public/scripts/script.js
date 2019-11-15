@@ -78,24 +78,24 @@ $(document).ready(function () {
 function populateSongResults(lastFMResponse) {
     for (item of lastFMResponse) {
         $("#searchResults").append(`
-        <div>
-            <img src="${item.images[1]}" alt="">
+        <div class="col-4 col-md-4 col-sm-6 col-xs-6 results">
+            <img src="${item.images[3]}" alt="">
             <a href="/track?=${item.artistName}?=${item.name}"><h4>${item.name}</h4></a>
             <p>${item.artistName}</p>
         </div>
-        `)
+        `)        
     }
 }
 
 function populateAlbumResults(lastFMResponse) {
     for (item of lastFMResponse) {
         $("#searchResults").append(`
-        <div>
-            <img src="${item.images[1]}" alt="">
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 results">
+            <img src="${item.images[3]}" alt="">
             <a href="/album?=${item.artistName}?=${item.name}"><h4>${item.name}</h4></a>
             <p>${item.artistName}</p>
         </div>
-        `)
+        `)        
     }
 }
 
@@ -106,9 +106,9 @@ async function populateArtistResults(lastFMResponse) {
         let queryURL = `https://rest.bandsintown.com/artists/${currArtist}?app_id=codingbootcamp`;
         // the callback response is technically a promise returned. Put an await before the call to use this properly
         await $.get(queryURL, (response) => {
-            imgHTML = `<img src="${response.thumb_url}" style="padding-right: 20px; height: 64px;"/>`
+            imgHTML = `<img src="${response.thumb_url}"/>`
             $("#searchResults").append(`
-            <div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 results">
                 ${imgHTML}
                 <h4>${item.name}</h4>
             </div>
@@ -221,7 +221,7 @@ $("#allSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
     let results = await suggestSearch(searchQuery, "");
     let topHTML;
-    $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
+    $("#searchResults").html(``)
     if (results.topResult == null) {
         $("#searchResults").append(`
         <p>Nothing Found :c<p>
@@ -230,16 +230,16 @@ $("#allSearch").click(async () => {
     }
     if (results.topResult.type == "track") {
         topHTML = `
-        <img src="${results.topResult.images[1]}" alt="">
+        <img src="${results.topResult.images[3]}" alt="">
         <h4>${results.topResult.name}</h4>
         <p>${results.topResult.artistName}</p>`
     } else if (results.topResult.type == "artist") {
         topHTML = `
-        <img src="${results.topResult.images[1]}" alt="">
+        <img src="${results.topResult.images[3]}" alt="">
         <h4>${results.topResult.name}</h4>`
     } else if (results.topResult.type == "album") {
         topHTML = `
-        <img src="${item.images[1]}" alt="">
+        <img src="${item.images[3]}" alt="">
         <h4>${item.name}</h4>
         <p>${item.artistName}</p>`
     }
@@ -258,21 +258,21 @@ $("#allSearch").click(async () => {
 $("#songSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
     let results = await suggestSearch(searchQuery, "song");
-    $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
+    $("#searchResults").html(``)
     populateSongResults(results)
 })
 
 $("#artistSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
     let results = await suggestSearch(searchQuery, "artist");
-    $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
+    $("#searchResults").html(``)
     populateArtistResults(results)
 })
 
 $("#albumSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
     let results = await suggestSearch(searchQuery, "album");
-    $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
+    $("#searchResults").html(``)
     populateAlbumResults(results)
 })
 
