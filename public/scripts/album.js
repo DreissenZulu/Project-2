@@ -19,6 +19,7 @@ async function getAlbumInfo(artist, album) {
             <h4 class="release-date">${albumPublished}</h4>
             <p class="song-description">${albumInfo.wiki.summary}</p>
         `)
+
         for (track of Object.values(albumInfo.tracks)[0]) {
             let trackMinutes = Math.floor(track.duration / 60);
             let trackSeconds = String(track.duration % 60).padStart(2, '0');
@@ -41,6 +42,7 @@ function getMyPlaylists(id) {
         url: `/playlists/${id}`,
         method: "GET",
         success: (playlists) => {
+            $(".list-group").first().html("")
             for (list of playlists) {
                 $(".list-group").first().append(`
                 <a href="#" class="added list-group-item list-group-item-action">${list.playlist_name}</a>
