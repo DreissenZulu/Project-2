@@ -35,10 +35,10 @@ async function getAlbumInfo(artist, album) {
                 </tr>
             `)
         }
-        $(".add-song").click((event) => {
+        $(".add").click((event) => {
             event.stopPropagation();
             selectSong = {
-                songTitle: $(event.currentTarget).parent().siblings('.title').text(),
+                songTitle: $(event.currentTarget).parent().parent().siblings('.title').text(),
                 artistName: $(".artist").first().text()
             }
             $("#myModal").modal()
