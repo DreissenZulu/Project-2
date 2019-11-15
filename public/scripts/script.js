@@ -80,7 +80,7 @@ function populateSongResults(lastFMResponse) {
         $("#searchResults").append(`
         <div>
             <img src="${item.images[1]}" alt="">
-            <a href="/track?=${item.artistName}?=${item.name}"><h4${item.name}</h4></a>
+            <a href="/track?=${item.artistName}?=${item.name}"><h4>${item.name}</h4></a>
             <p>${item.artistName}</p>
         </div>
         `)
