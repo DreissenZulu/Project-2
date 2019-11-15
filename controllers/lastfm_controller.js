@@ -116,6 +116,12 @@ router.get("/playlists/:uID", (req, res) => {
     })
 })
 
+router.get("/playlists/fav/:uID", (req, res) => {
+    social.selectFavouritePlaylists(req.params.uID, (result) => {
+        res.status(200).send(result);
+    })
+})
+
 router.get("/last-fm/search/:query/:type?", async (req, res) => {
     let response;
     if (req.params.type == "artist") {
