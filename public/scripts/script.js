@@ -48,6 +48,7 @@ $(document).ready(function () {
     }
     $("#nav-placeholder").load("nav.html", () => {
         if (currUser.confirmLogin) {
+            $(".navbar-brand").first().attr("href", "/dashboard")
             $("#navItems").html(`
             <li class="nav-item"><a class="nav-link" href="/dashboard">${currUser.firstName}'s Page</a></li>
             <li class="nav-item"><a class="nav-link" id="logOut" href="#">Log Out</a></li>
