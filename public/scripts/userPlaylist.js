@@ -13,85 +13,96 @@ function populatePlaylist(id) {
             $(".create-date").first().text(dateCreated);
             $(".playlist-description").first().text(data.playlist[0].playlist_description);
             if (currUser.id == data.playlist[0].user_id) {
-                for (song of data.songs) {
-                    listNum++;
-                    $("#songList").append(`
-                        <tr>
-                        <th scope="row">${listNum}</th>
-                        <td><a href="/track?=${song.artist}?=${song.song}">${song.song}</a></td>
-                        <td>${song.artist}</td>
-                        <td align="center"><a href="#" id="${song.id}" class="song-remove"><img class="remove" src="assets/images/clear.png" class="remove"></a></td>
-                        </tr>
-                    `)
-                }
-                $(".modal-content").first().html(`
-                    <div class="modal-body">
-                    <p id="modal-playlist">Do you really want to remove <strong> "Your Song" </strong>from your playlist ?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-success rounded-0" data-dismiss="modal" id="confirm">Confirm</button>
-                        <button class="btn btn-danger rounded-0" data-dismiss="modal">Cancel</button>
-                    </div>
-                `)
-                // Removal function is only available to the user if they're logged in AND the playlist belongs to them
-                $(".song-remove").click((event) => {
-                    event.stopPropagation();
-                    let songText = $(event.currentTarget).parent().siblings()[1].innerText;
-                    let songID = $(event.currentTarget).attr('id');
-                    stageSong(songID, songText);
-                    $("#myModal").modal()
-                })
-                $(".remove").hover(function (event) {
-                    $(event.currentTarget).attr('src', 'assets/images/clear-full.png');
-                }, function () {
-                    ($(event.currentTarget).attr('src', 'assets/images/clear.png'))
-                });
-                $("#confirm").click((event) => {
-                    let songID = $(event.currentTarget).attr('value');
-                    let playlistID = self.location.search.split(/={1}/g)[1]
-                    removeSong(playlistID, songID);
-                })
+                userLoggedPage(data.songs);
             } else {
-                for (song of data.songs) {
-                    listNum++;
-                    $("#songList").append(`
-                        <tr>
-                        <th scope="row">${listNum}</th>
-                        <td class="title"><a href="/track?=${song.artist}?=${song.song}">${song.song}</a></td>
-                        <td class="artist">${song.artist}</td>
-                        <td align="center"><a href="#" class="add-song"><img src="assets/images/add.png" class="add"></a></td>
-                        </tr>
-                    `)
-                }
-                $(".modal-content").first().html(`
-                    <div class="modal-header">
-                    <h1>Add to your playlist</h1>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group">
-                                <div class="list-group">
-                                    <a href="/login" style="margin: auto;">Log in to add this song to your playlist!</a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-danger rounded-0" data-dismiss="modal">Cancel</button>
-                    </div>
-                `)
-                $(".add-song").click((event) => {
-                    event.stopPropagation();
-                    selectSong = {
-                        songTitle: $(event.currentTarget).parent().siblings('.title').text(),
-                        artistName: $(event.currentTarget).parent().siblings('.artist').text()
-                    }
-                    $("#myModal").modal()
-                })
-                getMyPlaylists(currUser.id);
+                visitorPage(data.songs);
             }
         }
     });
+}
+
+function userLoggedPage(songInfo) {
+    let listNum = 0;
+    for (song of songInfo) {
+        listNum++;
+        $("#songList").append(`
+            <tr>
+            <th scope="row">${listNum}</th>
+            <td><a href="/track?=${song.artist}?=${song.song}">${song.song}</a></td>
+            <td>${song.artist}</td>
+            <td align="center"><a href="#" id="${song.id}" class="song-remove"><img class="remove" src="assets/images/clear.png" class="remove"></a></td>
+            </tr>
+        `)
+    }
+    $(".modal-content").first().html(`
+        <div class="modal-body">
+        <p id="modal-playlist">Do you really want to remove <strong> "Your Song" </strong>from your playlist ?</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success rounded-0" data-dismiss="modal" id="confirm">Confirm</button>
+            <button class="btn btn-danger rounded-0" data-dismiss="modal">Cancel</button>
+        </div>
+    `)
+    // Removal function is only available to the user if they're logged in AND the playlist belongs to them
+    $(".song-remove").click((event) => {
+        event.stopPropagation();
+        let songText = $(event.currentTarget).parent().siblings()[1].innerText;
+        let songID = $(event.currentTarget).attr('id');
+        stageSong(songID, songText);
+        $("#myModal").modal()
+    })
+    $(".remove").hover(function (event) {
+        $(event.currentTarget).attr('src', 'assets/images/clear-full.png');
+    }, function () {
+        ($(event.currentTarget).attr('src', 'assets/images/clear.png'))
+    });
+    $("#confirm").click((event) => {
+        let songID = $(event.currentTarget).attr('value');
+        let playlistID = self.location.search.split(/={1}/g)[1]
+        removeSong(playlistID, songID);
+    })
+}
+
+
+function visitorPage(songInfo) {
+    let listNum = 0;
+    for (song of songInfo) {
+        listNum++;
+        $("#songList").append(`
+            <tr>
+            <th scope="row">${listNum}</th>
+            <td class="title"><a href="/track?=${song.artist}?=${song.song}">${song.song}</a></td>
+            <td class="artist">${song.artist}</td>
+            <td align="center"><a href="#" class="add-song"><img src="assets/images/add.png" class="add"></a></td>
+            </tr>
+        `)
+    }
+    $(".modal-content").first().html(`
+        <div class="modal-header">
+        <h1>Add to your playlist</h1>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="form-group">
+                    <div class="list-group">
+                        <a href="/login" style="margin: auto;">Log in to add this song to your playlist!</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger rounded-0" data-dismiss="modal">Cancel</button>
+        </div>
+    `)
+    $(".add-song").click((event) => {
+        event.stopPropagation();
+        selectSong = {
+            songTitle: $(event.currentTarget).parent().siblings('.title').text(),
+            artistName: $(event.currentTarget).parent().siblings('.artist').text()
+        }
+        $("#myModal").modal()
+    })
+    getMyPlaylists(currUser.id);
 }
 
 function getMyPlaylists(id) {
