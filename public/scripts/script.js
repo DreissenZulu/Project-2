@@ -298,3 +298,6 @@ $(".show").click(function () {
     }
 });
 
+$("#hover").hover( function() {
+    console.log('lourd');
+} );
