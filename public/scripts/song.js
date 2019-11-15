@@ -5,7 +5,6 @@ async function getSongInfo(artist, track) {
         url: `/lastfm/song/${artist}/${track}`,
         method: "GET"
     }).then((response) => {
-        console.log(response)
         let trackInfo = response.track;
         let trackImage = trackInfo.album.image[3];
         let trackGenre = trackInfo.toptags.tag[0].name == 'albums I own' ? trackInfo.toptags.tag[1].name : trackInfo.toptags.tag[0].name;
@@ -58,6 +57,8 @@ function addSong(playlistID, songInfo) {
 
 $(document).ready(() => {
     let trackQuery = self.location.search.split(/\?=/g)
-    getSongInfo(trackQuery[1], trackQuery[2]);
+    let titleQuery = decodeURIComponent(trackQuery[2]).split("(")[0]
+    let artistQuery = decodeURIComponent(trackQuery[1])
+    getSongInfo(artistQuery, titleQuery);
     getMyPlaylists(currUser.id);
 })
