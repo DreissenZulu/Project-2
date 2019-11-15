@@ -16,7 +16,7 @@ function populatePlaylist(id) {
                     $("#songList").append(`
                         <tr>
                         <th scope="row">${listNum}</th>
-                        <td>${song.song}</td>
+                        <td><a href="/track?=${song.artist}?=${song.song}">${song.song}</a></td>
                         <td>${song.artist}</td>
                         <td align="center"><a href="#" id="${song.id}" class="song-remove"><img src="assets/images/clear.png" class="remove"></a></td>
                         </tr>
@@ -36,7 +36,7 @@ function populatePlaylist(id) {
                     $("#songList").append(`
                         <tr>
                         <th scope="row">${listNum}</th>
-                        <td>${song.song}</td>
+                        <td><a href="/track?=${song.artist}?=${song.song}">${song.song}</a></td>
                         <td>${song.artist}</td>
                         <td></td>
                         </tr>
@@ -56,8 +56,11 @@ function removeSong(playlistID, songID) {
     return $.ajax({
         url: `/api/playlists/${playlistID}/${songID}`,
         method: "DELETE",
+        data: currUser,
         success: () => {
-            location.reload();
+            $("#songList").html("");
+            let playlistQuery = self.location.search.split(/={1}/g)
+            populatePlaylist(playlistQuery[1]);
         }
     });
 }
@@ -71,9 +74,4 @@ $("#confirm").click((event) => {
 $(document).ready(function () {
     let playlistQuery = self.location.search.split(/={1}/g)
     populatePlaylist(playlistQuery[1]);
-    if (localStorage.getItem("currUser")) {
-        currUser = JSON.parse(localStorage.getItem("currUser"))
-    } else {
-        currUser = {};
-    }
 })

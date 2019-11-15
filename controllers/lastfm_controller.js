@@ -73,17 +73,6 @@ function searchAlbum(albumName) {
     })
 }
 
-function getAlbumDetails(albumName, artist) {
-    return new Promise(resolve => {
-        lastfm.albumInfo({ name: albumName, artistName: artist }, (err, data) => {
-            if (err) throw err
-            else {
-                resolve(data);
-            }
-        })
-    })
-}
-
 router.get("/dashboard", (req, res) => {
     res.sendFile(path.join(__dirname, '../public', "indexlogged.html"))
 })
@@ -94,6 +83,14 @@ router.get("/signup", (req, res) => {
 
 router.get("/login", (req, res) => {
     res.sendFile(path.join(__dirname, '../public', "login.html"))
+})
+
+router.get("/album", (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', "album.html"))
+})
+
+router.get("/track", (req, res) => {
+    res.sendFile(path.join(__dirname, '../public', "song.html"))
 })
 
 router.get("/playlist", (req, res) => {
@@ -107,9 +104,15 @@ router.get("/playlist/:id", (req, res) => {
         playlistInfo = await result;
         social.selectPlaylistSongs(req.params.id, async (list) => {
             playlistSongs = await list;
-            let allInfo = {playlist: playlistInfo, songs: playlistSongs};
+            let allInfo = { playlist: playlistInfo, songs: playlistSongs };
             res.status(200).send(allInfo);
         })
+    })
+})
+
+router.get("/playlists/:uID", (req, res) => {
+    social.selectUserPlaylists(req.params.uID, (result) => {
+        res.status(200).send(result);
     })
 })
 
@@ -136,6 +139,16 @@ router.get("/last-fm/search/:query/:type?", async (req, res) => {
     }
 })
 
+router.get("/lastfm/album/:artist/:album", async (req, res) => {
+    response = await social.getAlbumInfo(req.params.artist, req.params.album)
+    res.status(200).send(response)
+})
+
+router.get("/lastfm/song/:artist/:track", async (req, res) => {
+    response = await social.getTrackInfo(req.params.artist, req.params.track)
+    res.status(200).send(response)
+})
+
 router.post("/api/users", (req, res) => {
     social.addNewUser(req.body.username.toLowerCase(), req.body.password, req.body.firstName, req.body.lastName, () => {
         res.status(200).send();
@@ -144,6 +157,12 @@ router.post("/api/users", (req, res) => {
 
 router.post("/api/playlists", (req, res) => {
     social.addNewPlaylist(req.body.playlistName, req.body.playlistGenre, req.body.playlistDesc, req.body.creatorID, () => {
+        res.status(200).send();
+    })
+})
+
+router.post("/api/playlists/:pID", (req, res) => {
+    social.addSongToPlaylist(req.body.songTitle, req.body.artistName, req.params.pID, () => {
         res.status(200).send();
     })
 })
@@ -202,9 +221,13 @@ router.put("/api/users/:id", (req, res) => {
     })
 })
 
-router.delete("/api/playlists/:pID/:sID", (req, res) => {
-    social.removeSongInPlaylist(req.params.sID, () => {
-        res.status(200).send();
+router.delete("/api/playlists/:pID/:sID", async (req, res) => {
+    social.selectPlaylistByID(req.params.pID, async (result) => {
+        if (result[0].user_id == req.body.id) {
+            social.removeSongInPlaylist(req.params.sID, () => {
+                res.status(200).send();
+            })
+        }
     })
 })
 

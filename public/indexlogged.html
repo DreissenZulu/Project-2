@@ -30,12 +30,8 @@
 
             <div class="my-playlists">
                 <h3>My playlists</h3>
-                <ul class="list-group">
-                    <li class=""><a href="#">My awesome playlist</a></li>
-                    <li class=""><a href="#">My nice playlist</a></li>
-                    <li class=""><a href="#">My wonderful playlist</a></li>
-                    <li class=""><a href="#">My amazing playlist</a></li>
-                    <li class=""><a href="#">My astonishing playlist</a></li>
+                <ul class="list-group" id="myPlaylists">
+
                 </ul>
             </div>
 
@@ -99,14 +95,16 @@
                     <input id="search-bar" placeholder="Search.." class="form-control search-input" autocomplete="off">
                 </div>
             </form>
-            
-            <div class="row">
-                <button class="btn btn-dark rounded-0 filter col-3">All</button>
-                <button class="btn btn-dark rounded-0 filter col-3">Song</button>
-                <button class="btn btn-dark rounded-0 filter col-3">Artist</button>
-                <button class="btn btn-dark rounded-0 filter col-3">Album</button>
-            </div>
 
+            <div class="row">
+                <button class="btn btn-dark rounded-0 filter col-3" id="allSearch">All</button>
+                <button class="btn btn-dark rounded-0 filter col-3" id="songSearch">Song</button>
+                <button class="btn btn-dark rounded-0 filter col-3" id="artistSearch">Artist</button>
+                <button class="btn btn-dark rounded-0 filter col-3" id="albumSearch">Album</button>
+            </div>
+            <div id="searchResults">
+
+            </div>
         </div>
 
     </div>
@@ -121,6 +119,7 @@
         crossorigin="anonymous"></script>
 
     <script src="./scripts/script.js"></script>
+    <script src="./scripts/dashboard.js"></script>
 
 </body>
 

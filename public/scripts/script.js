@@ -48,6 +48,7 @@ $(document).ready(function () {
     }
     $("#nav-placeholder").load("nav.html", () => {
         if (currUser.confirmLogin) {
+            $(".navbar-brand").first().attr("href", "/dashboard")
             $("#navItems").html(`
             <li class="nav-item"><a class="nav-link" href="/dashboard">${currUser.firstName}'s Page</a></li>
             <li class="nav-item"><a class="nav-link" id="logOut" href="#">Log Out</a></li>
@@ -74,12 +75,24 @@ $(document).ready(function () {
     });
 });
 
-function populateSearchResults(lastFMResponse) {
+function populateSongResults(lastFMResponse) {
     for (item of lastFMResponse) {
         $("#searchResults").append(`
         <div>
             <img src="${item.images[1]}" alt="">
-            <h4>${item.name}</h4>
+            <a href="/track?=${item.artistName}?=${item.name}"><h4>${item.name}</h4></a>
+            <p>${item.artistName}</p>
+        </div>
+        `)
+    }
+}
+
+function populateAlbumResults(lastFMResponse) {
+    for (item of lastFMResponse) {
+        $("#searchResults").append(`
+        <div>
+            <img src="${item.images[1]}" alt="">
+            <a href="/album?=${item.artistName}?=${item.name}"><h4>${item.name}</h4></a>
             <p>${item.artistName}</p>
         </div>
         `)
@@ -146,17 +159,6 @@ function submitLogOut() {
     })
 }
 
-function createPlaylist(data) {
-    return $.ajax({
-        url: "/api/playlists",
-        data: data,
-        method: "POST",
-        success: () => {
-            location.reload();
-        }
-    })
-}
-
 function addComment(data, location, id) {
     return $.ajax({
         url: `/api/comments/${location}/${id}`,
@@ -193,20 +195,6 @@ $("#attemptLogin").click(() => {
         password: $("#password").val().trim()
     }
     submitLoginAttempt(userInfo);
-})
-
-$("#playlistCreate").click(() => {
-    if (currUser.userName == "") {
-        console.log("Please log in to create a playlist.");
-        return;
-    }
-    let playlistInfo = {
-        creatorID: currUser.id,
-        playlistName: $("#newPlaylistName").val().trim(),
-        playlistDesc: $("#newPlaylistDesc").val().trim(),
-        playlistGenre: $("#newPlaylistGenre").val()
-    }
-    createPlaylist(playlistInfo);
 })
 
 $("#submitComment").click(() => {
@@ -262,16 +250,16 @@ $("#allSearch").click(async () => {
         </div>
     `)
     
-    populateSearchResults(results.songMatch)
+    populateSongResults(results.songMatch)
     populateArtistResults(results.artistMatch)
-    populateSearchResults(results.albumMatch)
+    populateAlbumResults(results.albumMatch)
 })
 
 $("#songSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
     let results = await suggestSearch(searchQuery, "song");
     $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
-    populateSearchResults(results)
+    populateSongResults(results)
 })
 
 $("#artistSearch").click(async () => {
@@ -285,7 +273,7 @@ $("#albumSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
     let results = await suggestSearch(searchQuery, "album");
     $("#searchResults").html(`<h2 style="padding-top:10px;">Search Results</h2>`)
-    populateSearchResults(results)
+    populateAlbumResults(results)
 })
 
 // Search function delays the query to last-fm for 0.7 seconds so a search for every new letter isn't launched
