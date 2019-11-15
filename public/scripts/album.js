@@ -29,7 +29,7 @@ async function getAlbumInfo(artist, album) {
             $("#albumSongs").append(`
                 <tr>
                 <th scope="row">${currTrack}</th>
-                <td><a href="/track?=${albumInfo.artist}?=${track.name}">${track.name}</a></td>
+                <td class="title"><a href="/track?=${albumInfo.artist}?=${track.name}">${track.name}</a></td>
                 <td>${trackMinutes}:${trackSeconds}</td>
                 <td align="center"><a href="#" class="add-song"><img src="assets/images/add.png" class="add"></a></td>
                 </tr>
@@ -38,7 +38,7 @@ async function getAlbumInfo(artist, album) {
         $(".add-song").click((event) => {
             event.stopPropagation();
             selectSong = {
-                songTitle: $(event.currentTarget).parent().siblings('td').html(),
+                songTitle: $(event.currentTarget).parent().siblings('.title').text(),
                 artistName: $(".artist").first().text()
             }
             $("#myModal").modal()
