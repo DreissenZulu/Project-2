@@ -99,21 +99,33 @@ function populateAlbumResults(lastFMResponse) {
     }
 }
 
-async function populateArtistResults(lastFMResponse) {
-    for (item of lastFMResponse) {
-        let currArtist = encodeURIComponent(item.name);
-        let imgHTML;
-        let queryURL = `https://rest.bandsintown.com/artists/${currArtist}?app_id=codingbootcamp`;
-        // the callback response is technically a promise returned. Put an await before the call to use this properly
-        await $.get(queryURL, (response) => {
-            imgHTML = `<img src="${response.thumb_url}"/>`
-            $("#searchResults").append(`
-            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 results">
-                ${imgHTML}
-                <h4>${item.name}</h4>
-            </div>
-            `);
-        });
+// async function populateArtistResults(lastFMResponse) {
+//     for (item of lastFMResponse) {
+//         let currArtist = encodeURIComponent(item.name);
+//         let imgHTML;
+//         let queryURL = `https://rest.bandsintown.com/artists/${currArtist}?app_id=codingbootcamp`;
+//         // the callback response is technically a promise returned. Put an await before the call to use this properly
+//         await $.get(queryURL, (response) => {
+//             imgHTML = `<img src="${response.thumb_url}"/>`
+//             $("#searchResults").append(`
+//             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 results">
+//                 ${imgHTML}
+//                 <h4>${item.name}</h4>
+//             </div>
+//             `);
+//         });
+//     }
+// }
+
+async function populatePlaylistResults(dbResponse) {
+    console.log(dbResponse)
+    for (item of dbResponse) {
+        $("#searchResults").append(`
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 results">
+            <a href="/playlist?=${item.id}"><h4>${item.playlist_name}</h4></a>
+            <p>Genre: ${item.playlist_genre}</p>
+        </div>
+        `)       
     }
 }
 
@@ -121,6 +133,13 @@ async function populateArtistResults(lastFMResponse) {
 async function suggestSearch(query, type) {
     return $.ajax({
         url: `/last-fm/search/${query}/${type}`,
+        method: "GET"
+    });
+}
+
+async function suggestPlaylist(query) {
+    return $.ajax({
+        url: `/playlists/search/${query}`,
         method: "GET"
     });
 }
@@ -217,61 +236,83 @@ $("#submitComment").click(() => {
     addComment(commentInfo, commentPath, commentDestination);
 })
 
-$("#allSearch").click(async () => {
-    let searchQuery = $("#search-bar").val();
-    let results = await suggestSearch(searchQuery, "");
-    let topHTML;
-    $("#searchResults").html(``)
-    if (results.topResult == null) {
-        $("#searchResults").append(`
-        <p>Nothing Found :c<p>
-    `)
-        return;
-    }
-    if (results.topResult.type == "track") {
-        topHTML = `
-        <img src="${results.topResult.images[3]}" alt="">
-        <h4>${results.topResult.name}</h4>
-        <p>${results.topResult.artistName}</p>`
-    } else if (results.topResult.type == "artist") {
-        topHTML = `
-        <img src="${results.topResult.images[3]}" alt="">
-        <h4>${results.topResult.name}</h4>`
-    } else if (results.topResult.type == "album") {
-        topHTML = `
-        <img src="${item.images[3]}" alt="">
-        <h4>${item.name}</h4>
-        <p>${item.artistName}</p>`
-    }
-
-    $("#searchResults").append(`
-        <div>
-            ${topHTML}
-        </div>
-    `)
-    
-    populateSongResults(results.songMatch)
-    populateArtistResults(results.artistMatch)
-    populateAlbumResults(results.albumMatch)
-})
+// Removed because it's kind of redundant
+// $("#allSearch").click(async () => {
+//     let searchQuery = $("#search-bar").val();
+//     if (searchQuery == "") {
+//         return;
+//     }
+//     let results = await suggestSearch(encodeURIComponent(searchQuery), "");
+//     let playlists = await suggestPlaylist(encodeURIComponent(searchQuery));
+//     let topHTML;
+//     $("#searchResults").html(``)
+//     if (results.topResult == null) {
+//         $("#searchResults").append(`
+//         <p>Nothing Found :c<p>
+//     `)
+//         return;
+//     }
+//     if (results.topResult.type == "track") {
+//         topHTML = `
+//         <img src="${results.topResult.images[3]}" alt="">
+//         <h4>${results.topResult.name}</h4>
+//         <p>${results.topResult.artistName}</p>`
+//     } else if (results.topResult.type == "artist") {
+//         topHTML = `
+//         <img src="${results.topResult.images[3]}" alt="">
+//         <h4>${results.topResult.name}</h4>`
+//     } else if (results.topResult.type == "album") {
+//         topHTML = `
+//         <img src="${item.images[3]}" alt="">
+//         <h4>${item.name}</h4>
+//         <p>${item.artistName}</p>`
+//     }
+//     $("#searchResults").append(`
+//         <div>
+//             ${topHTML}
+//         </div>
+//     `)
+//     populateSongResults(results.songMatch)
+//     populatePlaylistResults(playlists)
+//     populateAlbumResults(results.albumMatch)
+// })
 
 $("#songSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
-    let results = await suggestSearch(searchQuery, "song");
+    if (searchQuery == "") {
+        return;
+    }
+    let results = await suggestSearch(encodeURIComponent(searchQuery), "song");
     $("#searchResults").html(``)
     populateSongResults(results)
 })
 
-$("#artistSearch").click(async () => {
+// $("#artistSearch").click(async () => {
+//     let searchQuery = $("#search-bar").val();
+//     if (searchQuery == "") {
+//         return;
+//     }
+//     let results = await suggestSearch(encodeURIComponent(searchQuery), "artist");
+//     $("#searchResults").html(``)
+//     populateArtistResults(results)
+// })
+
+$("#playlistSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
-    let results = await suggestSearch(searchQuery, "artist");
+    if (searchQuery == "") {
+        return;
+    }
+    let results = await suggestPlaylist(encodeURIComponent(searchQuery));
     $("#searchResults").html(``)
-    populateArtistResults(results)
+    populatePlaylistResults(results)
 })
 
 $("#albumSearch").click(async () => {
     let searchQuery = $("#search-bar").val();
-    let results = await suggestSearch(searchQuery, "album");
+    if (searchQuery == "") {
+        return;
+    }
+    let results = await suggestSearch(encodeURIComponent(searchQuery), "album");
     $("#searchResults").html(``)
     populateAlbumResults(results)
 })
