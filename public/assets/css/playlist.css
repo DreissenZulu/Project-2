@@ -175,6 +175,10 @@ td a:hover {
     text-decoration: none;
 }
 
+input[type=checkbox] {
+    display:none;
+}
+
 @media only screen and (max-width: 1200px) { 
 
 .album-cover {
