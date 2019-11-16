@@ -55,6 +55,8 @@ $("#playlistCreate").click(() => {
 })
 
 $(document).ready(function () {
-    getMyPlaylists(currUser.id);
-    getFavPlaylists(currUser.id);
+    if (currUser.id != "") {
+        getMyPlaylists(currUser.id);
+        getFavPlaylists(currUser.id);
+    }
 })
