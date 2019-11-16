@@ -155,6 +155,11 @@ router.get("/lastfm/song/:artist/:track", async (req, res) => {
     res.status(200).send(response)
 })
 
+router.get("/yt/song/:artist/:track", async (req, res) => {
+    response = await social.getYouTubeLink(req.params.artist, req.params.track)
+    res.status(200).send(response)
+})
+
 router.post("/api/users", (req, res) => {
     social.addNewUser(req.body.username.toLowerCase(), req.body.password, req.body.firstName, req.body.lastName, () => {
         res.status(200).send();

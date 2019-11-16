@@ -135,6 +135,13 @@ const social = {
             method: 'get'
         })
         return response.data;
+    },
+    getYouTubeLink: async (artist, song) => {
+        let response = await axios({
+            url: `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${song} ${artist}&key=${process.env.ytAPI}`,
+            method: 'get'
+        })
+        return response.data.items[0];
     }
 };
 
