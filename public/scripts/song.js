@@ -5,7 +5,6 @@ async function getSongInfo(artist, track) {
         url: `/lastfm/song/${artist}/${track}`,
         method: "GET"
     }).then((response) => {
-        console.log(response)
         let trackInfo = response.track;
         let trackImage = trackInfo.album ? trackInfo.album.image[3] : "No Image";
         let trackGenre;
