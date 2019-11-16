@@ -89,6 +89,8 @@ function addSong(playlistID, songInfo) {
 $(document).ready(() => {
     let albumQuery = self.location.search.split(/\?=/g)
     getAlbumInfo(encodeURIComponent(albumQuery[1]), encodeURIComponent(albumQuery[2]));
-    getMyPlaylists(currUser.id);
+    if (id != "") {
+        getMyPlaylists(currUser.id);
+    }
 })
 

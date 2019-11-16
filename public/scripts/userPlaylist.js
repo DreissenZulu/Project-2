@@ -95,6 +95,7 @@ function visitorPage(songInfo) {
     `)
     if (currUser.id != "") {
         checkIfFav(currUser.id);
+        getMyPlaylists(currUser.id);
     }
     $(".add-song").click((event) => {
         event.stopPropagation();
@@ -104,7 +105,6 @@ function visitorPage(songInfo) {
         }
         $("#myModal").modal()
     })
-    getMyPlaylists(currUser.id);
 }
 
 function getMyPlaylists(id) {

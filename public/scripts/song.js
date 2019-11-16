@@ -75,5 +75,7 @@ $(document).ready(() => {
     let artistQuery = encodeURIComponent(trackQuery[1])
     getSongInfo(artistQuery, titleQuery);
     getYouTube(artistQuery, titleQuery);
-    getMyPlaylists(currUser.id);
+    if (id != "") {
+        getMyPlaylists(currUser.id);
+    }
 })
