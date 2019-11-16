@@ -71,8 +71,8 @@ function addSong(playlistID, songInfo) {
 
 $(document).ready(() => {
     let trackQuery = self.location.search.split(/\?=/g)
-    let titleQuery = decodeURIComponent(trackQuery[2]).split("(")[0]
-    let artistQuery = decodeURIComponent(trackQuery[1])
+    let titleQuery = encodeURIComponent(trackQuery[2]).split("(")[0]
+    let artistQuery = encodeURIComponent(trackQuery[1])
     getSongInfo(artistQuery, titleQuery);
     getYouTube(artistQuery, titleQuery);
     getMyPlaylists(currUser.id);
