@@ -1,4 +1,4 @@
-let userTyping = 0;
+let warning = 0;
 let currUser;
 
 $(".added").click(function () {
@@ -149,8 +149,17 @@ function submitNewUser(data) {
         url: "/api/users",
         data: data,
         method: "POST",
-        success: () => {
-            window.location.replace("/login")
+        success: (result) => {
+            if (result == "failed") {
+                clearTimeout(warning);
+                $("#alertTaken").attr('style', 'display:block;')
+                warning = setTimeout(() => {
+                    $("#alertTaken").attr('style', 'display:none;')
+                }, 3000)
+                return;
+            } else {
+                window.location.replace("/login")
+            }
         }
     });
 }
@@ -161,8 +170,17 @@ function submitLoginAttempt(data) {
         data: data,
         method: "PUT",
         success: (data) => {
+            if (data == "failed") {
+                clearTimeout(warning);
+                $("#alertFailed").attr('style', 'display:block;')
+                warning = setTimeout(() => {
+                    $("#alertFailed").attr('style', 'display:none;')
+                }, 3000)
+                return;
+            } else {
             localStorage.setItem("currUser", JSON.stringify(data));
             window.location.replace("/dashboard")
+            }
         }
     });
 }

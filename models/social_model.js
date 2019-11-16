@@ -88,8 +88,7 @@ const social = {
                     resolve(res);
                 });
             } else {
-                console.log("Failed to add new user")
-                resolve(res);
+                resolve("failed");
             }
         });
     },

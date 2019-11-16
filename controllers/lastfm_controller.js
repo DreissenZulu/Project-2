@@ -167,8 +167,8 @@ router.get("/yt/song/:artist/:track", async (req, res) => {
 })
 
 router.post("/api/users", (req, res) => {
-    social.addNewUser(req.body.username.toLowerCase(), req.body.password, req.body.firstName, req.body.lastName, () => {
-        res.status(200).send();
+    social.addNewUser(req.body.username.toLowerCase(), req.body.password, req.body.firstName, req.body.lastName, (result) => {
+        res.status(200).send(result);
     })
 })
 
@@ -208,7 +208,6 @@ router.put("/api/users", (req, res) => {
         let allCredentials = await result;
         let userOnServer = allCredentials.find(obj => obj.userName === req.body.username)
         if (userOnServer != undefined) {
-            console.log(`Authenticating...`);
             if (social.checkPass(req.body.password, userOnServer.password)) {
                 social.userLoggedIn(userOnServer.id, () => {
                     let currUser = {
@@ -219,14 +218,13 @@ router.put("/api/users", (req, res) => {
                         confirmLogin: true
                     }
                     res.status(200).send(currUser);
-                    console.log(`Logged in successfully!`)
                 });
 
             } else {
-                console.log(`Invalid password!!`);
+                res.status(200).send("failed");
             }
         } else {
-            console.log(`Invalid username!`);
+            res.status(200).send("failed");
         }
     })
 })
