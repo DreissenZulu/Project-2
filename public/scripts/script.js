@@ -78,7 +78,7 @@ $(document).ready(function () {
 function populateSongResults(lastFMResponse) {
     for (item of lastFMResponse) {
         $("#searchResults").append(`
-        <div class="col-4 col-md-4 col-sm-6 col-xs-6 results">
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 results">
             <img src="${item.images[3]}" alt="">
             <a href="/track?=${item.artistName}?=${item.name}"><h4>${item.name}</h4></a>
             <p>${item.artistName}</p>
