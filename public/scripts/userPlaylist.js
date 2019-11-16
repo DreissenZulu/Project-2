@@ -5,9 +5,9 @@ function populatePlaylist(id) {
         url: `/playlist/${id}`,
         method: "GET",
         success: (data) => {
-            let listNum = 0;
             let dateCreated = data.playlist[0].createdAt.split(/[a-zA-Z]/g)[0]
-            $(".playlist-name").first().text(data.playlist[0].playlist_name);
+            $("title").text(data.playlist[0].playlist_name)
+            $(".playlist-name").first().text(` ${data.playlist[0].playlist_name}`);
             $(".user").first().text(data.playlist[0].userName);
             $(".genre").first().text(data.playlist[0].playlist_genre);
             $(".create-date").first().text(dateCreated);
@@ -134,19 +134,19 @@ function checkIfFav(id) {
             let playlistQuery = self.location.search.split(/={1}/g)
             let playlistCheck = playlists.find(obj => obj.id == playlistQuery[1])
             if (playlistCheck != undefined && playlistCheck.fav_status) {
-                $(".playlist-name").first().prepend(`<input type="checkbox" id="favourite-toggle" checked></input>`)
+                $(".playlist-name").first().prepend(`<input type="checkbox" id="favourite-toggle" checked></input><label for="favourite-toggle" class="fas fa-heart"></label>`)
             } else if (playlistCheck == undefined) {
                 addNewFavourite(playlistQuery[1], currUser.id);
-                $(".playlist-name").first().prepend(`<input type="checkbox" id="favourite-toggle"></input>`)
+                $(".playlist-name").first().prepend(`<input type="checkbox" id="favourite-toggle"></input><label for="favourite-toggle" class="far fa-heart"></label>`)
             } else {    
-                $(".playlist-name").first().prepend(`<input type="checkbox" id="favourite-toggle"></input>`)
+                $(".playlist-name").first().prepend(`<input type="checkbox" id="favourite-toggle"></input><label for="favourite-toggle" class="far fa-heart"></label>`)
             }
             $("#favourite-toggle").click((event) => {
                 if (event.currentTarget.checked) {
-                    console.log("I've been enabled");
+                    $(".far").first().attr('class', "fas fa-heart")
                     addToFavourites(playlistQuery[1], currUser.id);
                 } else {
-                    console.log("I've been disabled");
+                    $(".fas").first().attr('class', "far fa-heart")
                     removeFromFavourites(playlistQuery[1], currUser.id);
                 }
             })
