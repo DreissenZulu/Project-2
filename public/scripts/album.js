@@ -13,7 +13,7 @@ async function getAlbumInfo(artist, album) {
         } else {
             albumGenre = albumInfo.tags.tag[0].name == 'albums I own' ? albumInfo.tags.tag[1].name : albumInfo.tags.tag[0].name;
         }
-        let albumPublished = albumInfo.wiki ? albumInfo.wiki.published.split(",")[0] : "Unknown";
+        let albumPublished = albumInfo.wiki ? albumInfo.wiki.published.split(",")[0] : "No Date";
         let albumSummary = albumInfo.wiki ? albumInfo.wiki.summary : "No summary available.";
         let currTrack = 0;
 

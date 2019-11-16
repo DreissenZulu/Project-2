@@ -13,7 +13,7 @@ async function getSongInfo(artist, track) {
         } else {
             trackGenre = trackInfo.toptags.tag[0].name == 'albums I own' ? trackInfo.toptags.tag[0].name : trackInfo.toptags.tag[0].name;
         }
-        let trackPublished = trackInfo.wiki ? trackInfo.wiki.published.split(",")[0] : "Unknown";
+        let trackPublished = trackInfo.wiki ? trackInfo.wiki.published.split(",")[0] : "No Date";
         let trackSummary = trackInfo.wiki ? trackInfo.wiki.summary : "No summary available.";
         selectSong = {
             songTitle: trackInfo.name,
