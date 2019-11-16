@@ -41,7 +41,6 @@ async function getAlbumInfo(artist, album) {
                 songTitle: $(event.currentTarget).parent().parent().siblings('.title').text(),
                 artistName: $(".artist").first().text()
             }
-            console.log(selectSong)
             $("#myModal").modal()
         })
         $(".add").hover(function (event) {
