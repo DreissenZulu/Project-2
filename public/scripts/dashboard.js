@@ -19,9 +19,11 @@ function getFavPlaylists(id) {
         success: (playlists) => {
             $("#favPlaylists").html("");
             for (list of playlists) {
-                $("#favPlaylists").append(`
-                    <li class=""><a href="/playlist?=${list.id}">${list.playlist_name}</a></li>
-                `)
+                if (list.fav_status == 1) {
+                    $("#favPlaylists").append(`
+                        <li class=""><a href="/playlist?=${list.id}">${list.playlist_name}</a></li>
+                    `)
+                }
             }
         }
     })
@@ -53,6 +55,8 @@ $("#playlistCreate").click(() => {
 })
 
 $(document).ready(function () {
-    getMyPlaylists(currUser.id);
-    getFavPlaylists(currUser.id);
+    if (currUser.id != "") {
+        getMyPlaylists(currUser.id);
+        getFavPlaylists(currUser.id);
+    }
 })

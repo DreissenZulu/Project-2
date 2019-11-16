@@ -47,7 +47,7 @@ create table favPlaylists (
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     likedByID int not null,
     playlist_id int not null,
-    fav_status boolean default true
+    fav_status boolean default false
 );
 
 -- mbid and song are not unique as a song can be part of multiple playlists

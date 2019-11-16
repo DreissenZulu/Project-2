@@ -122,6 +122,12 @@ router.get("/playlists/fav/:uID", (req, res) => {
     })
 })
 
+router.get("/playlists/search/:query", (req, res) => {
+    social.searchPlaylists(req.params.query, (result) => {
+        res.status(200).send(result);
+    })
+})
+
 router.get("/last-fm/search/:query/:type?", async (req, res) => {
     let response;
     if (req.params.type == "artist") {
@@ -155,9 +161,14 @@ router.get("/lastfm/song/:artist/:track", async (req, res) => {
     res.status(200).send(response)
 })
 
+router.get("/yt/song/:artist/:track", async (req, res) => {
+    response = await social.getYouTubeLink(req.params.artist, req.params.track)
+    res.status(200).send(response)
+})
+
 router.post("/api/users", (req, res) => {
-    social.addNewUser(req.body.username.toLowerCase(), req.body.password, req.body.firstName, req.body.lastName, () => {
-        res.status(200).send();
+    social.addNewUser(req.body.username.toLowerCase(), req.body.password, req.body.firstName, req.body.lastName, (result) => {
+        res.status(200).send(result);
     })
 })
 
@@ -167,14 +178,14 @@ router.post("/api/playlists", (req, res) => {
     })
 })
 
-router.post("/api/playlists/:pID", (req, res) => {
-    social.addSongToPlaylist(req.body.songTitle, req.body.artistName, req.params.pID, () => {
+router.post("/api/playlists/fav", (req, res) => {
+    social.addFavouritePlaylist(req.body.user, req.body.playlist, () => {
         res.status(200).send();
     })
 })
 
-router.post("/api/playlists/fav", (req, res) => {
-    social.addFavouritePlaylist(req.body.user, req.body.playlist, () => {
+router.post("/api/playlists/:pID", (req, res) => {
+    social.addSongToPlaylist(req.body.songTitle, req.body.artistName, req.params.pID, () => {
         res.status(200).send();
     })
 })
@@ -197,7 +208,6 @@ router.put("/api/users", (req, res) => {
         let allCredentials = await result;
         let userOnServer = allCredentials.find(obj => obj.userName === req.body.username)
         if (userOnServer != undefined) {
-            console.log(`Authenticating...`);
             if (social.checkPass(req.body.password, userOnServer.password)) {
                 social.userLoggedIn(userOnServer.id, () => {
                     let currUser = {
@@ -208,14 +218,13 @@ router.put("/api/users", (req, res) => {
                         confirmLogin: true
                     }
                     res.status(200).send(currUser);
-                    console.log(`Logged in successfully!`)
                 });
 
             } else {
-                console.log(`Invalid password!!`);
+                res.status(200).send("failed");
             }
         } else {
-            console.log(`Invalid username!`);
+            res.status(200).send("failed");
         }
     })
 })

@@ -7,8 +7,13 @@ async function getAlbumInfo(artist, album) {
     }).then((response) => {
         let albumInfo = response.album;
         let albumImage = albumInfo.image[3];
-        let albumGenre = albumInfo.tags.tag[0].name == 'albums I own' ? albumInfo.tags.tag[1].name : albumInfo.tags.tag[0].name;
-        let albumPublished = albumInfo.wiki ? albumInfo.wiki.published.split(",")[0] : "Unknown";
+        let albumGenre;
+        if (albumInfo.tags.tag[0] == undefined) {
+            albumGenre = "No Tags Found"
+        } else {
+            albumGenre = albumInfo.tags.tag[0].name == 'albums I own' ? albumInfo.tags.tag[1].name : albumInfo.tags.tag[0].name;
+        }
+        let albumPublished = albumInfo.wiki ? albumInfo.wiki.published.split(",")[0] : "No Date";
         let albumSummary = albumInfo.wiki ? albumInfo.wiki.summary : "No summary available.";
         let currTrack = 0;
 
@@ -41,7 +46,6 @@ async function getAlbumInfo(artist, album) {
                 songTitle: $(event.currentTarget).parent().parent().siblings('.title').text(),
                 artistName: $(".artist").first().text()
             }
-            console.log(selectSong)
             $("#myModal").modal()
         })
         $(".add").hover(function (event) {
@@ -84,7 +88,9 @@ function addSong(playlistID, songInfo) {
 
 $(document).ready(() => {
     let albumQuery = self.location.search.split(/\?=/g)
-    getAlbumInfo(decodeURIComponent(albumQuery[1]), decodeURIComponent(albumQuery[2]));
-    getMyPlaylists(currUser.id);
+    getAlbumInfo(encodeURIComponent(albumQuery[1]), encodeURIComponent(albumQuery[2]));
+    if (currUser.id != "") {
+        getMyPlaylists(currUser.id);
+    }
 })
 

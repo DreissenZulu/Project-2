@@ -29,9 +29,15 @@
                 <label for="exampleInputPassword1"><i> Password</i></label>
                 <input type="password" class="form-control form-control-lg" id="password" >
             </div>
-            <div class="button">
+            <div>
+                Don't have an account? <a href="/signup">Create one here!</a>
+            </div>
+            <div class="button" style="padding-bottom: 30px;">
                 <button class="btn btn-dark rounded-0" id="attemptLogin">Submit</button>
             </div>
+            <div class="alert alert-danger" id="alertFailed" style="display:none;">
+                    Invalid username/password!
+                </div>
         </form>
     </div>
 
