@@ -35,6 +35,12 @@ const social = {
             resolve(res);
         });
     },
+    // Search for playlists and return anything that is similar to the name of the playlist or the genre of the playlist
+    searchPlaylists: (query, resolve) => {
+        orm.selectData("playlist", "id, playlist_name, playlist_genre", `WHERE playlist_name LIKE '%${query}%' OR playlist_genre LIKE '%${query}%'`, (res) => {
+            resolve(res);
+        });
+    },
     selectUserPlaylists: (userID, resolve) => {
         orm.selectData("playlist", "id, playlist_name", `WHERE user_id=${userID}`, (res) => {
             resolve(res);
@@ -122,6 +128,7 @@ const social = {
             resolve(res);
         })
     },
+    // External API calls
     getAlbumInfo: async (artist, album) => {
         let response = await axios({
             url: `http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=${process.env.API}&artist=${artist}&album=${album}&format=json`,
