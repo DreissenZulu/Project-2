@@ -196,14 +196,6 @@ function submitLogOut() {
     })
 }
 
-function addComment(data, location, id) {
-    return $.ajax({
-        url: `/api/comments/${location}/${id}`,
-        data: data,
-        method: "POST"
-    })
-}
-
 // Functions to API calls
 $("#createNewAccount").click(() => {
     event.preventDefault();
@@ -232,26 +224,6 @@ $("#attemptLogin").click(() => {
         password: $("#password").val().trim()
     }
     submitLoginAttempt(userInfo);
-})
-
-$("#submitComment").click(() => {
-    if ($("#commentBody").val().trim() == "") {
-        return;
-    }
-    let commentDestination;
-    let commentPath;
-    if ($("#mbid").val() != undefined) {
-        commentDestination = $("#mbid").val();
-        commentPath = "mbid";
-    } else {
-        commentDestination = $("#playlistID").val();
-        commentPath = "playlist";
-    }
-    let commentInfo = {
-        commenterID: currUser.id,
-        comment: $("#commentBody").val().trim()
-    }
-    addComment(commentInfo, commentPath, commentDestination);
 })
 
 // Removed because it's kind of redundant

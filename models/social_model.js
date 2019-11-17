@@ -75,6 +75,11 @@ const social = {
             resolve(res);
         });
     },
+    selectPlaylistComments: (playlistID, resolve) => {
+        orm.selectData("playlistComments p LEFT JOIN userInfo u ON p.user_id = u.id", "commentContent, playlist_id, p.createdAt, userName", `WHERE p.id=${playlistID}`, (res) => {
+            resolve(res);
+        })
+    },
     checkPass: (input, answer) => {
         let encrypted = encrypt(input + process.env.PW_SALT);
         return encrypted === answer;

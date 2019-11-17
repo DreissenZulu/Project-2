@@ -114,7 +114,7 @@ function getMyPlaylists(id) {
         success: (playlists) => {
             $(".list-group").first().html("")
             for (list of playlists) {
-                $(".list-group").first().append(`
+                $(".list-group").first().prepend(`
                 <a href="#" class="added list-group-item list-group-item-action" id="${list.id}">${list.playlist_name}</a>
                 `)
             }
@@ -176,6 +176,32 @@ function addToFavourites(playlistID, userID) {
     })
 }
 
+function addComment(data, id) {
+    return $.ajax({
+        url: `/api/comments/playlist/${id}`,
+        data: data,
+        method: "POST",
+        success: () => {
+            console.log("Successfully added comment!")
+        }
+    })
+}
+
+function getComments(id) {
+    return $.ajax({
+        url: `/api/comments/playlist/${id}`,
+        method: "GET",
+        success: (response) => {
+            for(comment of response) {
+                $(".comment").prepend(`
+                    <p class="comment-poster">${comment.userName} at ${comment.createdAt}</p>
+                    <p class="comment-body">${comment.commentContent}</p>
+                `)
+            }
+        }
+    })
+}
+
 function removeFromFavourites(playlistID, userID) {
     return $.ajax({
         url: `/api/playlists/0`,
@@ -217,6 +243,19 @@ function removeSong(playlistID, songID) {
 }
 
 $(document).ready(function () {
-    let playlistQuery = self.location.search.split(/={1}/g)
-    populatePlaylist(playlistQuery[1]);
+    let playlistQuery = self.location.search.split(/={1}/g)[1]
+    populatePlaylist(playlistQuery);
+    getComments(playlistQuery);
+})
+
+$("#post-comment").click(() => {
+    if ($("#comment").val().trim() == "") {
+        return;
+    }
+    let commentDestination = self.location.search.split(/={1}/g)[1]
+    let commentInfo = {
+        userID: currUser.id,
+        content: encodeURIComponent($("#comment").val().trim())
+    }
+    addComment(commentInfo, commentDestination);
 })
