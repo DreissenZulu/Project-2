@@ -182,7 +182,9 @@ function addComment(data, id) {
         data: data,
         method: "POST",
         success: () => {
-            console.log("Successfully added comment!")
+            $(".comment").text("")
+            let playlistQuery = self.location.search.split(/={1}/g)[1]
+            getComments(playlistQuery);
         }
     })
 }
@@ -195,8 +197,9 @@ function getComments(id) {
             for(comment of response) {
                 $(".comment").prepend(`
                     <p class="comment-poster">${comment.userName} at ${comment.createdAt}</p>
-                    <p class="comment-body">${comment.commentContent}</p>
+                    <p class="comment-body"></p>
                 `)
+                $(".comment-body").first().text(decodeURIComponent(comment.commentContent))
             }
         }
     })
