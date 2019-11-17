@@ -55,3 +55,13 @@ input, input:focus {
     outline: 0;
     box-shadow: none!important;
 }
+
+a, a:hover {
+    font-weight: bold;
+    text-decoration: none;
+    color: gray;
+}
+
+.create-account {
+    text-align: center
+}

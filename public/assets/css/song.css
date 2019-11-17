@@ -219,6 +219,15 @@ p a:hover {
 
 .song-name {
     margin-top: 10px;
+    font-size: 30px;
+}
+
+.genre {
+    text-transform: uppercase;
+}
+
+.add-button {
+    padding-top: 10px;
 }
 
 }

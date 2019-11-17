@@ -20,7 +20,7 @@ function searchAll(query) {
 
 function searchSongTitle(trackTitle) {
     return new Promise(resolve => {
-        lastfm.trackSearch({ q: trackTitle, limit: 10 }, (err, data) => {
+        lastfm.trackSearch({ q: trackTitle, limit: 12 }, (err, data) => {
             if (err) throw err
             else {
                 resolve(data);
@@ -64,7 +64,7 @@ function getArtistDetails(artistName) {
 
 function searchAlbum(albumName) {
     return new Promise(resolve => {
-        lastfm.albumSearch({ q: albumName, limit: 10 }, (err, data) => {
+        lastfm.albumSearch({ q: albumName, limit: 12 }, (err, data) => {
             if (err) throw err
             else {
                 resolve(data);

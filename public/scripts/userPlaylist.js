@@ -134,12 +134,12 @@ function checkIfFav(id) {
             let playlistQuery = self.location.search.split(/={1}/g)
             let playlistCheck = playlists.find(obj => obj.id == playlistQuery[1])
             if (playlistCheck != undefined && playlistCheck.fav_status) {
-                $(".playlist-name").first().prepend(`<input type="checkbox" id="favourite-toggle" checked></input><label for="favourite-toggle" class="fas fa-heart"></label>`)
+                $(".playlist-name").first().append(`<input type="checkbox" id="favourite-toggle" checked></input><label for="favourite-toggle" style="margin-left: 20px"class="fas fa-heart"></label>`)
             } else if (playlistCheck == undefined) {
                 addNewFavourite(playlistQuery[1], currUser.id);
-                $(".playlist-name").first().prepend(`<input type="checkbox" id="favourite-toggle"></input><label for="favourite-toggle" class="far fa-heart"></label>`)
+                $(".playlist-name").first().append(`<input type="checkbox" id="favourite-toggle"></input><label for="favourite-toggle" style="margin-left: 20px"class="far fa-heart"></label>`)
             } else {    
-                $(".playlist-name").first().prepend(`<input type="checkbox" id="favourite-toggle"></input><label for="favourite-toggle" class="far fa-heart"></label>`)
+                $(".playlist-name").first().append(`<input type="checkbox" id="favourite-toggle"></input><label for="favourite-toggle" style="margin-left: 20px"class="far fa-heart"></label>`)
             }
             $("#favourite-toggle").click((event) => {
                 if (event.currentTarget.checked) {
