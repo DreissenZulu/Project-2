@@ -21,11 +21,13 @@ www.flaticon.com
 -------------------------------------------------------------------------------------------
 **Future Considerations:**
 
-- Connect your Spotify/Deezer/Itunes to get your playlists to the app
+- Connect your Spotify/Deezer/Itunes to import your playlists to the app
 
-- Get more informations for instance on the any song page get the lyrics with the Genius API
+- Add more informations for instance on a song page get the lyrics with the Genius API
 
 - Be able to share your playlist on the social media 
+
+- Track your playlist popularity, know how many people save your playlist
 
 -------------------------------------------------------------------------------------------
 
