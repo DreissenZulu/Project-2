@@ -35,7 +35,7 @@ async function getYouTube(artist, track) {
         url: `/yt/song/${artist}/${track}`,
         method: "GET"
     }).then((response) => {
-        $(".container").first().append(`<h1 class="song-name">Listen on YouTube</h1><div class="aspect-ratio"><iframe src="https://www.youtube.com/embed/${response.id.videoId}" frameborder="0" autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>`)
+        $(".container").first().append(`<div class="aspect-ratio"><iframe src="https://www.youtube.com/embed/${response.id.videoId}" frameborder="0" autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>`)
     })
 }
 

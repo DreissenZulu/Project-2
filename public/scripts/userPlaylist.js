@@ -196,8 +196,9 @@ function getComments(id) {
         success: (response) => {
             for(comment of response) {
                 $(".comment").prepend(`
-                    <p class="comment-poster">${comment.userName} at ${comment.createdAt}</p>
+                    <p class="comment-poster"><strong>${comment.userName}</strong> at ${(comment.createdAt).slice(0,10)}</p>
                     <p class="comment-body"></p>
+                    <hr>
                 `)
                 $(".comment-body").first().text(decodeURIComponent(comment.commentContent))
             }

@@ -43,6 +43,7 @@ textarea {
 .user {
     color: white;
     font-size: 25px;
+    font-weight: bold;
 }
 
 .create-date {
@@ -57,7 +58,7 @@ textarea {
 }
 
 .playlist-description {
-    padding-top: 20px;
+    padding-top: 10px;
     font-style: italic;
 }
 
@@ -177,6 +178,15 @@ td a:hover {
 
 input[type=checkbox] {
     display:none;
+}
+
+strong {
+    font-size: 20px;
+    color: grey;
+}
+
+hr {
+    border-color: white;
 }
 
 @media only screen and (max-width: 1200px) { 
