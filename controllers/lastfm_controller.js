@@ -128,6 +128,12 @@ router.get("/playlists/search/:query", (req, res) => {
     })
 })
 
+router.get("/api/comments/playlist/:id", (req, res) => {
+    social.selectPlaylistComments(req.params.id, (result) => {
+        res.status(200).send(result);
+    });
+})
+
 router.get("/last-fm/search/:query/:type?", async (req, res) => {
     let response;
     if (req.params.type == "artist") {
@@ -191,16 +197,10 @@ router.post("/api/playlists/:pID", (req, res) => {
 })
 
 // Consolidates comment posting system to one route
-router.post("/api/comments/:location/:id", (req, res) => {
-    if (req.params.location == "mbid") {
-        social.addOtherComment(req.body.comment, req.body.commenterID, req.params.id, () => {
-            res.status(200).send();
-        });
-    } else if (req.params.location == "playlist") {
-        social.addPlaylistComment(req.body.comment, req.body.commenterID, req.params.id, () => {
-            res.status(200).send();
-        });
-    }
+router.post("/api/comments/playlist/:id", (req, res) => {
+    social.addPlaylistComment(req.body.content, req.body.userID, req.params.id, () => {
+        res.status(200).send();
+    });
 })
 
 router.put("/api/users", (req, res) => {

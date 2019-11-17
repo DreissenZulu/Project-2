@@ -63,7 +63,7 @@ function getMyPlaylists(id) {
         success: (playlists) => {
             $(".list-group").first().html("")
             for (list of playlists) {
-                $(".list-group").first().append(`
+                $(".list-group").first().prepend(`
                 <a href="#" class="added list-group-item list-group-item-action" id="${list.id}">${list.playlist_name}</a>
                 `)
             }

@@ -4,7 +4,7 @@ function getMyPlaylists(id) {
         method: "GET",
         success: (playlists) => {
             for (list of playlists) {
-                $("#myPlaylists").append(`
+                $("#myPlaylists").prepend(`
                     <li class=""><a href="/playlist?=${list.id}">${list.playlist_name}</a></li>
                 `)
             }
@@ -20,7 +20,7 @@ function getFavPlaylists(id) {
             $("#favPlaylists").html("");
             for (list of playlists) {
                 if (list.fav_status == 1) {
-                    $("#favPlaylists").append(`
+                    $("#favPlaylists").prepend(`
                         <li class=""><a href="/playlist?=${list.id}">${list.playlist_name}</a></li>
                     `)
                 }
