@@ -31,8 +31,8 @@ www.flaticon.com
 
 **Get Involved!**
 
-- link to GitHub repo: https://github.com/DreissenZulu/Project-2
-- link to deployed Heroku: https://agile-cove-03002.herokuapp.com/
+- Link to GitHub repo: https://github.com/DreissenZulu/Project-2
+- Link to deployed Heroku: https://agile-cove-03002.herokuapp.com/
 
 -------------------------------------------------------------------------------------------
 
