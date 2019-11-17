@@ -182,7 +182,7 @@ function addComment(data, id) {
         data: data,
         method: "POST",
         success: () => {
-            $(".comment").text("")
+            $(".comment").first().text("")
             let playlistQuery = self.location.search.split(/={1}/g)[1]
             getComments(playlistQuery);
         }

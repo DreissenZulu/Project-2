@@ -76,7 +76,7 @@ const social = {
         });
     },
     selectPlaylistComments: (playlistID, resolve) => {
-        orm.selectData("playlistComments p LEFT JOIN userInfo u ON p.user_id = u.id", "commentContent, playlist_id, p.createdAt, userName", `WHERE p.id=${playlistID}`, (res) => {
+        orm.selectData("playlistComments p LEFT JOIN userInfo u ON p.user_id = u.id", "commentContent, playlist_id, p.createdAt, userName", `WHERE playlist_id=${playlistID}`, (res) => {
             resolve(res);
         })
     },
