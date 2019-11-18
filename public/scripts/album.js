@@ -5,6 +5,15 @@ async function getAlbumInfo(artist, album) {
         url: `/lastfm/album/${artist}/${album}`,
         method: "GET"
     }).then((response) => {
+        console.log(response)
+        if (response.message == "Album not found") {
+            $("title").text(`No album found!`)
+            $(".album-cover").first().attr('src', './assets/images/image-not-available.png')
+            $("#albumInfo").html(`
+                <h1 class="album-name">No Album Found!</h1>
+            `)
+            return;
+        }
         let albumInfo = response.album;
         let albumImage = albumInfo.image[3];
         let albumGenre;
