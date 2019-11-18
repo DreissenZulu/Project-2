@@ -56,12 +56,17 @@ input, input:focus {
     box-shadow: none!important;
 }
 
-a, a:hover {
+.signup-link, .signup-link:hover {
     font-weight: bold;
     text-decoration: none;
     color: gray;
 }
 
 .create-account {
-    text-align: center
+    text-align: center;
+}
+
+.alert-danger {
+    margin-top: 20px;
+    margin-bottom: -30px;
 }
