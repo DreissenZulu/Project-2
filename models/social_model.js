@@ -87,9 +87,9 @@ const social = {
     // Gets all necessary information from the user to add to the database
     addNewUser: (userName, password, firstName, lastName, resolve) => {
         orm.selectData("userInfo", "id, userName", "", (res) => {
-            if (!res.find(obj => obj.userName === userName)) {
+            if (!res.find(obj => obj.userName.toLowerCase() === userName.toLowerCase())) {
                 let pwEncrypt = encrypt(password + process.env.PW_SALT);
-                orm.insertData("userInfo", "userName, password, first_name, last_name", `"${userName.toLowerCase()}", "${pwEncrypt}", "${firstName}", "${lastName}"`, (res) => {
+                orm.insertData("userInfo", "userName, password, first_name, last_name", `"${userName}", "${pwEncrypt}", "${firstName}", "${lastName}"`, (res) => {
                     resolve(res);
                 });
             } else {
