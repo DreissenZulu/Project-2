@@ -173,7 +173,7 @@ router.get("/yt/song/:artist/:track", async (req, res) => {
 })
 
 router.post("/api/users", (req, res) => {
-    social.addNewUser(req.body.username.toLowerCase(), req.body.password, req.body.firstName, req.body.lastName, (result) => {
+    social.addNewUser(req.body.username, req.body.password, req.body.firstName, req.body.lastName, (result) => {
         res.status(200).send(result);
     })
 })
@@ -206,7 +206,7 @@ router.post("/api/comments/playlist/:id", (req, res) => {
 router.put("/api/users", (req, res) => {
     social.selectFromUsers(async function (result) {
         let allCredentials = await result;
-        let userOnServer = allCredentials.find(obj => obj.userName === req.body.username)
+        let userOnServer = allCredentials.find(obj => obj.userName.toLowerCase() === req.body.usernametoLowerCase())
         if (userOnServer != undefined) {
             if (social.checkPass(req.body.password, userOnServer.password)) {
                 social.userLoggedIn(userOnServer.id, () => {
