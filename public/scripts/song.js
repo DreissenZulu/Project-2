@@ -21,7 +21,11 @@ async function getSongInfo(artist, track) {
         }
 
         $("title").text(`${trackInfo.name} - ${trackInfo.artist.name}`)
-        $(".album-cover").first().attr('src', Object.values(trackImage)[0])
+        if (Object.values(trackImage)[0] != "N") {
+            $(".album-cover").first().attr('src', Object.values(trackImage)[0])
+        } else {
+            $(".album-cover").first().attr('src', './assets/images/image-not-available.png')
+        }
         $(".song-name").first().text(trackInfo.name);
         $(".artist").first().text(trackInfo.artist.name);
         $(".genre").first().text(trackGenre);
