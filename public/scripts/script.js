@@ -51,7 +51,7 @@ $(document).ready(function () {
             lastName: "",
             confirmLogin: false
         };
-        JSON.stringify(localStorage.setItem("currUser"))
+        localStorage.setItem("currUser", JSON.stringify(currUser))
     }
     $("#nav-placeholder").load("nav.html", () => {
         if (currUser.confirmLogin) {
