@@ -44,7 +44,14 @@ $(document).ready(function () {
     if (localStorage.getItem("currUser")) {
         currUser = JSON.parse(localStorage.getItem("currUser"))
     } else {
-        currUser = {};
+        currUser = {
+            id: "",
+            userName: "",
+            firstName: "",
+            lastName: "",
+            confirmLogin: false
+        };
+        JSON.stringify(localStorage.setItem("currUser"))
     }
     $("#nav-placeholder").load("nav.html", () => {
         if (currUser.confirmLogin) {
