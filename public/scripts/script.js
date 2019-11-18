@@ -83,7 +83,7 @@ function populateSongResults(lastFMResponse) {
             <a href="/track?=${item.artistName}?=${item.name}"><h4>${item.name}</h4></a>
             <p>${item.artistName}</p>
         </div>
-        `)        
+        `)
     }
 }
 
@@ -95,7 +95,7 @@ function populateAlbumResults(lastFMResponse) {
             <a href="/album?=${item.artistName}?=${item.name}"><h4>${item.name}</h4></a>
             <p>${item.artistName}</p>
         </div>
-        `)        
+        `)
     }
 }
 
@@ -125,7 +125,7 @@ async function populatePlaylistResults(dbResponse) {
             <a href="/playlist?=${item.id}"><h4>${item.playlist_name}</h4></a>
             <p>Genre: ${item.playlist_genre}</p>
         </div>
-        `)       
+        `)
     }
 }
 
@@ -178,8 +178,8 @@ function submitLoginAttempt(data) {
                 }, 3000)
                 return;
             } else {
-            localStorage.setItem("currUser", JSON.stringify(data));
-            window.location.replace("/dashboard")
+                localStorage.setItem("currUser", JSON.stringify(data));
+                window.location.replace("/dashboard")
             }
         }
     });
@@ -209,7 +209,11 @@ $("#createNewAccount").click(() => {
 
     for (inputs of userVals) {
         if (inputs == "") {
-            console.log("Missing information!!");
+            clearTimeout(warning);
+            $("#alertFailed").attr('style', 'display:block;')
+            warning = setTimeout(() => {
+                $("#alertFailed").attr('style', 'display:none;')
+            }, 3000)
             return;
         }
     }
@@ -321,7 +325,7 @@ $(".show").click(function () {
         $("#show-content").addClass('show');
         $(".arrow").attr('src', './assets/images/up-arrow.png');
     } else {
-        $("#show-content").slideToggle(500, function() {
+        $("#show-content").slideToggle(500, function () {
             $("#show-content").removeClass('show');
             $("#show-content").addClass('hide');
             $(".arrow").attr('src', './assets/images/down-arrow.png');
@@ -329,6 +333,6 @@ $(".show").click(function () {
     }
 });
 
-$("#hover").hover( function() {
+$("#hover").hover(function () {
     console.log('lourd');
-} );
+});

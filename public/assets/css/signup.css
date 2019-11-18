@@ -53,3 +53,7 @@ input, input:focus {
     box-shadow: none!important;
 }
 
+.alert-danger {
+    margin-top: 20px;
+    margin-bottom: -30px;
+}
