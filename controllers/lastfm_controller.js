@@ -10,7 +10,7 @@ const router = express.Router();
 function searchAll(query) {
     return new Promise(resolve => {
         lastfm.search({ q: query, limit: 3 }, (err, data) => {
-            if (err) throw err;
+            if (err) resolve(err);
             else {
                 resolve(data);
             }
@@ -21,7 +21,7 @@ function searchAll(query) {
 function searchSongTitle(trackTitle) {
     return new Promise(resolve => {
         lastfm.trackSearch({ q: trackTitle, limit: 12 }, (err, data) => {
-            if (err) throw err
+            if (err) resolve(err)
             else {
                 resolve(data);
             }
@@ -65,7 +65,7 @@ function getArtistDetails(artistName) {
 function searchAlbum(albumName) {
     return new Promise(resolve => {
         lastfm.albumSearch({ q: albumName, limit: 12 }, (err, data) => {
-            if (err) throw err
+            if (err) resolve(err)
             else {
                 resolve(data);
             }

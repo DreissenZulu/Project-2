@@ -83,6 +83,14 @@ $(document).ready(function () {
 });
 
 function populateSongResults(lastFMResponse) {
+    if (lastFMResponse == "") {
+        $("#searchResults").append(`
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 results">
+            <h2>No Results</h2>
+        </div>
+        `)
+        return;
+    }
     for (item of lastFMResponse) {
         $("#searchResults").append(`
         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 results">
@@ -95,6 +103,14 @@ function populateSongResults(lastFMResponse) {
 }
 
 function populateAlbumResults(lastFMResponse) {
+    if (lastFMResponse == "") {
+        $("#searchResults").append(`
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 results">
+            <h2>No Results</h2>
+        </div>
+        `)
+        return;
+    }
     for (item of lastFMResponse) {
         $("#searchResults").append(`
         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 results">
@@ -125,7 +141,14 @@ function populateAlbumResults(lastFMResponse) {
 // }
 
 async function populatePlaylistResults(dbResponse) {
-    console.log(dbResponse)
+    if (dbResponse == "") {
+        $("#searchResults").append(`
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 results">
+            <h2>No Results</h2>
+        </div>
+        `)
+        return;
+    }
     for (item of dbResponse) {
         $("#searchResults").append(`
         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 results">
