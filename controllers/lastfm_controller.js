@@ -213,8 +213,8 @@ router.put("/api/users", (req, res) => {
                     let currUser = {
                         id: userOnServer.id,
                         userName: userOnServer.userName,
-                        firstName: userOnServer.first_name,
-                        lastName: userOnServer.last_name,
+                        firstName: decodeURIComponent(userOnServer.first_name),
+                        lastName: decondeURIComponent(userOnServer.last_name),
                         confirmLogin: true
                     }
                     res.status(200).send(currUser);

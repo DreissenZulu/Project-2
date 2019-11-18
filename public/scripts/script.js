@@ -229,6 +229,16 @@ function submitLogOut() {
 // Functions to API calls
 $("#createNewAccount").click(() => {
     event.preventDefault();
+    let regex = RegExp(/^[a-zA-Z0-9_]+$/g)
+    if (!regex.test($("#user").val().trim())) {
+        clearTimeout(warning);
+        $("#alertFailed").attr('style', 'display:block;').text("Please enter a valid username. Usernames can contain letters, numbers, and underscores.")
+        warning = setTimeout(() => {
+            $("#alertFailed").attr('style', 'display:none;')
+        }, 3000)
+        return;
+    }
+
     let userInfo = {
         username: $("#user").val().trim(),
         firstName: $("#first-name").val().trim(),
@@ -240,7 +250,7 @@ $("#createNewAccount").click(() => {
     for (inputs of userVals) {
         if (inputs == "") {
             clearTimeout(warning);
-            $("#alertFailed").attr('style', 'display:block;')
+            $("#alertFailed").attr('style', 'display:block;').text("Please fill in missing information!")
             warning = setTimeout(() => {
                 $("#alertFailed").attr('style', 'display:none;')
             }, 3000)

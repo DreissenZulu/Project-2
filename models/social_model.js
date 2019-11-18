@@ -89,7 +89,7 @@ const social = {
         orm.selectData("userInfo", "id, userName", "", (res) => {
             if (!res.find(obj => obj.userName.toLowerCase() === userName.toLowerCase())) {
                 let pwEncrypt = encrypt(password + process.env.PW_SALT);
-                orm.insertData("userInfo", "userName, password, first_name, last_name", `"${userName}", "${pwEncrypt}", "${firstName}", "${lastName}"`, (res) => {
+                orm.insertData("userInfo", "userName, password, first_name, last_name", `"${userName}", "${pwEncrypt}", "${encodeURIComponent(firstName)}", "${encodeURIComponent(lastName)}"`, (res) => {
                     resolve(res);
                 });
             } else {
