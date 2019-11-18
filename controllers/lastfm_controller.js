@@ -206,7 +206,7 @@ router.post("/api/comments/playlist/:id", (req, res) => {
 router.put("/api/users", (req, res) => {
     social.selectFromUsers(async function (result) {
         let allCredentials = await result;
-        let userOnServer = allCredentials.find(obj => obj.userName.toLowerCase() === req.body.usernametoLowerCase())
+        let userOnServer = allCredentials.find(obj => obj.userName.toLowerCase() === req.body.username.toLowerCase())
         if (userOnServer != undefined) {
             if (social.checkPass(req.body.password, userOnServer.password)) {
                 social.userLoggedIn(userOnServer.id, () => {
