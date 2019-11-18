@@ -5,6 +5,14 @@ async function getSongInfo(artist, track) {
         url: `/lastfm/song/${artist}/${track}`,
         method: "GET"
     }).then((response) => {
+        if (response.message == "Track not found") {
+            $("title").text(`No track found!`)
+            $(".song-name").first().text("No track info found!");
+            $(".album-cover").first().attr('src', './assets/images/image-not-available.png')
+            $(".btn-dark").first().attr("style", "display:none;")
+            $(".artist-name").first().attr("style", "display:none;")
+            return;
+        }
         let trackInfo = response.track;
         let trackImage = trackInfo.album ? trackInfo.album.image[3] : "No Image";
         let trackGenre;
@@ -31,6 +39,7 @@ async function getSongInfo(artist, track) {
         $(".genre").first().text(trackGenre);
         $(".release-date").first().text(trackPublished);
         $(".song-description").first().html(trackSummary);
+        getYouTube(artist, track);
     })
 }
 
@@ -78,7 +87,6 @@ $(document).ready(() => {
     let titleQuery = encodeURIComponent(trackQuery[2]).split("(")[0]
     let artistQuery = encodeURIComponent(trackQuery[1])
     getSongInfo(artistQuery, titleQuery);
-    getYouTube(artistQuery, titleQuery);
     if (currUser.id != "") {
         getMyPlaylists(currUser.id);
     }
